@@ -1449,8 +1449,18 @@ body.hide-shortcut-names .shortcut-item {
 }
 
 .gradient-presets {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    gap: 8px;
+}
+
+.gradient-presets-label {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.gradient-presets-row {
+    display: grid;
+    grid-template-columns: repeat(6, 48px);
     gap: 8px;
 }
 
@@ -1462,13 +1472,23 @@ body.hide-shortcut-names .shortcut-item {
     cursor: pointer;
     transition:
         transform var(--time-fast) var(--easing-standard),
-        border-color var(--time-fast) var(--easing-standard);
+        border-color var(--time-fast) var(--easing-standard),
+        box-shadow var(--time-fast) var(--easing-standard);
     box-shadow: var(--shadow-sm);
 }
 
 .gradient-preset:hover {
     transform: scale(1.1);
     border-color: var(--accent-color);
+}
+
+.gradient-preset:active {
+    transform: scale(0.85);
+}
+
+.gradient-preset.active {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--bg-primary);
 }
 
 .wallpaper-preview {
