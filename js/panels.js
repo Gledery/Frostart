@@ -34,6 +34,56 @@ function updateBlobIndicators() {
     if (b2) b2.value = getEffectiveBlobHex(2);
 }
 
+/* 同步取色器与角度滑块显示为当前实际生效的渐变值 */
+function syncGradientPresetUI(settings) {
+    const s = settings || SettingsManager.getAll();
+    const gc1 = document.getElementById('gradient-color-1');
+    const gc2 = document.getElementById('gradient-color-2');
+    const angleSlider = document.getElementById('gradient-angle-slider');
+    const angleValue = document.getElementById('gradient-angle-value');
+    if (gc1) gc1.value = s.gradientColor1 || '#e8eef7';
+    if (gc2) gc2.value = s.gradientColor2 || '#dde6f5';
+    const angle = s.gradientAngle || 135;
+    if (angleSlider) angleSlider.value = angle;
+    if (angleValue) angleValue.textContent = `${angle}°`;
+}
+
+/* 同步预设选中态：高亮与当前解析主题一致的那一行对应格；custom 时全部不高亮 */
+function syncGradientPresetActive(presetId) {
+    const theme = getResolvedTheme();
+    document.querySelectorAll('.gradient-preset').forEach(btn => {
+        const active = !!presetId && presetId !== 'custom'
+            && btn.dataset.preset === presetId && btn.dataset.variant === theme;
+        btn.classList.toggle('active', active);
+    });
+}
+
+/* 选中渐变预设：按当前解析主题取成对变体写入三字段并应用，同步 UI 与选中态，
+   并可选联动主题色（默认联动；恢复默认按钮传 false 以保持仅重置渐变的行为） */
+function selectGradientPreset(id, linkAccent) {
+    const preset = (typeof WALLPAPER_PRESETS !== 'undefined') ? WALLPAPER_PRESETS[id] : null;
+    if (!preset) return;
+    const variant = preset[getResolvedTheme()] || preset.light;
+
+    setWallpaperTransition(true);
+    SettingsManager.set('gradientPreset', id);
+    SettingsManager.set('gradientColor1', variant.c1);
+    SettingsManager.set('gradientColor2', variant.c2);
+    SettingsManager.set('gradientAngle', variant.angle);
+    applyWallpaper(SettingsManager.getAll());
+    syncGradientPresetUI(SettingsManager.getAll());
+    updateBlobIndicators();
+    syncGradientPresetActive(id);
+
+    // 联动主题色：把第二个光斑的实际颜色同步为主题色
+    if (linkAccent !== false && SettingsManager.get('linkAccentToBlob')) {
+        const linkedColor = getEffectiveBlobHex(2);
+        SettingsManager.set('accentColor', linkedColor);
+        applyAccentColor(linkedColor);
+        syncAccentPickerUI(linkedColor);
+    }
+}
+
 /* =========================================
    壁纸设置
    ========================================= */
@@ -138,9 +188,11 @@ function initWallpaperSettings() {
     gc1.value = settings.gradientColor1 || '#e8eef7';
     gc1.addEventListener('input', () => {
         setWallpaperTransition(false);
+        SettingsManager.set('gradientPreset', 'custom');
         SettingsManager.set('gradientColor1', gc1.value);
         applyWallpaper(SettingsManager.getAll());
         updateBlobIndicators();
+        syncGradientPresetActive('custom');
     });
     gc1.addEventListener('change', () => {
         setWallpaperTransition(true);
@@ -151,9 +203,11 @@ function initWallpaperSettings() {
     gc2.value = settings.gradientColor2 || '#dde6f5';
     gc2.addEventListener('input', () => {
         setWallpaperTransition(false);
+        SettingsManager.set('gradientPreset', 'custom');
         SettingsManager.set('gradientColor2', gc2.value);
         applyWallpaper(SettingsManager.getAll());
         updateBlobIndicators();
+        syncGradientPresetActive('custom');
     });
     gc2.addEventListener('change', () => {
         setWallpaperTransition(true);
@@ -167,38 +221,20 @@ function initWallpaperSettings() {
     angleSlider.addEventListener('input', () => {
         setWallpaperTransition(false);
         angleValue.textContent = `${angleSlider.value}°`;
+        SettingsManager.set('gradientPreset', 'custom');
         SettingsManager.set('gradientAngle', parseInt(angleSlider.value));
         applyWallpaper(SettingsManager.getAll());
+        syncGradientPresetActive('custom');
     });
     angleSlider.addEventListener('change', () => {
         setWallpaperTransition(true);
     });
 
-    // 渐变预设
+    // 渐变预设：浅/深成对，点选即选中一整对，按当前解析主题取对应变体
     document.querySelectorAll('.gradient-preset').forEach(preset => {
         preset.addEventListener('click', () => {
-            const c1 = preset.dataset.c1;
-            const c2 = preset.dataset.c2;
-            const angle = parseInt(preset.dataset.angle) || 135;
-
-            gc1.value = c1;
-            gc2.value = c2;
-            angleSlider.value = angle;
-            angleValue.textContent = `${angle}°`;
-
-            setWallpaperTransition(true);
-            SettingsManager.set('gradientColor1', c1);
-            SettingsManager.set('gradientColor2', c2);
-            SettingsManager.set('gradientAngle', angle);
-            applyWallpaper(SettingsManager.getAll());
-            updateBlobIndicators();
-
-            // 联动主题色：把第二个光斑的实际颜色同步为主题色
-            if (SettingsManager.get('linkAccentToBlob')) {
-                const linkedColor = getEffectiveBlobHex(2);
-                SettingsManager.set('accentColor', linkedColor);
-                applyAccentColor(linkedColor);
-                syncAccentPickerUI(linkedColor);
+            if (WALLPAPER_PRESETS[preset.dataset.preset]) {
+                selectGradientPreset(preset.dataset.preset);
             }
         });
     });
@@ -261,20 +297,11 @@ function initWallpaperSettings() {
         setWallpaperTransition(true);
     });
 
-    // 恢复默认渐变（同时清空光斑自定义色，回归一致的默认外观）
+    // 恢复默认渐变（回到 mistBlue 预设；同时清空光斑自定义色，回归一致的默认外观）
     document.getElementById('gradient-reset-btn').addEventListener('click', () => {
-        gc1.value = '#e8eef7';
-        gc2.value = '#dde6f5';
-        angleSlider.value = 135;
-        angleValue.textContent = '135°';
-
-        setWallpaperTransition(true);
-        SettingsManager.set('gradientColor1', '#e8eef7');
-        SettingsManager.set('gradientColor2', '#dde6f5');
-        SettingsManager.set('gradientAngle', 135);
         SettingsManager.set('blobColor1', '');
         SettingsManager.set('blobColor2', '');
-        applyWallpaper(SettingsManager.getAll());
+        selectGradientPreset('mistBlue', false);
         syncBlobFollowState();
         showToast(I18N.t('toast.gradientReset'));
     });

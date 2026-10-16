@@ -57,6 +57,9 @@ const SettingsManager = {
         gradientColor1: '#e8eef7',
         gradientColor2: '#dde6f5',
         gradientAngle: 135,
+        // 当前选中的渐变预设 id（浅/深成对，见 services.js 的 WALLPAPER_PRESETS）；
+        // 'custom' 表示用户手动改过色或角度，脱离预设、不再随主题切换跟随
+        gradientPreset: 'mistBlue',
         // 光斑颜色：空字符串=跟随渐变/壁纸自动派生（保持 PhasWer 风格），非空则使用自定义色
         blobColor1: '',
         blobColor2: '',
@@ -148,8 +151,30 @@ const SettingsManager = {
         // 已下线的设置项：全局文本色、图标单独模糊度，清理存量/导入数据中的死键
         delete settings.globalTextColor;
         delete settings.iconBlur;
+        // 旧配置没有 gradientPreset：用当前渐变三字段反查匹配的预设浅色变体，
+        // 命中即记为该预设 id（获得成对跟随主题的能力），否则视为自定义
+        if (!settings.gradientPreset) {
+            settings.gradientPreset = this._matchPresetByColors(settings) || 'custom';
+        }
         settings.version = this.VERSION;
         return settings;
+    },
+
+    /* 按当前渐变颜色/角度反查预设 id（只比对预设的浅色变体）。
+       依赖 services.js 的 WALLPAPER_PRESETS，运行时已加载，做防御性存在检查。 */
+    _matchPresetByColors(settings) {
+        if (typeof WALLPAPER_PRESETS === 'undefined') return null;
+        const norm = (v) => String(v == null ? '' : v).trim().toLowerCase();
+        const angle = parseInt(settings.gradientAngle, 10) || 135;
+        for (const id of Object.keys(WALLPAPER_PRESETS)) {
+            const light = WALLPAPER_PRESETS[id].light;
+            if (norm(light.c1) === norm(settings.gradientColor1)
+                && norm(light.c2) === norm(settings.gradientColor2)
+                && light.angle === angle) {
+                return id;
+            }
+        }
+        return null;
     },
 
     // 防抖保存：连续 set()（如点击预设会连续改 3 个字段）时，

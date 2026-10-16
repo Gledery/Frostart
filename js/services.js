@@ -45,6 +45,18 @@ function closeDrawer() {
 /* =========================================
    壁纸渲染
    ========================================= */
+/* 渐变预设表：每个色相含浅色 / 深色两个变体，选中预设即选中一整对。
+   light 沿用原有浅色值，dark 为新增的深色版；角度均为 135。
+   core.js / panels.js / settings.js 迁移均复用本表（services.js 加载早于 core.js）。 */
+const WALLPAPER_PRESETS = {
+    mistBlue:    { light: { c1: '#e8eef7', c2: '#dde6f5', angle: 135 }, dark: { c1: '#1e2433', c2: '#141b2b', angle: 135 } },
+    celadon:     { light: { c1: '#e7efe9', c2: '#d6e6dc', angle: 135 }, dark: { c1: '#1b2620', c2: '#131d19', angle: 135 } },
+    warmSand:    { light: { c1: '#f3ece6', c2: '#e8dcd2', angle: 135 }, dark: { c1: '#2a2320', c2: '#1e1815', angle: 135 } },
+    lotusPink:   { light: { c1: '#f1e8ee', c2: '#e4d4df', angle: 135 }, dark: { c1: '#271f25', c2: '#1c161b', angle: 135 } },
+    riceApricot: { light: { c1: '#efece6', c2: '#e0d8c8', angle: 135 }, dark: { c1: '#26231d', c2: '#1a1813', angle: 135 } },
+    lavender:    { light: { c1: '#edeaf2', c2: '#d8d2e6', angle: 135 }, dark: { c1: '#221f2c', c2: '#171420', angle: 135 } },
+};
+
 // blob alpha 值缓存：仅在主题切换时变化，避免 applyWallpaper 每次都触发 getComputedStyle 强制回流
 let _blobAlphaCache = null;
 function getBlobAlphas() {
@@ -154,6 +166,12 @@ function writeWallpaperCache(cache) {
 /* =========================================
    主题
    ========================================= */
+/* 解析当前实际生效的主题：applyTheme 已把 light/dark 写入 documentElement 的 data-theme，
+   壁纸跟随、预设选中态等直接读它，无需重新探测系统偏好。 */
+function getResolvedTheme() {
+    return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+}
+
 function applyTheme(theme) {
     if (theme === 'auto') {
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -167,6 +185,20 @@ function applyTheme(theme) {
     applyIconBgOpacity(SettingsManager.get('iconBgOpacity'));
     // 文本默认色随主题变化，需重新解析（单独覆盖的优先级在函数内保留）
     applyTextColors(SettingsManager.getAll());
+
+    // 壁纸跟随主题：预设激活（非 custom）时，按新解析出的主题重新取出成对变体并应用。
+    // 放在 applyTheme 里可一处覆盖主题按钮、auto 随系统变化、初始化等所有路径（幂等）
+    const presetId = SettingsManager.get('gradientPreset');
+    if (presetId && presetId !== 'custom' && WALLPAPER_PRESETS[presetId]) {
+        const variant = WALLPAPER_PRESETS[presetId][getResolvedTheme()];
+        SettingsManager.set('gradientColor1', variant.c1);
+        SettingsManager.set('gradientColor2', variant.c2);
+        SettingsManager.set('gradientAngle', variant.angle);
+        applyWallpaper(SettingsManager.getAll());
+    }
+    // 同步取色器/角度滑块显示与预设选中态（函数定义在 panels.js，运行时已加载）
+    if (typeof syncGradientPresetUI === 'function') syncGradientPresetUI(SettingsManager.getAll());
+    if (typeof syncGradientPresetActive === 'function') syncGradientPresetActive(presetId);
 }
 
 /* =========================================
