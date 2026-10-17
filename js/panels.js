@@ -84,11 +84,32 @@ function selectGradientPreset(id, linkAccent) {
     }
 }
 
+/* 生成单个预设格的预览背景：底色为该变体的真实渐变，中央叠一枚由背景色相派生的光斑，
+   让深色变体也有明度对比、看得清色相，整体接近真实新标签页观感 */
+function buildGradientPresetPreview(variant) {
+    const blobRgb = hexToBlobRgb(variant.c2, 0);
+    return `radial-gradient(circle at 50% 50%, rgba(${blobRgb}, 0.85) 0%, rgba(${blobRgb}, 0) 55%),`
+        + ` linear-gradient(${variant.angle}deg, ${variant.c1}, ${variant.c2})`;
+}
+
+/* 初始化所有预设格预览：配色统一取自 WALLPAPER_PRESETS，避免 hex 在 HTML 里重复一份 */
+function renderGradientPresetPreviews() {
+    document.querySelectorAll('.gradient-preset').forEach(btn => {
+        const preset = WALLPAPER_PRESETS[btn.dataset.preset];
+        if (!preset) return;
+        const variant = preset[btn.dataset.variant] || preset.light;
+        btn.style.background = buildGradientPresetPreview(variant);
+    });
+}
+
 /* =========================================
    壁纸设置
    ========================================= */
 function initWallpaperSettings() {
     const settings = SettingsManager.getAll();
+
+    // 渲染预设格预览（浅/深两行，均含居中光斑）
+    renderGradientPresetPreviews();
 
     // 展开式区块逻辑
     document.querySelectorAll('.wallpaper-type-block').forEach(block => {

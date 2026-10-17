@@ -1450,7 +1450,7 @@ body.hide-shortcut-names .shortcut-item {
 
 .gradient-presets {
     display: grid;
-    gap: 8px;
+    gap: 10px;
 }
 
 .gradient-presets-label {
@@ -1460,13 +1460,13 @@ body.hide-shortcut-names .shortcut-item {
 
 .gradient-presets-row {
     display: grid;
-    grid-template-columns: repeat(6, 48px);
-    gap: 8px;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
 }
 
 .gradient-preset {
-    width: 48px;
-    height: 36px;
+    width: 100%;
+    height: 48px;
     border-radius: var(--radius-sm);
     border: 2px solid transparent;
     cursor: pointer;
