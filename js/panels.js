@@ -80,12 +80,12 @@ function syncGradientPresetActive() {
     });
 }
 
-/* 选中渐变预设：写入当前解析主题的成对变体并清空光斑自定义色（整套采用，光斑回派生态）；
-   切主题只重写渐变三字段、保留自定义光斑 */
-function selectGradientPreset(id) {
+/* 选中渐变预设：写入所点格子的变体（不传则取当前解析主题）并清空光斑自定义色（整套采用，光斑回派生态）；
+   跨变体选择持续到下次切主题，切主题按成对跟随重写渐变三字段、保留自定义光斑 */
+function selectGradientPreset(id, variantId) {
     const preset = (typeof WALLPAPER_PRESETS !== 'undefined') ? WALLPAPER_PRESETS[id] : null;
     if (!preset) return;
-    const variant = preset[getResolvedTheme()] || preset.light;
+    const variant = preset[variantId || getResolvedTheme()] || preset.light;
 
     setWallpaperTransition(true);
     SettingsManager.set('gradientColor1', variant.c1);
@@ -268,11 +268,11 @@ function initWallpaperSettings() {
         setWallpaperTransition(true);
     });
 
-    // 渐变预设：浅/深成对，点选即选中一整对，按当前解析主题取对应变体
+    // 渐变预设：浅/深两行均可点选，写入所点格子的变体
     document.querySelectorAll('.gradient-preset').forEach(preset => {
         preset.addEventListener('click', () => {
             if (WALLPAPER_PRESETS[preset.dataset.preset]) {
-                selectGradientPreset(preset.dataset.preset);
+                selectGradientPreset(preset.dataset.preset, preset.dataset.variant);
             }
         });
     });
