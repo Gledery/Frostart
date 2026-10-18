@@ -108,9 +108,9 @@
                         </div>
                     </div>
                     <div class="setting-item">
-                        <label class="setting-label" data-i18n="appearance.themeMode">主题模式</label>
+                        <label class="setting-label" data-i18n="appearance.themeMode">模式</label>
                         <div class="theme-toggle">
-                            <button class="option-btn" data-theme-option="light" data-i18n-aria="appearance.lightAria" aria-label="浅色主题">
+                            <button class="option-btn" data-theme-option="light" data-i18n-aria="appearance.lightAria" aria-label="浅色模式">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <circle cx="12" cy="12" r="5"></circle>
                                     <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -132,7 +132,7 @@
                                 </svg>
                                 <span data-i18n="appearance.auto">自动</span>
                             </button>
-                            <button class="option-btn" data-theme-option="dark" data-i18n-aria="appearance.darkAria" aria-label="深色主题">
+                            <button class="option-btn" data-theme-option="dark" data-i18n-aria="appearance.darkAria" aria-label="深色模式">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                                 </svg>
@@ -319,10 +319,10 @@
             <!-- 壁纸标签页 -->
             <div class="tab-panel" data-panel="wallpaper">
                 <div class="settings-section">
-                    <!-- 渐变壁纸 -->
+                    <!-- 光斑壁纸 -->
                     <div class="wallpaper-type-block" data-type="gradient">
                         <div class="wallpaper-type-header">
-                            <span class="setting-label" data-i18n="wp.gradient">渐变壁纸</span>
+                            <span class="setting-label" data-i18n="wp.gradient">光斑壁纸</span>
                             <label class="switch">
                                 <input type="checkbox" id="wp-gradient-toggle">
                                 <span class="switch-slider"></span>
@@ -330,7 +330,7 @@
                         </div>
                         <div class="wallpaper-type-content" id="wp-gradient-content">
                             <div class="setting-item">
-                                <label class="setting-label" data-i18n="wp.gradientPresets">渐变预设</label>
+                                <label class="setting-label" data-i18n="wp.gradientPresets">配色预设</label>
                                 <div class="gradient-presets">
                                     <span class="gradient-presets-label" data-i18n="wp.groupLight">浅色</span>
                                     <div class="gradient-presets-row" data-variant="light">
@@ -355,12 +355,12 @@
                             <div class="setting-item">
                                 <div class="switch-row">
                                     <span class="setting-label" data-i18n="wp.linkAccent">联动主题色</span>
-                                    <label class="switch" data-i18n-title="wp.linkAccentTitle" title="开启后点击渐变预设时主题色同步为第二个光斑颜色">
+                                    <label class="switch" data-i18n-title="wp.linkAccentTitle" title="开启后点击配色预设时主题色同步为第二个光斑颜色">
                                         <input type="checkbox" id="accent-link-toggle" checked>
                                         <span class="switch-slider"></span>
                                     </label>
                                 </div>
-                                <div class="setting-hint" data-i18n="wp.linkAccentHint">开启后，点击渐变预设时主题色同步为主光斑颜色</div>
+                                <div class="setting-hint" data-i18n="wp.linkAccentHint">开启后，点击配色预设时主题色同步为主光斑颜色</div>
                             </div>
                             <div class="setting-item">
                                 <label class="setting-label" data-i18n="wp.blobColor">光斑颜色</label>
@@ -372,12 +372,12 @@
                             <div class="setting-item">
                                 <label class="setting-label" data-i18n="wp.bgColor">背景颜色</label>
                                 <div class="color-input-wrapper">
-                                    <input type="color" id="gradient-color-1" class="color-picker" value="#e8eef7" data-i18n-aria="wp.gradientColor1" aria-label="渐变颜色1">
-                                    <input type="color" id="gradient-color-2" class="color-picker" value="#dde6f5" data-i18n-aria="wp.gradientColor2" aria-label="渐变颜色2">
+                                    <input type="color" id="gradient-color-1" class="color-picker" value="#e8eef7" data-i18n-aria="wp.gradientColor1" aria-label="背景颜色1">
+                                    <input type="color" id="gradient-color-2" class="color-picker" value="#dde6f5" data-i18n-aria="wp.gradientColor2" aria-label="背景颜色2">
                                 </div>
                             </div>
                             <div class="setting-item">
-                                <label class="setting-label" data-i18n="wp.gradientAngle">渐变角度</label>
+                                <label class="setting-label" data-i18n="wp.gradientAngle">背景渐变角度</label>
                                 <div class="slider-container">
                                     <input type="range" id="gradient-angle-slider" class="slider" min="0" max="360" value="135">
                                     <span class="slider-value" id="gradient-angle-value">135°</span>
@@ -385,7 +385,7 @@
                             </div>
                             <div class="setting-item">
                                 <button class="data-btn" id="gradient-reset-btn" type="button" style="width:100%;" data-i18n="wp.resetGradient">
-                                    恢复默认渐变
+                                    恢复默认配色
                                 </button>
                             </div>
                         </div>
