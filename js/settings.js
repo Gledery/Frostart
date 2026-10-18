@@ -145,10 +145,9 @@ const SettingsManager = {
     },
 
     _migrateSettings(settings) {
-        // 已下线的设置项：全局文本色、图标单独模糊度，清理存量/导入数据中的死键
+        // 已下线的设置项：全局文本色、图标单独模糊度、渐变预设模式标签，清理存量/导入数据中的死键
         delete settings.globalTextColor;
         delete settings.iconBlur;
-        // 渐变预设模式标签已废弃（调色盘模型：值即状态，预设匹配由运行时 matchGradientPreset 反查）
         delete settings.gradientPreset;
         settings.version = this.VERSION;
         return settings;

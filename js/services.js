@@ -46,8 +46,7 @@ function closeDrawer() {
    壁纸渲染
    ========================================= */
 /* 渐变预设表：每个色相含浅色 / 深色两个变体，选中预设即选中一整对。
-   light 沿用原有浅色值，dark 为新增的深色版；角度均为 135。
-   core.js / panels.js / settings.js 迁移均复用本表（services.js 加载早于 core.js）。 */
+   applyTheme 主题跟随与 panels.js 的点击/预览都按解析主题取对应变体 */
 const WALLPAPER_PRESETS = {
     mistBlue:    { light: { c1: '#e8eef7', c2: '#dde6f5', angle: 135 }, dark: { c1: '#1e2433', c2: '#141b2b', angle: 135 } },
     celadon:     { light: { c1: '#e7efe9', c2: '#d6e6dc', angle: 135 }, dark: { c1: '#1b2620', c2: '#131d19', angle: 135 } },
@@ -57,8 +56,8 @@ const WALLPAPER_PRESETS = {
     lavender:    { light: { c1: '#edeaf2', c2: '#d8d2e6', angle: 135 }, dark: { c1: '#221f2c', c2: '#171420', angle: 135 } },
 };
 
-/* 值匹配反查（调色盘模型的核心）：当前渐变三字段恰好等于某预设的某变体时返回
-   { id, variant }，否则 null。选中态高亮与主题跟随都由此派生，不再有持久化模式标签 */
+/* 值匹配反查：当前渐变三字段恰好等于某预设的某变体时返回 { id, variant }，否则 null。
+   预设选中态高亮与主题跟随都由它派生，不存独立模式标签 */
 function matchGradientPreset(settings) {
     const norm = (v) => String(v == null ? '' : v).trim().toLowerCase();
     const angle = parseInt(settings.gradientAngle, 10) || 135;
@@ -204,9 +203,9 @@ function applyTheme(theme) {
     // 文本默认色随主题变化，需重新解析（单独覆盖的优先级在函数内保留）
     applyTextColors(SettingsManager.getAll());
 
-    // 壁纸跟随主题（调色盘模型）：仅渐变模式下，当前三字段若匹配某预设变体，
-    // 重写为新主题的对应变体；不匹配则保留自定义。派生态光斑随 applyWallpaper 自动重算，
-    // 自定义光斑不动。放在 applyTheme 里可一处覆盖主题按钮、auto 随系统变化、初始化等所有路径（幂等）
+    // 壁纸跟随主题：仅渐变模式下，三字段匹配某预设变体时重写为新主题的对应变体，不匹配则保留自定义。
+    // 派生态光斑随 applyWallpaper 自动重算，自定义光斑不动。
+    // 放在 applyTheme 里可一处覆盖主题按钮、auto 随系统变化、初始化等所有路径（幂等）
     const s = SettingsManager.getAll();
     if (s.wallpaperMode === 'gradient') {
         const matched = matchGradientPreset(s);
@@ -218,7 +217,7 @@ function applyTheme(theme) {
             applyWallpaper(SettingsManager.getAll());
         }
     }
-    // 联动主题色（反应式）：blob2 有效值可能已随主题重写变化，立即重算 accent
+    // 联动主题色：blob2 有效值可能已随主题重写变化，重算 accent
     if (typeof relinkAccentFromBlob === 'function') relinkAccentFromBlob();
     // 同步取色器/角度滑块、预设选中态、光斑指示与 accent 选择器（定义在 panels/core，运行时已加载）
     if (typeof syncGradientPresetUI === 'function') syncGradientPresetUI(SettingsManager.getAll());

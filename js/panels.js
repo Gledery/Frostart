@@ -13,7 +13,7 @@ function setWallpaperTransition(enabled) {
 }
 
 /* 计算当前实际生效的光斑颜色（#hex）：自定义色优先，否则按壁纸模式从背景派生。
-   which = 1 或 2。派生逻辑与 core.js applyWallpaper 保持一致。 */
+   which = 1 或 2。派生逻辑与 services.js applyWallpaper 保持一致。 */
 function getEffectiveBlobHex(which) {
     const s = SettingsManager.getAll();
     const custom = which === 1 ? s.blobColor1 : s.blobColor2;
@@ -48,8 +48,7 @@ function syncBlobFollowState() {
     updateBlobIndicators();
 }
 
-/* 联动主题色（反应式）：开关开启时把 accentColor 同步为当前生效的 blob2 色。
-   所有影响 blob2 有效值的入口（预设点击/主题切换/手改色/光斑跟随开关/打开联动开关）统一调用 */
+/* 联动主题色（反应式）：开关开启时把 accentColor 同步为当前生效的 blob2 色 */
 function relinkAccentFromBlob() {
     if (!SettingsManager.get('linkAccentToBlob')) return;
     const linked = getEffectiveBlobHex(2);
@@ -81,8 +80,8 @@ function syncGradientPresetActive() {
     });
 }
 
-/* 选中渐变预设：按当前解析主题取成对变体，无条件写入三字段并应用（调色盘模型：
-   点预设就是一次写入，不碰光斑自定义色），同步 UI 与由值派生的选中态，最后重算联动 accent */
+/* 选中渐变预设：写入当前解析主题的成对变体并清空光斑自定义色（整套采用，光斑回派生态）；
+   切主题只重写渐变三字段、保留自定义光斑 */
 function selectGradientPreset(id) {
     const preset = (typeof WALLPAPER_PRESETS !== 'undefined') ? WALLPAPER_PRESETS[id] : null;
     if (!preset) return;
@@ -284,7 +283,7 @@ function initWallpaperSettings() {
         accentLinkToggle.checked = !!SettingsManager.get('linkAccentToBlob');
         accentLinkToggle.addEventListener('change', () => {
             SettingsManager.set('linkAccentToBlob', accentLinkToggle.checked);
-            // 打开联动立即采用当前生效 blob2 色，不等下一次点预设
+            // 打开联动立即采用当前生效 blob2 色
             relinkAccentFromBlob();
         });
     }
@@ -329,7 +328,7 @@ function initWallpaperSettings() {
         setWallpaperTransition(true);
     });
 
-    // 恢复默认渐变（回到 mistBlue 当前主题变体；同时清空光斑自定义色，回归一致的默认外观）
+    // 恢复默认渐变（回到 mistBlue 当前主题变体）
     document.getElementById('gradient-reset-btn').addEventListener('click', () => {
         selectGradientPreset('mistBlue');
         showToast(I18N.t('toast.gradientReset'));
