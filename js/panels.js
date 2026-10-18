@@ -92,9 +92,11 @@ function selectGradientPreset(id) {
     SettingsManager.set('gradientColor1', variant.c1);
     SettingsManager.set('gradientColor2', variant.c2);
     SettingsManager.set('gradientAngle', variant.angle);
+    SettingsManager.set('blobColor1', '');
+    SettingsManager.set('blobColor2', '');
     applyWallpaper(SettingsManager.getAll());
     syncGradientPresetUI(SettingsManager.getAll());
-    updateBlobIndicators();
+    syncBlobFollowState();
     syncGradientPresetActive();
     relinkAccentFromBlob();
 }
@@ -329,10 +331,7 @@ function initWallpaperSettings() {
 
     // 恢复默认渐变（回到 mistBlue 当前主题变体；同时清空光斑自定义色，回归一致的默认外观）
     document.getElementById('gradient-reset-btn').addEventListener('click', () => {
-        SettingsManager.set('blobColor1', '');
-        SettingsManager.set('blobColor2', '');
         selectGradientPreset('mistBlue');
-        syncBlobFollowState();
         showToast(I18N.t('toast.gradientReset'));
     });
 
