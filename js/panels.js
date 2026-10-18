@@ -84,11 +84,12 @@ function selectGradientPreset(id, linkAccent) {
     }
 }
 
-/* 生成单个预设格的预览背景：底色为该变体的真实渐变，中央叠一枚由背景色相派生的光斑，
-   让深色变体也有明度对比、看得清色相，整体接近真实新标签页观感 */
+/* 生成单个预设格的预览背景 */
 function buildGradientPresetPreview(variant) {
-    const blobRgb = hexToBlobRgb(variant.c2, 0);
-    return `radial-gradient(circle at 50% 50%, rgba(${blobRgb}, 0.85) 0%, rgba(${blobRgb}, 0) 55%),`
+    const blob1 = hexToBlobRgb(variant.c1, 0);
+    const blob2 = hexToBlobRgb(variant.c2, 0);
+    return `radial-gradient(circle at 53% 55%, rgba(${blob2}, var(--blob-alpha-strong)) 0%, rgba(${blob2}, 0) 65%),`
+        + ` radial-gradient(circle at 47% 45%, rgba(${blob1}, var(--blob-alpha-soft)) 0%, rgba(${blob1}, 0) 65%),`
         + ` linear-gradient(${variant.angle}deg, ${variant.c1}, ${variant.c2})`;
 }
 
@@ -108,7 +109,7 @@ function renderGradientPresetPreviews() {
 function initWallpaperSettings() {
     const settings = SettingsManager.getAll();
 
-    // 渲染预设格预览（浅/深两行，均含居中光斑）
+    // 渲染预设格预览（浅/深两行，渐变底 + 双光斑）
     renderGradientPresetPreviews();
 
     // 展开式区块逻辑

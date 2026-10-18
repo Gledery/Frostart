@@ -1468,18 +1468,15 @@ body.hide-shortcut-names .shortcut-item {
     width: 100%;
     height: 48px;
     border-radius: var(--radius-sm);
-    border: 2px solid transparent;
     cursor: pointer;
     transition:
         transform var(--time-fast) var(--easing-standard),
-        border-color var(--time-fast) var(--easing-standard),
         box-shadow var(--time-fast) var(--easing-standard);
-    box-shadow: var(--shadow-sm);
 }
 
 .gradient-preset:hover {
     transform: scale(1.1);
-    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px var(--accent-color);
 }
 
 .gradient-preset:active {
@@ -1487,8 +1484,7 @@ body.hide-shortcut-names .shortcut-item {
 }
 
 .gradient-preset.active {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px var(--bg-primary);
+    box-shadow: 0 0 0 2px var(--bg-primary), 0 0 0 4px var(--accent-color);
 }
 
 .wallpaper-preview {
