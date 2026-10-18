@@ -12,60 +12,29 @@ function setWallpaperTransition(enabled) {
     document.body.classList.toggle('wp-instant', !enabled);
 }
 
-/* 计算当前实际生效的光斑颜色（#hex）：自定义色优先，否则按壁纸模式从背景派生。
-   which = 1 或 2。派生逻辑与 services.js applyWallpaper 保持一致。 */
-function getEffectiveBlobHex(which) {
-    const s = SettingsManager.getAll();
-    const custom = which === 1 ? s.blobColor1 : s.blobColor2;
-    if (custom) return custom;
-    if (s.wallpaperMode === 'solid') {
-        return rgbTripletToHex(hexToBlobRgb(s.wallpaperColor || '#e6eef7', which === 1 ? 0 : 40));
-    }
-    const base = which === 1 ? (s.gradientColor1 || '#e8eef7') : (s.gradientColor2 || '#dde6f5');
-    return rgbTripletToHex(hexToBlobRgb(base, 0));
-}
-
-/* 把当前实际生效的光斑色回写到颜色选择器，使指示框跟随真实光斑色变化。
-   在所有改变光斑实际颜色的操作（渐变预设/渐变颜色/恢复默认/跟随渐变/模式切换/纯色）后调用。 */
-function updateBlobIndicators() {
-    const b1 = document.getElementById('blob-color-1');
-    const b2 = document.getElementById('blob-color-2');
-    if (b1) b1.value = getEffectiveBlobHex(1);
-    if (b2) b2.value = getEffectiveBlobHex(2);
-}
-
-/* 同步"跟随渐变"开关状态与颜色选择器可用性：两个自定义色均为空视为跟随渐变 */
-function syncBlobFollowState() {
-    const s = SettingsManager.getAll();
-    const following = !s.blobColor1 && !s.blobColor2;
-    const blobFollow = document.getElementById('blob-follow-gradient');
-    if (!blobFollow) return;
-    const blob1 = document.getElementById('blob-color-1');
-    const blob2 = document.getElementById('blob-color-2');
-    blobFollow.checked = following;
-    if (blob1) blob1.disabled = following;
-    if (blob2) blob2.disabled = following;
-    updateBlobIndicators();
-}
-
-/* 联动主题色（反应式）：开关开启时把 accentColor 同步为当前生效的 blob2 色 */
+/* 联动主题色（反应式）：开关开启时把 accentColor 同步为调色盘中的 blob2 色 */
 function relinkAccentFromBlob() {
     if (!SettingsManager.get('linkAccentToBlob')) return;
-    const linked = getEffectiveBlobHex(2);
+    const linked = SettingsManager.get('blobColor2');
+    if (!linked) return;
     SettingsManager.set('accentColor', linked);
     applyAccentColor(linked);
     syncAccentPickerUI(linked);
 }
 
-/* 同步取色器与角度滑块显示为当前实际生效的渐变值 */
+/* 同步渐变/光斑取色器与角度滑块显示为当前调色盘值 */
 function syncGradientPresetUI(settings) {
     const s = settings || SettingsManager.getAll();
     const gc1 = document.getElementById('gradient-color-1');
     const gc2 = document.getElementById('gradient-color-2');
     const angleSlider = document.getElementById('gradient-angle-slider');
     const angleValue = document.getElementById('gradient-angle-value');
+    const blob1 = document.getElementById('blob-color-1');
+    const blob2 = document.getElementById('blob-color-2');
     if (gc1) gc1.value = s.gradientColor1 || '#e8eef7';
     if (gc2) gc2.value = s.gradientColor2 || '#dde6f5';
+    if (blob1) blob1.value = s.blobColor1 || '#5a93e2';
+    if (blob2) blob2.value = s.blobColor2 || '#5f96f2';
     const angle = s.gradientAngle || 135;
     if (angleSlider) angleSlider.value = angle;
     if (angleValue) angleValue.textContent = `${angle}°`;
@@ -80,8 +49,8 @@ function syncGradientPresetActive() {
     });
 }
 
-/* 选中渐变预设：写入所点格子的变体（不传则取当前解析主题）并清空光斑自定义色（整套采用，光斑回派生态）；
-   跨变体选择持续到下次切主题，切主题按成对跟随重写渐变三字段、保留自定义光斑 */
+/* 选中渐变预设：把所点格子的变体整套写入调色盘（渐变三件套 + 两枚光斑，不传变体则取当前解析主题）；
+   跨变体选择持续到下次切主题，切主题按成对跟随重写、光斑仅跟随未被手动改过的字段 */
 function selectGradientPreset(id, variantId) {
     const preset = (typeof WALLPAPER_PRESETS !== 'undefined') ? WALLPAPER_PRESETS[id] : null;
     if (!preset) return;
@@ -91,19 +60,18 @@ function selectGradientPreset(id, variantId) {
     SettingsManager.set('gradientColor1', variant.c1);
     SettingsManager.set('gradientColor2', variant.c2);
     SettingsManager.set('gradientAngle', variant.angle);
-    SettingsManager.set('blobColor1', '');
-    SettingsManager.set('blobColor2', '');
+    SettingsManager.set('blobColor1', variant.b1);
+    SettingsManager.set('blobColor2', variant.b2);
     applyWallpaper(SettingsManager.getAll());
     syncGradientPresetUI(SettingsManager.getAll());
-    syncBlobFollowState();
     syncGradientPresetActive();
     relinkAccentFromBlob();
 }
 
-/* 生成单个预设格的预览背景 */
+/* 生成单个预设格的预览背景：渐变底 + 双光斑，全部取预设烘焙值 */
 function buildGradientPresetPreview(variant) {
-    const blob1 = hexToBlobRgb(variant.c1, 0);
-    const blob2 = hexToBlobRgb(variant.c2, 0);
+    const blob1 = hexToRgbTriplet(variant.b1);
+    const blob2 = hexToRgbTriplet(variant.b2);
     return `radial-gradient(circle at 53% 55%, rgba(${blob2}, var(--blob-alpha-strong)) 0%, rgba(${blob2}, 0) 65%),`
         + ` radial-gradient(circle at 47% 45%, rgba(${blob1}, var(--blob-alpha-soft)) 0%, rgba(${blob1}, 0) 65%),`
         + ` linear-gradient(${variant.angle}deg, ${variant.c1}, ${variant.c2})`;
@@ -206,9 +174,6 @@ function initWallpaperSettings() {
         setWallpaperTransition(false);
         SettingsManager.set('wallpaperColor', colorPicker.value);
         applyWallpaper(SettingsManager.getAll());
-        // 纯色模式下，纯色改变会让派生光斑色跟着变，同步指示框并重算联动 accent
-        updateBlobIndicators();
-        relinkAccentFromBlob();
     });
     colorPicker.addEventListener('change', () => {
         setWallpaperTransition(true);
@@ -229,9 +194,7 @@ function initWallpaperSettings() {
         setWallpaperTransition(false);
         SettingsManager.set('gradientColor1', gc1.value);
         applyWallpaper(SettingsManager.getAll());
-        updateBlobIndicators();
         syncGradientPresetActive();
-        relinkAccentFromBlob();
     });
     gc1.addEventListener('change', () => {
         setWallpaperTransition(true);
@@ -244,9 +207,7 @@ function initWallpaperSettings() {
         setWallpaperTransition(false);
         SettingsManager.set('gradientColor2', gc2.value);
         applyWallpaper(SettingsManager.getAll());
-        updateBlobIndicators();
         syncGradientPresetActive();
-        relinkAccentFromBlob();
     });
     gc2.addEventListener('change', () => {
         setWallpaperTransition(true);
@@ -288,28 +249,12 @@ function initWallpaperSettings() {
         });
     }
 
-    // 光斑颜色（跟随渐变开关：开=自动派生，关=自定义）
+    // 光斑颜色（调色盘值，预设写入或手动自定义）
     const blob1 = document.getElementById('blob-color-1');
     const blob2 = document.getElementById('blob-color-2');
-    const blobFollow = document.getElementById('blob-follow-gradient');
+    blob1.value = settings.blobColor1 || '#5a93e2';
+    blob2.value = settings.blobColor2 || '#5f96f2';
 
-    syncBlobFollowState();
-    blobFollow.addEventListener('change', () => {
-        setWallpaperTransition(true);
-        if (blobFollow.checked) {
-            // 开启跟随渐变：清空自定义色，交由背景派生
-            SettingsManager.set('blobColor1', '');
-            SettingsManager.set('blobColor2', '');
-            showToast(I18N.t('toast.blobFollow'));
-        } else {
-            // 关闭跟随渐变：以当前生效色作为自定义起点，避免视觉突变
-            SettingsManager.set('blobColor1', getEffectiveBlobHex(1));
-            SettingsManager.set('blobColor2', getEffectiveBlobHex(2));
-        }
-        applyWallpaper(SettingsManager.getAll());
-        syncBlobFollowState();
-        relinkAccentFromBlob();
-    });
     blob1.addEventListener('input', () => {
         setWallpaperTransition(false);
         SettingsManager.set('blobColor1', blob1.value);
@@ -354,9 +299,6 @@ function initWallpaperSettings() {
 function selectWallpaperType(type) {
     SettingsManager.set('wallpaperMode', type);
     applyWallpaper(SettingsManager.getAll());
-    // 模式切换会改变光斑派生源（渐变色↔纯色），同步指示框并重算联动 accent
-    updateBlobIndicators();
-    relinkAccentFromBlob();
 
     // 切到必应模式：若当日壁纸未缓存则拉取
     if (type === 'bing' && typeof refreshBingWallpaper === 'function') {
@@ -407,17 +349,8 @@ function updateWallpaperUI(settings) {
     const accentLinkToggle = document.getElementById('accent-link-toggle');
     if (accentLinkToggle) accentLinkToggle.checked = !!settings.linkAccentToBlob;
 
-    // 渐变颜色
-    const gc1 = document.getElementById('gradient-color-1');
-    if (gc1) gc1.value = settings.gradientColor1 || '#e8eef7';
-    const gc2 = document.getElementById('gradient-color-2');
-    if (gc2) gc2.value = settings.gradientColor2 || '#dde6f5';
-    const angleSlider = document.getElementById('gradient-angle-slider');
-    if (angleSlider) {
-        angleSlider.value = settings.gradientAngle || 135;
-        const angleValue = document.getElementById('gradient-angle-value');
-        if (angleValue) angleValue.textContent = `${settings.gradientAngle || 135}°`;
-    }
+    // 渐变/光斑取色器与角度滑块
+    syncGradientPresetUI(settings);
 
     // 必应模式遮罩/模糊滑块同步（与图片模式共享同一设置项，导入/重置后需回填）
     const bingMask = document.getElementById('bing-mask-slider');
@@ -433,9 +366,6 @@ function updateWallpaperUI(settings) {
         if (bingBlurValue) bingBlurValue.textContent = `${settings.wallpaperBlur}px`;
     }
     updateBingWallpaperInfo();
-
-    // 光斑跟随开关状态与指示框（导入/重置后重新同步）
-    syncBlobFollowState();
 }
 
 /* 必应每日壁纸版权/标题信息展示 */

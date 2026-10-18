@@ -45,15 +45,16 @@ function closeDrawer() {
 /* =========================================
    壁纸渲染
    ========================================= */
-/* 渐变预设表：每个色相含浅色 / 深色两个变体，选中预设即选中一整对。
+/* 渐变预设表：每个色相含浅色 / 深色两个变体，每个变体携带完整的调色盘值
+   （渐变三件套 + 两枚光斑色）。b1/b2 为烘焙值，选中预设即整套写入。
    applyTheme 主题跟随与 panels.js 的点击/预览都按解析主题取对应变体 */
 const WALLPAPER_PRESETS = {
-    mistBlue:    { light: { c1: '#e8eef7', c2: '#dde6f5', angle: 135 }, dark: { c1: '#1e2433', c2: '#141b2b', angle: 135 } },
-    celadon:     { light: { c1: '#e7efe9', c2: '#d6e6dc', angle: 135 }, dark: { c1: '#1b2620', c2: '#131d19', angle: 135 } },
-    warmSand:    { light: { c1: '#f3ece6', c2: '#e8dcd2', angle: 135 }, dark: { c1: '#2a2320', c2: '#1e1815', angle: 135 } },
-    lotusPink:   { light: { c1: '#f1e8ee', c2: '#e4d4df', angle: 135 }, dark: { c1: '#271f25', c2: '#1c161b', angle: 135 } },
-    riceApricot: { light: { c1: '#efece6', c2: '#e0d8c8', angle: 135 }, dark: { c1: '#26231d', c2: '#1a1813', angle: 135 } },
-    lavender:    { light: { c1: '#edeaf2', c2: '#d8d2e6', angle: 135 }, dark: { c1: '#221f2c', c2: '#171420', angle: 135 } },
+    mistBlue:    { light: { c1: '#e8eef7', c2: '#dde6f5', angle: 135, b1: '#5a93e2', b2: '#5f96f2' }, dark: { c1: '#1e2433', c2: '#141b2b', angle: 135, b1: '#3861c7', b2: '#2b5ed4' } },
+    celadon:     { light: { c1: '#e7efe9', c2: '#d6e6dc', angle: 135, b1: '#5a93e2', b2: '#79d79d' }, dark: { c1: '#1b2620', c2: '#131d19', angle: 135, b1: '#44bb7a', b2: '#3fc08c' } },
+    warmSand:    { light: { c1: '#f3ece6', c2: '#e8dcd2', angle: 135, b1: '#5a93e2', b2: '#dea372' }, dark: { c1: '#2a2320', c2: '#1e1815', angle: 135, b1: '#b96946', b2: '#bc6b43' } },
+    lotusPink:   { light: { c1: '#f1e8ee', c2: '#e4d4df', angle: 135, b1: '#5a93e2', b2: '#d67ab9' }, dark: { c1: '#271f25', c2: '#1c161b', angle: 135, b1: '#b9469c', b2: '#b946a6' } },
+    riceApricot: { light: { c1: '#efece6', c2: '#e0d8c8', angle: 135, b1: '#d5b77b', b2: '#dbb976' }, dark: { c1: '#26231d', c2: '#1a1813', angle: 135, b1: '#b99346', b2: '#ba9845' } },
+    lavender:    { light: { c1: '#edeaf2', c2: '#d8d2e6', angle: 135, b1: '#5a93e2', b2: '#9476db' }, dark: { c1: '#221f2c', c2: '#171420', angle: 135, b1: '#5f43bc', b2: '#5e3cc3' } },
 };
 
 /* 值匹配反查：当前渐变三字段恰好等于某预设的某变体时返回 { id, variant }，否则 null。
@@ -117,16 +118,10 @@ function applyWallpaper(settings) {
     root.style.setProperty('--wp-c2', c2);
     root.style.setProperty('--wp-angle', `${angle}deg`);
 
-    // 光斑颜色：用户自定义优先；否则跟随壁纸派生（提取背景色相，提升饱和度，
-    // 让光斑在低饱和背景下依然可见，对齐 PhasWer 风格）。
-    // 输出完整的 rgba 字符串（而非 RGB 三元组），避免 rgba() 内嵌套含逗号的 CSS 变量导致解析不一致。
-    const solid = settings.wallpaperColor || c1;
-    const customBlob1 = settings.blobColor1;
-    const customBlob2 = settings.blobColor2;
-    const blob1Rgb = customBlob1 ? hexToRgbTriplet(customBlob1)
-        : (settings.wallpaperMode === 'solid' ? hexToBlobRgb(solid, 0) : hexToBlobRgb(c1, 0));
-    const blob2Rgb = customBlob2 ? hexToRgbTriplet(customBlob2)
-        : (settings.wallpaperMode === 'solid' ? hexToBlobRgb(solid, 40) : hexToBlobRgb(c2, 0));
+    // 光斑颜色：直接取调色盘值（预设写入或手动自定义），输出完整的 rgba 字符串
+    // （而非 RGB 三元组），避免 rgba() 内嵌套含逗号的 CSS 变量导致解析不一致。
+    const blob1Rgb = hexToRgbTriplet(settings.blobColor1 || '#5a93e2');
+    const blob2Rgb = hexToRgbTriplet(settings.blobColor2 || '#5f96f2');
     // 缓存 blob alpha 值，避免每次 applyWallpaper 都 getComputedStyle 触发强制回流。
     // alpha 值仅在主题切换时变化，由 applyTheme() 清除缓存。
     const alphas = getBlobAlphas();
@@ -204,25 +199,28 @@ function applyTheme(theme) {
     applyTextColors(SettingsManager.getAll());
 
     // 壁纸跟随主题：仅渐变模式下，三字段匹配某预设变体时重写为新主题的对应变体，不匹配则保留自定义。
-    // 派生态光斑随 applyWallpaper 自动重算，自定义光斑不动。
+    // 光斑按字段独立跟随：当前光斑值仍等于所匹配变体的烘焙值（未被手动改过）才跟随重写，改过则保留。
     // 放在 applyTheme 里可一处覆盖主题按钮、auto 随系统变化、初始化等所有路径（幂等）
     const s = SettingsManager.getAll();
     if (s.wallpaperMode === 'gradient') {
         const matched = matchGradientPreset(s);
         if (matched) {
+            const oldVariant = WALLPAPER_PRESETS[matched.id][matched.variant];
             const variant = WALLPAPER_PRESETS[matched.id][getResolvedTheme()];
             SettingsManager.set('gradientColor1', variant.c1);
             SettingsManager.set('gradientColor2', variant.c2);
             SettingsManager.set('gradientAngle', variant.angle);
+            const norm = (v) => String(v || '').trim().toLowerCase();
+            if (norm(s.blobColor1) === norm(oldVariant.b1)) SettingsManager.set('blobColor1', variant.b1);
+            if (norm(s.blobColor2) === norm(oldVariant.b2)) SettingsManager.set('blobColor2', variant.b2);
             applyWallpaper(SettingsManager.getAll());
         }
     }
-    // 联动主题色：blob2 有效值可能已随主题重写变化，重算 accent
+    // 联动主题色：blob2 值可能已随主题重写变化，重算 accent
     if (typeof relinkAccentFromBlob === 'function') relinkAccentFromBlob();
-    // 同步取色器/角度滑块、预设选中态、光斑指示与 accent 选择器（定义在 panels/core，运行时已加载）
+    // 同步取色器/角度滑块、预设选中态与 accent 选择器（定义在 panels/core，运行时已加载）
     if (typeof syncGradientPresetUI === 'function') syncGradientPresetUI(SettingsManager.getAll());
     if (typeof syncGradientPresetActive === 'function') syncGradientPresetActive();
-    if (typeof updateBlobIndicators === 'function') updateBlobIndicators();
     if (typeof syncAccentPickerUI === 'function') syncAccentPickerUI();
 }
 

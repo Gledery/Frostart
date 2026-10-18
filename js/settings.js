@@ -57,9 +57,9 @@ const SettingsManager = {
         gradientColor1: '#e8eef7',
         gradientColor2: '#dde6f5',
         gradientAngle: 135,
-        // 光斑颜色：空字符串=跟随渐变/壁纸自动派生（保持 PhasWer 风格），非空则使用自定义色
-        blobColor1: '',
-        blobColor2: '',
+        // 光斑颜色：调色盘值，预设整套写入或手动自定义（默认取晨雾蓝浅色变体的烘焙色）
+        blobColor1: '#5a93e2',
+        blobColor2: '#5f96f2',
         linkAccentToBlob: true,
         searchEngine: 'google',
         // 已加入搜索框快捷切换的引擎 key 列表（仅这些会出现在 engine-popup 里）
@@ -149,6 +149,18 @@ const SettingsManager = {
         delete settings.globalTextColor;
         delete settings.iconBlur;
         delete settings.gradientPreset;
+        // 光斑改为显式调色盘值：旧数据中的空值（派生态）按当时的壁纸底色烘焙一次；
+        // 工具函数不可用（如 converter 单文件环境）时回退默认烘焙值
+        if (!settings.blobColor1 || !settings.blobColor2) {
+            const derive = (hex, shift) => (typeof hexToBlobRgb === 'function' && typeof rgbTripletToHex === 'function')
+                ? rgbTripletToHex(hexToBlobRgb(hex, shift))
+                : (shift === 40 ? '#5f96f2' : '#5a93e2');
+            const isSolid = settings.wallpaperMode === 'solid';
+            const base = isSolid ? (settings.wallpaperColor || '#e6eef7') : (settings.gradientColor1 || '#e8eef7');
+            const base2 = isSolid ? (settings.wallpaperColor || '#e6eef7') : (settings.gradientColor2 || '#dde6f5');
+            if (!settings.blobColor1) settings.blobColor1 = derive(base, 0);
+            if (!settings.blobColor2) settings.blobColor2 = isSolid ? derive(base2, 40) : derive(base2, 0);
+        }
         settings.version = this.VERSION;
         return settings;
     },
