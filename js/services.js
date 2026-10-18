@@ -57,6 +57,24 @@ const WALLPAPER_PRESETS = {
     lavender:    { light: { c1: '#edeaf2', c2: '#d8d2e6', angle: 135 }, dark: { c1: '#221f2c', c2: '#171420', angle: 135 } },
 };
 
+/* 值匹配反查（调色盘模型的核心）：当前渐变三字段恰好等于某预设的某变体时返回
+   { id, variant }，否则 null。选中态高亮与主题跟随都由此派生，不再有持久化模式标签 */
+function matchGradientPreset(settings) {
+    const norm = (v) => String(v == null ? '' : v).trim().toLowerCase();
+    const angle = parseInt(settings.gradientAngle, 10) || 135;
+    for (const id of Object.keys(WALLPAPER_PRESETS)) {
+        for (const variant of ['light', 'dark']) {
+            const p = WALLPAPER_PRESETS[id][variant];
+            if (norm(p.c1) === norm(settings.gradientColor1)
+                && norm(p.c2) === norm(settings.gradientColor2)
+                && p.angle === angle) {
+                return { id, variant };
+            }
+        }
+    }
+    return null;
+}
+
 // blob alpha 值缓存：仅在主题切换时变化，避免 applyWallpaper 每次都触发 getComputedStyle 强制回流
 let _blobAlphaCache = null;
 function getBlobAlphas() {
@@ -186,19 +204,27 @@ function applyTheme(theme) {
     // 文本默认色随主题变化，需重新解析（单独覆盖的优先级在函数内保留）
     applyTextColors(SettingsManager.getAll());
 
-    // 壁纸跟随主题：预设激活（非 custom）时，按新解析出的主题重新取出成对变体并应用。
-    // 放在 applyTheme 里可一处覆盖主题按钮、auto 随系统变化、初始化等所有路径（幂等）
-    const presetId = SettingsManager.get('gradientPreset');
-    if (presetId && presetId !== 'custom' && WALLPAPER_PRESETS[presetId]) {
-        const variant = WALLPAPER_PRESETS[presetId][getResolvedTheme()];
-        SettingsManager.set('gradientColor1', variant.c1);
-        SettingsManager.set('gradientColor2', variant.c2);
-        SettingsManager.set('gradientAngle', variant.angle);
-        applyWallpaper(SettingsManager.getAll());
+    // 壁纸跟随主题（调色盘模型）：仅渐变模式下，当前三字段若匹配某预设变体，
+    // 重写为新主题的对应变体；不匹配则保留自定义。派生态光斑随 applyWallpaper 自动重算，
+    // 自定义光斑不动。放在 applyTheme 里可一处覆盖主题按钮、auto 随系统变化、初始化等所有路径（幂等）
+    const s = SettingsManager.getAll();
+    if (s.wallpaperMode === 'gradient') {
+        const matched = matchGradientPreset(s);
+        if (matched) {
+            const variant = WALLPAPER_PRESETS[matched.id][getResolvedTheme()];
+            SettingsManager.set('gradientColor1', variant.c1);
+            SettingsManager.set('gradientColor2', variant.c2);
+            SettingsManager.set('gradientAngle', variant.angle);
+            applyWallpaper(SettingsManager.getAll());
+        }
     }
-    // 同步取色器/角度滑块显示与预设选中态（函数定义在 panels.js，运行时已加载）
+    // 联动主题色（反应式）：blob2 有效值可能已随主题重写变化，立即重算 accent
+    if (typeof relinkAccentFromBlob === 'function') relinkAccentFromBlob();
+    // 同步取色器/角度滑块、预设选中态、光斑指示与 accent 选择器（定义在 panels/core，运行时已加载）
     if (typeof syncGradientPresetUI === 'function') syncGradientPresetUI(SettingsManager.getAll());
-    if (typeof syncGradientPresetActive === 'function') syncGradientPresetActive(presetId);
+    if (typeof syncGradientPresetActive === 'function') syncGradientPresetActive();
+    if (typeof updateBlobIndicators === 'function') updateBlobIndicators();
+    if (typeof syncAccentPickerUI === 'function') syncAccentPickerUI();
 }
 
 /* =========================================

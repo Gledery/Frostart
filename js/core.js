@@ -235,6 +235,13 @@ function initAccentPicker() {
 
     // 设置并保存
     function setAccent(color) {
+        // 手动取色即接管主题色：联动开启时自动关闭并用底部通知提醒
+        if (SettingsManager.get('linkAccentToBlob')) {
+            SettingsManager.set('linkAccentToBlob', false);
+            const toggle = document.getElementById('accent-link-toggle');
+            if (toggle) toggle.checked = false;
+            showToast(I18N.t('toast.accentUnlinked'));
+        }
         SettingsManager.set('accentColor', color);
         applyAccentColor(color);
         syncAccentPickerUI(color);
@@ -1016,6 +1023,7 @@ function initDataManagement() {
             try {
                 await SettingsManager.import(file);
                 applyTheme(SettingsManager.get('theme'));
+                updateWallpaperUI(SettingsManager.getAll());
                 syncThemeUI();
                 renderShortcuts();
                 applyLanguageChange();
