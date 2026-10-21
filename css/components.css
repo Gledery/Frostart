@@ -1424,6 +1424,10 @@ body.hide-shortcut-names .shortcut-item {
 }
 
 .wallpaper-mode-toggle {
+    margin-bottom: 8px;
+}
+
+.wallpaper-mode-toggle + .setting-hint {
     margin-bottom: 12px;
 }
 
