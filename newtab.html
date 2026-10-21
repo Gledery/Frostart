@@ -326,156 +326,147 @@
                         <button class="option-btn" type="button" data-wp-mode="image" data-i18n="wp.image">图片壁纸</button>
                         <button class="option-btn" type="button" data-wp-mode="solid" data-i18n="wp.solid">纯色壁纸</button>
                     </div>
-                    <div class="setting-hint" data-i18n="wp.modeHint">选择一种壁纸样式</div>
 
                     <!-- 光斑壁纸 -->
                     <div class="wallpaper-type-block" data-type="gradient">
-                        <div class="wallpaper-type-content">
-                            <div class="setting-item">
-                                <label class="setting-label" data-i18n="wp.gradientPresets">配色预设</label>
-                                <div class="gradient-presets">
-                                    <span class="gradient-presets-label" data-i18n="wp.groupLight">浅色</span>
-                                    <div class="gradient-presets-row" data-variant="light">
-                                        <button class="gradient-preset" data-preset="mistBlue" data-variant="light" data-i18n-title="wp.mistBlue" title="晨雾蓝"></button>
-                                        <button class="gradient-preset" data-preset="celadon" data-variant="light" data-i18n-title="wp.celadon" title="青瓷绿"></button>
-                                        <button class="gradient-preset" data-preset="warmSand" data-variant="light" data-i18n-title="wp.warmSand" title="暖砂"></button>
-                                        <button class="gradient-preset" data-preset="lotusPink" data-variant="light" data-i18n-title="wp.lotusPink" title="藕粉"></button>
-                                        <button class="gradient-preset" data-preset="riceApricot" data-variant="light" data-i18n-title="wp.riceApricot" title="米杏"></button>
-                                        <button class="gradient-preset" data-preset="lavender" data-variant="light" data-i18n-title="wp.lavender" title="薰衣"></button>
-                                    </div>
-                                    <span class="gradient-presets-label" data-i18n="wp.groupDark">深色</span>
-                                    <div class="gradient-presets-row" data-variant="dark">
-                                        <button class="gradient-preset" data-preset="mistBlue" data-variant="dark" data-i18n-title="wp.mistBlue" title="晨雾蓝"></button>
-                                        <button class="gradient-preset" data-preset="celadon" data-variant="dark" data-i18n-title="wp.celadon" title="青瓷绿"></button>
-                                        <button class="gradient-preset" data-preset="warmSand" data-variant="dark" data-i18n-title="wp.warmSand" title="暖砂"></button>
-                                        <button class="gradient-preset" data-preset="lotusPink" data-variant="dark" data-i18n-title="wp.lotusPink" title="藕粉"></button>
-                                        <button class="gradient-preset" data-preset="riceApricot" data-variant="dark" data-i18n-title="wp.riceApricot" title="米杏"></button>
-                                        <button class="gradient-preset" data-preset="lavender" data-variant="dark" data-i18n-title="wp.lavender" title="薰衣"></button>
-                                    </div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="wp.gradientPresets">配色预设</label>
+                            <div class="gradient-presets">
+                                <span class="gradient-presets-label" data-i18n="wp.groupLight">浅色</span>
+                                <div class="gradient-presets-row" data-variant="light">
+                                    <button class="gradient-preset" data-preset="mistBlue" data-variant="light" data-i18n-title="wp.mistBlue" title="晨雾蓝"></button>
+                                    <button class="gradient-preset" data-preset="celadon" data-variant="light" data-i18n-title="wp.celadon" title="青瓷绿"></button>
+                                    <button class="gradient-preset" data-preset="warmSand" data-variant="light" data-i18n-title="wp.warmSand" title="暖砂"></button>
+                                    <button class="gradient-preset" data-preset="lotusPink" data-variant="light" data-i18n-title="wp.lotusPink" title="藕粉"></button>
+                                    <button class="gradient-preset" data-preset="riceApricot" data-variant="light" data-i18n-title="wp.riceApricot" title="米杏"></button>
+                                    <button class="gradient-preset" data-preset="lavender" data-variant="light" data-i18n-title="wp.lavender" title="薰衣"></button>
+                                </div>
+                                <span class="gradient-presets-label" data-i18n="wp.groupDark">深色</span>
+                                <div class="gradient-presets-row" data-variant="dark">
+                                    <button class="gradient-preset" data-preset="mistBlue" data-variant="dark" data-i18n-title="wp.mistBlue" title="晨雾蓝"></button>
+                                    <button class="gradient-preset" data-preset="celadon" data-variant="dark" data-i18n-title="wp.celadon" title="青瓷绿"></button>
+                                    <button class="gradient-preset" data-preset="warmSand" data-variant="dark" data-i18n-title="wp.warmSand" title="暖砂"></button>
+                                    <button class="gradient-preset" data-preset="lotusPink" data-variant="dark" data-i18n-title="wp.lotusPink" title="藕粉"></button>
+                                    <button class="gradient-preset" data-preset="riceApricot" data-variant="dark" data-i18n-title="wp.riceApricot" title="米杏"></button>
+                                    <button class="gradient-preset" data-preset="lavender" data-variant="dark" data-i18n-title="wp.lavender" title="薰衣"></button>
                                 </div>
                             </div>
-                            <div class="setting-item">
-                                <div class="switch-row">
-                                    <span class="setting-label" data-i18n="wp.linkAccent">联动主题色</span>
-                                    <label class="switch" data-i18n-title="wp.linkAccentTitle" title="开启后点击配色预设时主题色同步为第二个光斑颜色">
-                                        <input type="checkbox" id="accent-link-toggle" checked>
-                                        <span class="switch-slider"></span>
-                                    </label>
-                                </div>
-                                <div class="setting-hint" data-i18n="wp.linkAccentHint">开启后，点击配色预设时主题色同步为主光斑颜色</div>
+                        </div>
+                        <div class="setting-item">
+                            <div class="switch-row">
+                                <span class="setting-label" data-i18n="wp.linkAccent">联动主题色</span>
+                                <label class="switch" data-i18n-title="wp.linkAccentTitle" title="开启后点击配色预设时主题色同步为第二个光斑颜色">
+                                    <input type="checkbox" id="accent-link-toggle" checked>
+                                    <span class="switch-slider"></span>
+                                </label>
                             </div>
-                            <div class="setting-item">
-                                <label class="setting-label" data-i18n="wp.blobColor">光斑颜色</label>
-                                <div class="color-input-wrapper" id="blob-colors-wrapper" style="gap:12px;align-items:center;margin-top:10px;">
-                                    <input type="color" id="blob-color-1" class="color-picker" value="#5a93e2" data-i18n-aria="wp.blobColor1" aria-label="光斑颜色1">
-                                    <input type="color" id="blob-color-2" class="color-picker" value="#5f96f2" data-i18n-aria="wp.blobColor2" aria-label="光斑颜色2">
-                                </div>
+                            <div class="setting-hint" data-i18n="wp.linkAccentHint">开启后，点击配色预设时主题色同步为主光斑颜色</div>
+                        </div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="wp.blobColor">光斑颜色</label>
+                            <div class="color-input-wrapper" id="blob-colors-wrapper" style="gap:12px;align-items:center;margin-top:10px;">
+                                <input type="color" id="blob-color-1" class="color-picker" value="#5a93e2" data-i18n-aria="wp.blobColor1" aria-label="光斑颜色1">
+                                <input type="color" id="blob-color-2" class="color-picker" value="#5f96f2" data-i18n-aria="wp.blobColor2" aria-label="光斑颜色2">
                             </div>
-                            <div class="setting-item">
-                                <label class="setting-label" data-i18n="wp.bgColor">背景颜色</label>
-                                <div class="color-input-wrapper">
-                                    <input type="color" id="gradient-color-1" class="color-picker" value="#e8eef7" data-i18n-aria="wp.gradientColor1" aria-label="背景颜色1">
-                                    <input type="color" id="gradient-color-2" class="color-picker" value="#dde6f5" data-i18n-aria="wp.gradientColor2" aria-label="背景颜色2">
-                                </div>
+                        </div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="wp.bgColor">背景颜色</label>
+                            <div class="color-input-wrapper">
+                                <input type="color" id="gradient-color-1" class="color-picker" value="#e8eef7" data-i18n-aria="wp.gradientColor1" aria-label="背景颜色1">
+                                <input type="color" id="gradient-color-2" class="color-picker" value="#dde6f5" data-i18n-aria="wp.gradientColor2" aria-label="背景颜色2">
                             </div>
-                            <div class="setting-item">
-                                <label class="setting-label" data-i18n="wp.gradientAngle">背景渐变角度</label>
-                                <div class="slider-container">
-                                    <input type="range" id="gradient-angle-slider" class="slider" min="0" max="360" value="135">
-                                    <span class="slider-value" id="gradient-angle-value">135°</span>
-                                </div>
+                        </div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="wp.gradientAngle">背景渐变角度</label>
+                            <div class="slider-container">
+                                <input type="range" id="gradient-angle-slider" class="slider" min="0" max="360" value="135">
+                                <span class="slider-value" id="gradient-angle-value">135°</span>
                             </div>
-                            <div class="setting-item">
-                                <button class="data-btn" id="gradient-reset-btn" type="button" style="width:100%;" data-i18n="wp.resetGradient">
-                                    恢复默认配色
-                                </button>
-                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <button class="data-btn" id="gradient-reset-btn" type="button" style="width:100%;" data-i18n="wp.resetGradient">
+                                恢复默认配色
+                            </button>
                         </div>
                     </div>
 
                     <!-- 必应每日壁纸 -->
                     <div class="wallpaper-type-block" data-type="bing">
-                        <div class="wallpaper-type-content">
-                            <div class="setting-item">
-                                <div class="setting-hint" data-i18n="wp.bingHint">每天自动通过官方接口获取 Bing 首页美图</div>
+                        <div class="setting-item">
+                            <div class="setting-hint" data-i18n="wp.bingHint">每天自动通过官方接口获取 Bing 首页美图</div>
+                        </div>
+                        <div class="setting-item">
+                            <button class="data-btn" id="bing-refresh-btn" type="button" style="width:100%;" data-i18n="wp.refreshNow">
+                                立即刷新
+                            </button>
+                        </div>
+                        <div class="setting-item" id="bing-info-wrap" style="display:none;">
+                            <div class="setting-hint" id="bing-info-text"></div>
+                        </div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="wp.maskOpacity">遮罩不透明度</label>
+                            <div class="slider-container">
+                                <input type="range" id="bing-mask-slider" class="slider" min="0" max="80" value="20">
+                                <span class="slider-value" id="bing-mask-value">20%</span>
                             </div>
-                            <div class="setting-item">
-                                <button class="data-btn" id="bing-refresh-btn" type="button" style="width:100%;" data-i18n="wp.refreshNow">
-                                    立即刷新
-                                </button>
-                            </div>
-                            <div class="setting-item" id="bing-info-wrap" style="display:none;">
-                                <div class="setting-hint" id="bing-info-text"></div>
-                            </div>
-                            <div class="setting-item">
-                                <label class="setting-label" data-i18n="wp.maskOpacity">遮罩不透明度</label>
-                                <div class="slider-container">
-                                    <input type="range" id="bing-mask-slider" class="slider" min="0" max="80" value="20">
-                                    <span class="slider-value" id="bing-mask-value">20%</span>
-                                </div>
-                            </div>
-                            <div class="setting-item">
-                                <label class="setting-label" data-i18n="wp.blur">模糊度</label>
-                                <div class="slider-container">
-                                    <input type="range" id="bing-blur-slider" class="slider" min="0" max="30" value="0">
-                                    <span class="slider-value" id="bing-blur-value">0px</span>
-                                </div>
+                        </div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="wp.blur">模糊度</label>
+                            <div class="slider-container">
+                                <input type="range" id="bing-blur-slider" class="slider" min="0" max="30" value="0">
+                                <span class="slider-value" id="bing-blur-value">0px</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- 图片壁纸 -->
                     <div class="wallpaper-type-block" data-type="image">
-                        <div class="wallpaper-type-content">
-                            <div class="setting-item">
-                                <div class="wallpaper-upload-area">
-                                    <button class="upload-btn" id="wallpaper-upload-btn" type="button">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                            <polyline points="17 8 12 3 7 8"></polyline>
-                                            <line x1="12" y1="3" x2="12" y2="15"></line>
-                                        </svg>
-                                        <span data-i18n="common.upload">上传</span>
-                                    </button>
-                                    <input type="file" id="wallpaper-upload" accept="image/*" style="display:none;">
-                                    <button class="upload-btn" id="wallpaper-clear-btn" type="button">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                            <polyline points="3 6 5 6 21 6"></polyline>
-                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
-                                        </svg>
-                                        <span data-i18n="common.clear">清除</span>
-                                    </button>
-                                </div>
+                        <div class="setting-item">
+                            <div class="wallpaper-upload-area">
+                                <button class="upload-btn" id="wallpaper-upload-btn" type="button">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                        <polyline points="17 8 12 3 7 8"></polyline>
+                                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                                    </svg>
+                                    <span data-i18n="common.upload">上传</span>
+                                </button>
+                                <input type="file" id="wallpaper-upload" accept="image/*" style="display:none;">
+                                <button class="upload-btn" id="wallpaper-clear-btn" type="button">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                    </svg>
+                                    <span data-i18n="common.clear">清除</span>
+                                </button>
                             </div>
-                            <div class="setting-item">
-                                <input type="url" id="wallpaper-url" class="text-input" data-i18n-ph="wp.imageUrlPlaceholder" placeholder="图片网址...">
+                        </div>
+                        <div class="setting-item">
+                            <input type="url" id="wallpaper-url" class="text-input" data-i18n-ph="wp.imageUrlPlaceholder" placeholder="图片网址...">
+                        </div>
+                        <div class="wallpaper-preview empty" id="wallpaper-preview" data-i18n="wp.noImage">暂无图片</div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="wp.maskOpacity">遮罩不透明度</label>
+                            <div class="slider-container">
+                                <input type="range" id="wallpaper-mask-slider" class="slider" min="0" max="80" value="20">
+                                <span class="slider-value" id="wallpaper-mask-value">20%</span>
                             </div>
-                            <div class="wallpaper-preview empty" id="wallpaper-preview" data-i18n="wp.noImage">暂无图片</div>
-                            <div class="setting-item">
-                                <label class="setting-label" data-i18n="wp.maskOpacity">遮罩不透明度</label>
-                                <div class="slider-container">
-                                    <input type="range" id="wallpaper-mask-slider" class="slider" min="0" max="80" value="20">
-                                    <span class="slider-value" id="wallpaper-mask-value">20%</span>
-                                </div>
-                            </div>
-                            <div class="setting-item">
-                                <label class="setting-label" data-i18n="wp.blur">模糊度</label>
-                                <div class="slider-container">
-                                    <input type="range" id="wallpaper-blur-slider" class="slider" min="0" max="30" value="0">
-                                    <span class="slider-value" id="wallpaper-blur-value">0px</span>
-                                </div>
+                        </div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="wp.blur">模糊度</label>
+                            <div class="slider-container">
+                                <input type="range" id="wallpaper-blur-slider" class="slider" min="0" max="30" value="0">
+                                <span class="slider-value" id="wallpaper-blur-value">0px</span>
                             </div>
                         </div>
                     </div>
 
                     <!-- 纯色壁纸 -->
                     <div class="wallpaper-type-block" data-type="solid">
-                        <div class="wallpaper-type-content">
-                            <div class="setting-item">
-                                <div class="color-input-wrapper">
-                                    <input type="color" id="wallpaper-color" class="color-picker" value="#e6eef7" data-i18n-aria="wp.color" aria-label="壁纸颜色">
-                                    <span class="setting-label" data-i18n="wp.bgColor">背景颜色</span>
-                                </div>
+                        <div class="setting-item">
+                            <div class="color-input-wrapper">
+                                <input type="color" id="wallpaper-color" class="color-picker" value="#e6eef7" data-i18n-aria="wp.color" aria-label="壁纸颜色">
+                                <span class="setting-label" data-i18n="wp.bgColor">背景颜色</span>
                             </div>
                         </div>
                     </div>

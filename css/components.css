@@ -1409,12 +1409,8 @@ body.hide-shortcut-names .shortcut-item {
    ========================================= */
 .wallpaper-type-block {
     display: none;
-    border-radius: var(--radius-sm);
-    background: var(--bg-secondary);
-    box-shadow: var(--shadow-sm);
-    margin-bottom: 8px;
-    overflow: hidden;
-    border: var(--border-glass);
+    margin-top: 20px;
+    margin-bottom: 12px;
 }
 
 /* active：当前壁纸模式；revealed：设置搜索临时定位显示，不改变模式 */
@@ -1425,14 +1421,6 @@ body.hide-shortcut-names .shortcut-item {
 
 .wallpaper-mode-toggle {
     margin-bottom: 8px;
-}
-
-.wallpaper-mode-toggle + .setting-hint {
-    margin-bottom: 12px;
-}
-
-.wallpaper-type-content {
-    padding: 16px;
 }
 
 .gradient-presets {

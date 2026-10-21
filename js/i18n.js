@@ -113,7 +113,6 @@ const I18N = (function () {
 
         /* 壁纸 */
         'wp.mode': '壁纸模式',
-        'wp.modeHint': '选择一种壁纸样式',
         'wp.gradient': '光斑壁纸',
         'wp.gradientColor1': '背景颜色 1',
         'wp.gradientColor2': '背景颜色 2',
@@ -580,7 +579,6 @@ const I18N = (function () {
 
         /* wallpaper */
         'wp.mode': 'Wallpaper mode',
-        'wp.modeHint': 'Pick a wallpaper style',
         'wp.gradient': 'Blob wallpaper',
         'wp.gradientColor1': 'Background color 1',
         'wp.gradientColor2': 'Background color 2',
