@@ -90,20 +90,16 @@ function getBlobAlphas() {
 function applyWallpaper(settings) {
     document.body.dataset.wallpaper = settings.wallpaperMode;
 
-    const imageLayer = document.querySelector('.wallpaper-image');
-
-    // 图片层：仅在 image/bing 模式下设置背景图。
-    // 切到 gradient/solid 时不清空背景图——靠 opacity:0 隐藏即可，
-    // 这样从图片模式切回时图片能随 opacity 平滑淡出，而不是被瞬切清空。
-    // 仅当处于 image/bing 模式却没有对应图片（无效态/用户点清除）时才显式清空。
+    // 图片层：image / bing 各一层，只要对应图源存在就写入各自图层（与当前模式无关）。
+    // 图层常驻渲染，浏览器会预加载背景图；切换模式时由 CSS opacity 规则交叉淡化，
+    // 避免同一图层换 background-image 导致的硬切与跳变。图源被清除时才清空对应图层
+    const imageLayer = document.querySelector('.wallpaper-image[data-wp="image"]');
+    const bingLayer = document.querySelector('.wallpaper-image[data-wp="bing"]');
     if (imageLayer) {
-        if (settings.wallpaperMode === 'image' && settings.wallpaperImage) {
-            imageLayer.style.backgroundImage = `url("${settings.wallpaperImage}")`;
-        } else if (settings.wallpaperMode === 'bing' && settings.bingWallpaperUrl) {
-            imageLayer.style.backgroundImage = `url("${settings.bingWallpaperUrl}")`;
-        } else if (settings.wallpaperMode === 'image' || settings.wallpaperMode === 'bing') {
-            imageLayer.style.backgroundImage = '';
-        }
+        imageLayer.style.backgroundImage = settings.wallpaperImage ? `url("${settings.wallpaperImage}")` : '';
+    }
+    if (bingLayer) {
+        bingLayer.style.backgroundImage = settings.bingWallpaperUrl ? `url("${settings.bingWallpaperUrl}")` : '';
     }
 
     // 纯色壁纸（写入类型化变量 --wp-solid，便于平滑过渡）

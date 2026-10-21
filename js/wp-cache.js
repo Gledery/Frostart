@@ -25,11 +25,11 @@
         if (typeof c.maskOpacity === 'number') root.style.setProperty('--wallpaper-mask-opacity', c.maskOpacity);
         if (typeof c.imageBlur === 'number') root.style.setProperty('--wallpaper-image-blur', c.imageBlur + 'px');
         if (c.mode === 'image' && c.image) {
-            const img = document.querySelector('.wallpaper-image');
+            const img = document.querySelector('.wallpaper-image[data-wp="image"]');
             if (img) img.style.backgroundImage = 'url("' + c.image + '")';
         }
         if (c.mode === 'bing' && c.image) {
-            const bingImg = document.querySelector('.wallpaper-image');
+            const bingImg = document.querySelector('.wallpaper-image[data-wp="bing"]');
             if (bingImg) bingImg.style.backgroundImage = 'url("' + c.image + '")';
         }
     } catch (e) { /* 放弃缓存，回退到默认值 */ }

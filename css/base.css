@@ -227,11 +227,11 @@ input {
 
 /* 壁纸模式切换（用 opacity 淡入淡出，而非 display 瞬切） */
 body[data-wallpaper="image"] .wallpaper-layer { opacity: 0; }
-body[data-wallpaper="image"] .wallpaper-image { opacity: 1; }
+body[data-wallpaper="image"] .wallpaper-image[data-wp="image"] { opacity: 1; }
 body[data-wallpaper="image"] .wallpaper-mask { opacity: var(--wallpaper-mask-opacity, 0.5); }
 
 body[data-wallpaper="bing"] .wallpaper-layer { opacity: 0; }
-body[data-wallpaper="bing"] .wallpaper-image { opacity: 1; }
+body[data-wallpaper="bing"] .wallpaper-image[data-wp="bing"] { opacity: 1; }
 body[data-wallpaper="bing"] .wallpaper-mask { opacity: var(--wallpaper-mask-opacity, 0.5); }
 
 body[data-wallpaper="solid"] .wallpaper-layer { opacity: 0; }
