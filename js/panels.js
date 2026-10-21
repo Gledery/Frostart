@@ -250,12 +250,6 @@ function initWallpaperSettings() {
         setWallpaperTransition(true);
     });
 
-    // 恢复默认渐变（回到 mistBlue 当前主题变体）
-    document.getElementById('gradient-reset-btn').addEventListener('click', () => {
-        selectGradientPreset('mistBlue');
-        showToast(I18N.t('toast.gradientReset'));
-    });
-
     // 必应每日壁纸：手动刷新
     const bingRefreshBtn = document.getElementById('bing-refresh-btn');
     if (bingRefreshBtn) {
