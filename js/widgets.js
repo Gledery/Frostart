@@ -9,8 +9,8 @@
 /* =========================================
    设置搜索
    ========================================= */
-/* 搜索目标：普通设置项 + 壁纸分区标题行（标题行在 .setting-item 之外，需单独收录） */
-const SETTINGS_SEARCH_TARGETS = '.setting-item, .wallpaper-type-header';
+/* 搜索目标：普通设置项 + 壁纸模式分段按钮 */
+const SETTINGS_SEARCH_TARGETS = '.setting-item, .wallpaper-mode-toggle .option-btn';
 const SETTINGS_SEARCH_LIMIT = 10;
 
 /* 重建设置搜索索引（语言切换后需要重建，让标题/hint/位置用新语言重新入索引） */
@@ -26,8 +26,8 @@ function rebuildSettingsSearchIndex() {
         const label = normalize(labelEl ? labelEl.textContent : '');
         const hint = normalize(hintEl ? hintEl.textContent : '');
 
-        // 没有标题的元素（纯 hint 行、按钮行）依次用 hint、按钮文案兜底
-        const title = label || hint || normalize(buttonEl ? buttonEl.textContent : '');
+        // 没有标题的元素（纯 hint 行、按钮行）依次用 hint、按钮文案兜底；分段按钮自身即文案
+        const title = label || hint || normalize(buttonEl ? buttonEl.textContent : el.textContent);
 
         const section = el.closest('.settings-section');
         const sectionTitleEl = section ? section.querySelector('.section-title') : null;
@@ -111,9 +111,9 @@ function initSettingsSearch() {
             if (tabBtn) tabBtn.click();
         }
 
-        // 目标在折叠的壁纸分区里：先展开让它可滚动（仅展开，不改变壁纸模式）
+        // 目标在非当前模式的壁纸分区里：临时显示让它可滚动（仅显示，不改变壁纸模式）
         const block = target.closest('.wallpaper-type-block');
-        if (block && !block.classList.contains('expanded')) block.classList.add('expanded');
+        if (block && !block.classList.contains('active')) block.classList.add('revealed');
 
         clearSearch();
 

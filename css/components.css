@@ -840,7 +840,8 @@ body.hide-shortcut-names .shortcut-item {
     gap: 8px;
 }
 
-.simple-toggle .option-btn {
+.simple-toggle .option-btn,
+.wallpaper-mode-toggle .option-btn {
     flex: 1;
     flex-direction: row;
     justify-content: center;
@@ -1404,48 +1405,30 @@ body.hide-shortcut-names .shortcut-item {
 }
 
 /* =========================================
-   壁纸类型区块（展开式）
+   壁纸类型区块（按当前模式显示）
    ========================================= */
 .wallpaper-type-block {
+    display: none;
     border-radius: var(--radius-sm);
     background: var(--bg-secondary);
     box-shadow: var(--shadow-sm);
     margin-bottom: 8px;
     overflow: hidden;
     border: var(--border-glass);
-    transition: box-shadow var(--time-fast) var(--easing-standard);
 }
 
-.wallpaper-type-block:hover {
-    box-shadow: var(--shadow-md);
+/* active：当前壁纸模式；revealed：设置搜索临时定位显示，不改变模式 */
+.wallpaper-type-block.active,
+.wallpaper-type-block.revealed {
+    display: block;
 }
 
-.wallpaper-type-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 16px;
-    cursor: pointer;
+.wallpaper-mode-toggle {
+    margin-bottom: 12px;
 }
 
 .wallpaper-type-content {
-    padding: 0 16px 16px;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition:
-        max-height var(--time-normal) var(--easing-enter),
-        opacity var(--time-normal) var(--easing-enter),
-        padding var(--time-normal) var(--easing-enter);
-}
-
-.wallpaper-type-block.expanded .wallpaper-type-content {
-    max-height: 600px;
-    opacity: 1;
-}
-
-.wallpaper-type-block.expanded {
-    box-shadow: var(--shadow-md);
+    padding: 16px;
 }
 
 .gradient-presets {

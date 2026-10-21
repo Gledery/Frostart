@@ -96,34 +96,11 @@ function initWallpaperSettings() {
     // 渲染预设格预览（浅/深两行，渐变底 + 双光斑）
     renderGradientPresetPreviews();
 
-    // 展开式区块逻辑
-    document.querySelectorAll('.wallpaper-type-block').forEach(block => {
-        const type = block.dataset.type;
-        const toggle = block.querySelector('.switch input');
-
-        // 初始展开当前模式
-        block.classList.toggle('expanded', type === settings.wallpaperMode);
-        if (toggle) toggle.checked = (type === settings.wallpaperMode);
-
-        // 点击标题行切换
-        const header = block.querySelector('.wallpaper-type-header');
-        header.addEventListener('click', (e) => {
-            if (e.target.closest('.switch')) return;
-            selectWallpaperType(type);
-        });
-
-        // switch 切换
-        if (toggle) {
-            toggle.addEventListener('change', () => {
-                if (toggle.checked) {
-                    selectWallpaperType(type);
-                } else {
-                    // 至少保持一个开启，不允许全部关闭
-                    toggle.checked = true;
-                }
-            });
-        }
+    // 模式分段选择器
+    document.querySelectorAll('.wallpaper-mode-toggle .option-btn').forEach(btn => {
+        btn.addEventListener('click', () => selectWallpaperType(btn.dataset.wpMode));
     });
+    syncWallpaperModeUI(settings.wallpaperMode);
 
     // 上传本地图片
     const uploadInput = document.getElementById('wallpaper-upload');
@@ -296,6 +273,17 @@ function initWallpaperSettings() {
     updateBingWallpaperInfo();
 }
 
+/* 同步分段选择器选中态与区块显隐 */
+function syncWallpaperModeUI(mode) {
+    document.querySelectorAll('.wallpaper-mode-toggle .option-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.wpMode === mode);
+    });
+    document.querySelectorAll('.wallpaper-type-block').forEach(block => {
+        block.classList.toggle('active', block.dataset.type === mode);
+        block.classList.remove('revealed');
+    });
+}
+
 function selectWallpaperType(type) {
     SettingsManager.set('wallpaperMode', type);
     applyWallpaper(SettingsManager.getAll());
@@ -305,23 +293,11 @@ function selectWallpaperType(type) {
         refreshBingWallpaper();
     }
 
-    // 更新所有区块的展开状态和 switch
-    document.querySelectorAll('.wallpaper-type-block').forEach(block => {
-        const isActive = block.dataset.type === type;
-        block.classList.toggle('expanded', isActive);
-        const toggle = block.querySelector('.switch input');
-        if (toggle) toggle.checked = isActive;
-    });
+    syncWallpaperModeUI(type);
 }
 
 function updateWallpaperUI(settings) {
-    // 更新展开状态
-    document.querySelectorAll('.wallpaper-type-block').forEach(block => {
-        const isActive = block.dataset.type === settings.wallpaperMode;
-        block.classList.toggle('expanded', isActive);
-        const toggle = block.querySelector('.switch input');
-        if (toggle) toggle.checked = isActive;
-    });
+    syncWallpaperModeUI(settings.wallpaperMode);
 
     // 预览
     const preview = document.getElementById('wallpaper-preview');
