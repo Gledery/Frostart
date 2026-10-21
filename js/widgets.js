@@ -421,9 +421,9 @@ function initContextMenu() {
                 document.querySelector('[data-tab="appearance"]').click();
             }},
             { divider: true },
-            { label: I18N.t('menu.gradient'), icon: wpMode === 'gradient' ? 'check' : '', action: () => switchWallpaperMode('gradient') },
-            { label: I18N.t('menu.image'), icon: wpMode === 'image' ? 'check' : '', action: () => switchWallpaperMode('image') },
-            { label: I18N.t('menu.solid'), icon: wpMode === 'solid' ? 'check' : '', action: () => switchWallpaperMode('solid') },
+            { label: I18N.t('menu.gradient'), icon: wpMode === 'gradient' ? 'check' : '', action: () => selectWallpaperType('gradient') },
+            { label: I18N.t('menu.image'), icon: wpMode === 'image' ? 'check' : '', action: () => selectWallpaperType('image') },
+            { label: I18N.t('menu.solid'), icon: wpMode === 'solid' ? 'check' : '', action: () => selectWallpaperType('solid') },
             { divider: true },
             { label: theme === 'light' ? I18N.t('menu.darkMode') : I18N.t('menu.lightMode'), icon: 'theme', action: () => {
                 const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -501,10 +501,6 @@ function getMenuIcon(icon) {
 
 function openSettings() {
     openDrawer();
-}
-
-function switchWallpaperMode(mode) {
-    selectWallpaperType(mode);
 }
 
 /* =========================================
