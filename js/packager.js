@@ -29,6 +29,8 @@ const Packager = {
         // 样式
         'css/tokens.css',
         'css/base.css',
+        'css/settings.css',
+        'css/panels.css',
         'css/components.css',
         'css/pages.css',
         // 脚本
