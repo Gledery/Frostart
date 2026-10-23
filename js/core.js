@@ -1,7 +1,7 @@
 /* =========================================
    core.js  —  应用骨架与全局状态
    职责：全局状态变量 / 常量 / 应用初始化 / 设置应用 /
-         语言切换 / 时钟初始化与时间格式 / 搜索 /
+         语言切换 / 搜索 /
          引擎弹窗 / 宽度单位 / 快捷方式 / 设置抽屉 /
          模态框 / 存储用量 / 数据管理 / 更新检查 / 颜文字开关
    加载顺序：settings.js → core.js → sliders.js → panels.js → widgets.js
@@ -233,44 +233,6 @@ function applyLanguageChange() {
     if (typeof rebuildSettingsSearchIndex === 'function') rebuildSettingsSearchIndex();
     if (typeof updateTime === 'function') updateTime();
     if (typeof updateButtonState === 'function') updateButtonState(SettingsManager.VERSION);
-}
-
-/* =========================================
-   时间
-   ========================================= */
-function initTime() {
-    updateTime();
-    let timer = setInterval(updateTime, 1000);
-    // 标签页隐藏时暂停时钟（省电 + 避免无谓 DOM 写入），恢复时立即对齐一次
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            clearInterval(timer);
-        } else {
-            updateTime();
-            timer = setInterval(updateTime, 1000);
-        }
-    });
-}
-
-/* =========================================
-   时间格式设置
-   ========================================= */
-function initTimeFormat() {
-    document.querySelectorAll('[data-time-format]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const fmt = parseInt(btn.dataset.timeFormat);
-            document.querySelectorAll('[data-time-format]').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            SettingsManager.set('timeFormat', fmt);
-            updateTime();
-        });
-    });
-}
-
-function updateTimeFormatUI(format) {
-    document.querySelectorAll('[data-time-format]').forEach(btn => {
-        btn.classList.toggle('active', parseInt(btn.dataset.timeFormat) === format);
-    });
 }
 
 /* =========================================

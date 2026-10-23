@@ -3,7 +3,7 @@
    职责：被多个模块调用的核心服务函数 /
          showToast / 抽屉开关 / 壁纸渲染 / 主题切换与主题按钮 /
          主题色选择器 / 文本颜色应用 / 必应每日壁纸 / 字体加载 /
-         时钟更新 / 光斑缓存
+         时钟更新与时间格式 / 光斑缓存
    加载顺序：utils → settings → services → core → ...
    依赖：SettingsManager, color-utils
    ========================================= */
@@ -411,7 +411,7 @@ function applyFont(fontName) {
 }
 
 /* =========================================
-   时间（从 core.js 迁移）
+   时间
    ========================================= */
 // 缓存时钟/日期 DOM 引用，避免每秒 getElementById
 let _timeEl = null;
@@ -461,6 +461,38 @@ function updateTime() {
         _cachedDateStr = dateStr;
     }
     _dateEl.textContent = _cachedDateStr;
+}
+
+function initTime() {
+    updateTime();
+    let timer = setInterval(updateTime, 1000);
+    // 标签页隐藏时暂停时钟（省电 + 避免无谓 DOM 写入），恢复时立即对齐一次
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            clearInterval(timer);
+        } else {
+            updateTime();
+            timer = setInterval(updateTime, 1000);
+        }
+    });
+}
+
+function initTimeFormat() {
+    document.querySelectorAll('[data-time-format]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const fmt = parseInt(btn.dataset.timeFormat);
+            document.querySelectorAll('[data-time-format]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            SettingsManager.set('timeFormat', fmt);
+            updateTime();
+        });
+    });
+}
+
+function updateTimeFormatUI(format) {
+    document.querySelectorAll('[data-time-format]').forEach(btn => {
+        btn.classList.toggle('active', parseInt(btn.dataset.timeFormat) === format);
+    });
 }
 
 /* 农历日期 */
