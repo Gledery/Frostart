@@ -52,7 +52,7 @@
 ### CSS
 
 - 颜色、圆角、间距、时长等可以从 [tokens.css](./css/tokens.css) 取变量，最好看看有没有已经存在的可以继续使用的变量
-- 设计令牌统一放在 `tokens.css`，组件样式放 `components.css`，页面专属放 `pages.css`
+- 设计令牌统一放在 `tokens.css`，设置抽屉与控件放 `settings.css`，面板内容区块放 `panels.css`，主屏组件与全局兜底放 `components.css`（最后加载，触屏门控等覆盖规则依赖这一点），页面专属放 `pages.css`
 - 自定义属性用 `--kebab-case`
 
 ### 不要做的事

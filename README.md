@@ -121,7 +121,9 @@ Frostart/
 ├── css/
 │   ├── tokens.css         # 设计令牌（@property / 主题变量）
 │   ├── base.css           # 重置 / 壁纸系统 / 玻璃效果
-│   ├── components.css     # 组件层
+│   ├── settings.css       # 设置抽屉框架与通用控件
+│   ├── panels.css         # 设置面板内容区块
+│   ├── components.css     # 主屏组件与全局兜底（最后加载）
 │   └── pages.css          # 页面专属样式
 ├── js/
 │   ├── i18n.js            # 中英双语字典与语言切换
