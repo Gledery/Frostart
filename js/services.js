@@ -1,7 +1,7 @@
 /* =========================================
    services.js  —  公共服务层
    职责：被多个模块调用的核心服务函数 /
-         showToast / 抽屉开关 / 壁纸渲染 / 主题切换与主题按钮 /
+         showToast / 抽屉开关与初始化 / 壁纸渲染 / 主题切换与主题按钮 /
          主题色选择器 / 文本颜色应用 / 必应每日壁纸 / 字体加载 /
          时钟更新与时间格式 / 光斑缓存
    加载顺序：utils → settings → services → core → ...
@@ -41,6 +41,30 @@ function openDrawer() {
 function closeDrawer() {
     document.getElementById('settings-drawer').classList.remove('open');
     document.getElementById('drawer-overlay').classList.remove('open');
+}
+
+function initSettingsDrawer() {
+    const settingsBtn = document.getElementById('settings-btn');
+    const drawer = document.getElementById('settings-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    const closeBtn = document.getElementById('close-settings');
+
+    settingsBtn.addEventListener('click', openDrawer);
+    closeBtn.addEventListener('click', closeDrawer);
+    overlay.addEventListener('click', closeDrawer);
+
+    // ESC 关闭
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (drawer.classList.contains('open')) closeDrawer();
+            const modal = document.getElementById('modal-overlay');
+            if (modal.classList.contains('open')) closeModal();
+            const resetOverlay = document.getElementById('reset-confirm-overlay');
+            if (resetOverlay && resetOverlay.classList.contains('open')) {
+                resetOverlay.classList.remove('open');
+            }
+        }
+    });
 }
 
 /* =========================================

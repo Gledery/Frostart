@@ -2,7 +2,7 @@
    core.js  —  应用骨架与全局状态
    职责：全局状态变量 / 常量 / 应用初始化 / 设置应用 /
          语言切换 / 搜索 /
-         引擎弹窗 / 宽度单位 / 快捷方式 / 设置抽屉 /
+         引擎弹窗 / 宽度单位 / 快捷方式 /
          模态框 / 存储用量 / 数据管理 / 更新检查 / 颜文字开关
    加载顺序：settings.js → core.js → sliders.js → panels.js → widgets.js
    架构说明：目前各模块共享全局作用域，正在逐步模块化。小型低风险改动可直接提 PR；涉及整体架构的改动请先在 Issue 中讨论。
@@ -586,33 +586,6 @@ function initFaviconFallback() {
         span.textContent = fallback;
         target.parentElement.appendChild(span);
     }, true);
-}
-
-/* =========================================
-   悬浮抽屉（设置面板）
-   ========================================= */
-function initSettingsDrawer() {
-    const settingsBtn = document.getElementById('settings-btn');
-    const drawer = document.getElementById('settings-drawer');
-    const overlay = document.getElementById('drawer-overlay');
-    const closeBtn = document.getElementById('close-settings');
-
-    settingsBtn.addEventListener('click', openDrawer);
-    closeBtn.addEventListener('click', closeDrawer);
-    overlay.addEventListener('click', closeDrawer);
-
-    // ESC 关闭
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            if (drawer.classList.contains('open')) closeDrawer();
-            const modal = document.getElementById('modal-overlay');
-            if (modal.classList.contains('open')) closeModal();
-            const resetOverlay = document.getElementById('reset-confirm-overlay');
-            if (resetOverlay && resetOverlay.classList.contains('open')) {
-                resetOverlay.classList.remove('open');
-            }
-        }
-    });
 }
 
 /* =========================================
