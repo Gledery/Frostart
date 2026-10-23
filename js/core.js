@@ -1,9 +1,9 @@
 /* =========================================
    core.js  —  应用骨架与全局状态
    职责：全局状态变量 / 常量 / 应用初始化 / 设置应用 /
-         壁纸应用 / 字体 / 文本色 / 主题 / 时钟 / 搜索 /
+         语言切换 / 时钟初始化与时间格式 / 搜索 /
          引擎弹窗 / 宽度单位 / 快捷方式 / 设置抽屉 /
-         模态框 / 数据管理 / Toast
+         模态框 / 存储用量 / 数据管理 / 更新检查 / 颜文字开关
    加载顺序：settings.js → core.js → sliders.js → panels.js → widgets.js
    架构说明：目前各模块共享全局作用域，正在逐步模块化。小型低风险改动可直接提 PR；涉及整体架构的改动请先在 Issue 中讨论。
    详见 CONTRIBUTING.md。
@@ -172,94 +172,8 @@ function applySettings() {
 }
 
 /* =========================================
-   主题
+   角落颜文字开关
    ========================================= */
-/* 绑定主题按钮事件（只应在初始化时调一次，避免重复绑定） */
-function bindThemeButtons() {
-    document.querySelectorAll('[data-theme-option]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('[data-theme-option]').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            SettingsManager.set('theme', btn.dataset.themeOption);
-            applyTheme(btn.dataset.themeOption);
-        });
-    });
-}
-
-/* 同步主题按钮选中态（可重复调，用于初始化 / 导入 / 重置后） */
-function syncThemeUI() {
-    const theme = SettingsManager.get('theme');
-    document.querySelectorAll('[data-theme-option]').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.themeOption === theme);
-    });
-}
-
-/* 自定义主题色：非空时覆盖 --accent-color，空值则移除覆盖回归主题默认 */
-function applyAccentColor(color) {
-    const root = document.documentElement;
-    if (color && typeof color === 'string') {
-        root.style.setProperty('--accent-color', color);
-    } else {
-        root.style.removeProperty('--accent-color');
-    }
-}
-
-/* 同步主题色选择器选中态：哪个控件对应当前 accentColor。
-   color 缺省时读取设置，可在初始化 / 外部联动 / 导入后重复调用 */
-function syncAccentPickerUI(color) {
-    const picker = document.getElementById('accent-picker');
-    if (!picker) return;
-    const swatches = picker.querySelectorAll('.accent-swatch');
-    const customInput = document.getElementById('accent-color-input');
-    const customLabel = picker.querySelector('.accent-custom');
-    const resetBtn = document.getElementById('accent-reset-btn');
-
-    const current = (color != null ? color : SettingsManager.get('accentColor') || '').toLowerCase();
-    swatches.forEach(sw => {
-        sw.classList.toggle('active', sw.dataset.color.toLowerCase() === current);
-    });
-    // 自定义激活：当前色不在预设里，且非空
-    const isPreset = Array.from(swatches).some(sw => sw.dataset.color.toLowerCase() === current);
-    customLabel.classList.toggle('active', !!current && !isPreset);
-    resetBtn.classList.toggle('active', !current);
-    if (current) customInput.value = current;
-}
-
-/* 主题色选择器：预设色板 + 自定义拾色器 + 恢复默认 */
-function initAccentPicker() {
-    const picker = document.getElementById('accent-picker');
-    if (!picker) return;
-    const swatches = picker.querySelectorAll('.accent-swatch');
-    const customInput = document.getElementById('accent-color-input');
-    const resetBtn = document.getElementById('accent-reset-btn');
-
-    // 设置并保存
-    function setAccent(color) {
-        // 手动取色即接管主题色：联动开启时自动关闭并提醒
-        if (SettingsManager.get('linkAccentToBlob')) {
-            SettingsManager.set('linkAccentToBlob', false);
-            const toggle = document.getElementById('accent-link-toggle');
-            if (toggle) toggle.checked = false;
-            showToast(I18N.t('toast.accentUnlinked'));
-        }
-        SettingsManager.set('accentColor', color);
-        applyAccentColor(color);
-        syncAccentPickerUI(color);
-    }
-
-    swatches.forEach(sw => {
-        sw.addEventListener('click', () => setAccent(sw.dataset.color));
-    });
-
-    customInput.addEventListener('input', (e) => setAccent(e.target.value));
-
-    resetBtn.addEventListener('click', () => setAccent(SettingsManager.defaultSettings.accentColor));
-
-    // 初始化选中态
-    syncAccentPickerUI();
-}
-
-/* 角落颜文字开关：读取设置决定 init/destroy，并绑定开关实时响应 */
 function initKaomojiToggle() {
     const toggle = document.getElementById('kaomoji-toggle');
     if (!toggle || !window.KaomojiWidget) return;
@@ -283,12 +197,6 @@ function initKaomojiToggle() {
         applyKaomojiState(toggle.checked);
     });
 }
-
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    if (SettingsManager.get('theme') === 'auto') {
-        applyTheme('auto');
-    }
-});
 
 /* =========================================
    语言（界面国际化）

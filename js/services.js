@@ -1,8 +1,9 @@
 /* =========================================
    services.js  —  公共服务层
    职责：被多个模块调用的核心服务函数 /
-         showToast / 抽屉开关 / 壁纸渲染 / 主题切换 /
-         文本颜色应用 / 光斑缓存
+         showToast / 抽屉开关 / 壁纸渲染 / 主题切换与主题按钮 /
+         主题色选择器 / 文本颜色应用 / 必应每日壁纸 / 字体加载 /
+         时钟更新 / 光斑缓存
    加载顺序：utils → settings → services → core → ...
    依赖：SettingsManager, color-utils
    ========================================= */
@@ -214,11 +215,102 @@ function applyTheme(theme) {
     }
     // 联动主题色：blob2 值可能已随主题重写变化，重算 accent
     if (typeof relinkAccentFromBlob === 'function') relinkAccentFromBlob();
-    // 同步取色器/角度滑块、预设选中态与 accent 选择器（定义在 panels/core，运行时已加载）
+    // 同步取色器/角度滑块与预设选中态（定义在 panels.js，运行时已加载）
     if (typeof syncGradientPresetUI === 'function') syncGradientPresetUI(SettingsManager.getAll());
     if (typeof syncGradientPresetActive === 'function') syncGradientPresetActive();
-    if (typeof syncAccentPickerUI === 'function') syncAccentPickerUI();
+    syncAccentPickerUI();
 }
+
+/* 绑定主题按钮事件（只应在初始化时调一次，避免重复绑定） */
+function bindThemeButtons() {
+    document.querySelectorAll('[data-theme-option]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('[data-theme-option]').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            SettingsManager.set('theme', btn.dataset.themeOption);
+            applyTheme(btn.dataset.themeOption);
+        });
+    });
+}
+
+/* 同步主题按钮选中态（可重复调，用于初始化 / 导入 / 重置后） */
+function syncThemeUI() {
+    const theme = SettingsManager.get('theme');
+    document.querySelectorAll('[data-theme-option]').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.themeOption === theme);
+    });
+}
+
+/* 自定义主题色：非空时覆盖 --accent-color，空值则移除覆盖回归主题默认 */
+function applyAccentColor(color) {
+    const root = document.documentElement;
+    if (color && typeof color === 'string') {
+        root.style.setProperty('--accent-color', color);
+    } else {
+        root.style.removeProperty('--accent-color');
+    }
+}
+
+/* 同步主题色选择器选中态：哪个控件对应当前 accentColor。
+   color 缺省时读取设置，可在初始化 / 外部联动 / 导入后重复调用 */
+function syncAccentPickerUI(color) {
+    const picker = document.getElementById('accent-picker');
+    if (!picker) return;
+    const swatches = picker.querySelectorAll('.accent-swatch');
+    const customInput = document.getElementById('accent-color-input');
+    const customLabel = picker.querySelector('.accent-custom');
+    const resetBtn = document.getElementById('accent-reset-btn');
+
+    const current = (color != null ? color : SettingsManager.get('accentColor') || '').toLowerCase();
+    swatches.forEach(sw => {
+        sw.classList.toggle('active', sw.dataset.color.toLowerCase() === current);
+    });
+    // 自定义激活：当前色不在预设里，且非空
+    const isPreset = Array.from(swatches).some(sw => sw.dataset.color.toLowerCase() === current);
+    customLabel.classList.toggle('active', !!current && !isPreset);
+    resetBtn.classList.toggle('active', !current);
+    if (current) customInput.value = current;
+}
+
+/* 主题色选择器：预设色板 + 自定义拾色器 + 恢复默认 */
+function initAccentPicker() {
+    const picker = document.getElementById('accent-picker');
+    if (!picker) return;
+    const swatches = picker.querySelectorAll('.accent-swatch');
+    const customInput = document.getElementById('accent-color-input');
+    const resetBtn = document.getElementById('accent-reset-btn');
+
+    // 设置并保存
+    function setAccent(color) {
+        // 手动取色即接管主题色：联动开启时自动关闭并提醒
+        if (SettingsManager.get('linkAccentToBlob')) {
+            SettingsManager.set('linkAccentToBlob', false);
+            const toggle = document.getElementById('accent-link-toggle');
+            if (toggle) toggle.checked = false;
+            showToast(I18N.t('toast.accentUnlinked'));
+        }
+        SettingsManager.set('accentColor', color);
+        applyAccentColor(color);
+        syncAccentPickerUI(color);
+    }
+
+    swatches.forEach(sw => {
+        sw.addEventListener('click', () => setAccent(sw.dataset.color));
+    });
+
+    customInput.addEventListener('input', (e) => setAccent(e.target.value));
+
+    resetBtn.addEventListener('click', () => setAccent(SettingsManager.defaultSettings.accentColor));
+
+    // 初始化选中态
+    syncAccentPickerUI();
+}
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (SettingsManager.get('theme') === 'auto') {
+        applyTheme('auto');
+    }
+});
 
 /* =========================================
    自定义文本颜色（细化控制）
