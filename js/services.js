@@ -3,7 +3,7 @@
    职责：被多个模块调用的核心服务函数 /
          showToast / 抽屉开关与初始化 / 壁纸渲染 / 主题切换与主题按钮 /
          主题色选择器 / 文本颜色应用 / 必应每日壁纸 / 字体加载 /
-         时钟更新与时间格式 / 光斑缓存
+         时钟更新与时间格式 / 光斑缓存 / 搜索引擎配置与快捷切换弹窗
    加载顺序：utils → settings → services → core → ...
    依赖：SettingsManager, color-utils
    ========================================= */
@@ -572,4 +572,179 @@ function getLunarDate(date) {
     } catch (e) {
         return null;
     }
+}
+
+/* =========================================
+   搜索引擎
+   ========================================= */
+
+// 搜索引擎配置（key 与 icons/search-engine/<key>.svg 一一对应）
+// label 为英文兜底名；中文界面的内置引擎名走 I18N 字典 engine.<key>，由 getEngineLabel 统一取
+const SEARCH_ENGINES = {
+    google:        { url: 'https://www.google.com/search?q=',          label: 'Google' },
+    bing:          { url: 'https://www.bing.com/search?q=',            label: 'Bing' },
+    baidu:         { url: 'https://www.baidu.com/s?wd=',               label: 'Baidu' },
+    duckduckgo:    { url: 'https://duckduckgo.com/?q=',                label: 'DuckDuckGo' },
+    sougou:        { url: 'https://www.sogou.com/web?query=',          label: 'Sogou' },
+    yahoo:         { url: 'https://search.yahoo.com/search?p=',        label: 'Yahoo' },
+    bilibili:      { url: 'https://search.bilibili.com/all?keyword=',  label: 'Bilibili' },
+    youtube:       { url: 'https://www.youtube.com/results?search_query=', label: 'YouTube' },
+    zhihu:         { url: 'https://www.zhihu.com/search?q=',           label: 'Zhihu' },
+    weibo:         { url: 'https://s.weibo.com/weibo?q=',              label: 'Weibo' },
+    douban:        { url: 'https://www.douban.com/search?q=',          label: 'Douban' },
+    xiaohongshu:   { url: 'https://www.xiaohongshu.com/search_result?keyword=', label: 'Xiaohongshu' },
+    douyin:        { url: 'https://www.douyin.com/search/',            label: 'Douyin' },
+    toutiao:       { url: 'https://so.toutiao.com/search?keyword=',    label: 'Toutiao' },
+    taobao:        { url: 'https://s.taobao.com/search?q=',            label: 'Taobao' },
+    jd:            { url: 'https://search.jd.com/Search?keyword=',     label: 'JD' },
+    github:        { url: 'https://github.com/search?q=',              label: 'GitHub' },
+    googlescholar: { url: 'https://scholar.google.com/scholar?q=',     label: 'Google Scholar' }
+};
+
+/* 取引擎显示名：内置引擎走 I18N（engine.<key> 有字典时用译文），
+   自定义引擎用用户命名，找不到时回退 key */
+function getEngineLabel(key) {
+    const builtIn = SEARCH_ENGINES[key];
+    if (builtIn) {
+        const dictKey = 'engine.' + key;
+        const localized = I18N.t(dictKey);
+        return localized === dictKey ? builtIn.label : localized;
+    }
+    const c = getCustomEngine(key);
+    return c ? c.name : key;
+}
+
+function updateSearchEngineIndicator() {
+    const engine = SettingsManager.get('searchEngine') || 'google';
+    const indicator = document.getElementById('search-engine-indicator');
+    if (!indicator) return;
+
+    const engineLabel = getEngineLabel(engine);
+    indicator.innerHTML = renderEngineIconHtml(engine, 28, engineLabel);
+    indicator.title = engineLabel;
+}
+
+function getEngineIconFile(engine) {
+    // 内置引擎全部使用同名 SVG；找不到时回退到 google
+    if (SEARCH_ENGINES[engine]) return `${engine}.svg`;
+    return 'google.svg';
+}
+
+/* 取得自定义引擎对象（按 id）；不存在返回 null */
+function getCustomEngine(engineKey) {
+    return (SettingsManager.get('customEngines') || []).find(e => e.id === engineKey) || null;
+}
+
+/* 渲染引擎图标 HTML（内置走 svg 文件，自定义引擎有 icon 则用上传图标+裁切 transform，
+   否则回退首字母）。size 为正方形像素。 */
+function renderEngineIconHtml(engineKey, size, fallbackText) {
+    const custom = getCustomEngine(engineKey);
+    if (custom && custom.icon) {
+        const tf = iconStyleToTransform(custom.iconStyle);
+        return `<img src="${escapeHtml(custom.icon)}" alt="${escapeHtml(custom.name || '')}" style="width:${size}px;height:${size}px;object-fit:contain;${tf ? tf : ''}">`;
+    }
+    if (custom) {
+        const ch = (custom.name || '?').charAt(0).toUpperCase();
+        return `<span style="font-size:${Math.round(size * 0.5)}px;font-weight:600;color:var(--text-primary);">${escapeHtml(ch)}</span>`;
+    }
+    const label = SEARCH_ENGINES[engineKey] ? getEngineLabel(engineKey) : (fallbackText || engineKey);
+    return `<img src="icons/search-engine/${getEngineIconFile(engineKey)}" alt="${escapeHtml(label)}" style="width:${size}px;height:${size}px;object-fit:contain;">`;
+}
+
+function initEnginePopup() {
+    const indicator = document.getElementById('search-engine-indicator');
+    const popup = document.getElementById('engine-popup');
+    if (!indicator || !popup) return;
+
+    indicator.addEventListener('click', (e) => {
+        e.stopPropagation();
+        // 关闭快捷切换功能时不弹出列表
+        if (!SettingsManager.get('engineQuickSwitch')) return;
+        renderEnginePopup();
+        popup.classList.toggle('show');
+    });
+
+    // 点击外部关闭
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-engine-indicator') && !e.target.closest('.engine-popup')) {
+            popup.classList.remove('show');
+        }
+    });
+}
+
+/* 获取已加入快捷切换的引擎列表（key 顺序保持 pinned 顺序） */
+function getPinnedEngines() {
+    const pinned = SettingsManager.get('pinnedEngines') || [];
+    const custom = SettingsManager.get('customEngines') || [];
+    const customIds = new Set(custom.map(e => e.id));
+    // 过滤掉已删除的自定义引擎
+    return pinned.filter(key => SEARCH_ENGINES[key] || customIds.has(key));
+}
+
+/* 切换某个引擎是否加入快捷切换列表 */
+function toggleEnginePinned(key) {
+    let pinned = getPinnedEngines();
+    if (pinned.includes(key)) {
+        pinned = pinned.filter(k => k !== key);
+    } else {
+        pinned.push(key);
+    }
+    SettingsManager.set('pinnedEngines', pinned);
+}
+
+function renderEnginePopup() {
+    const popup = document.getElementById('engine-popup');
+    if (!popup) return;
+    const current = SettingsManager.get('searchEngine') || 'google';
+
+    // 只渲染已加入快捷切换的引擎（当前默认引擎始终保留，避免无法选中）
+    const pinnedKeys = getPinnedEngines();
+    const currentEngine = SettingsManager.get('searchEngine') || 'google';
+    const visibleKeys = pinnedKeys.includes(currentEngine) || !currentEngine
+        ? pinnedKeys
+        : [...pinnedKeys, currentEngine];
+    const customList = SettingsManager.get('customEngines') || [];
+    const engines = visibleKeys.map(key => {
+        const builtIn = SEARCH_ENGINES[key];
+        if (builtIn) return { key, label: getEngineLabel(key), custom: false };
+        const c = customList.find(e => e.id === key);
+        return { key, label: c ? c.name : key, custom: true };
+    });
+
+    if (engines.length === 0) {
+        popup.innerHTML = `<div class="engine-popup-empty">${escapeHtml(I18N.t('popup.noEngine'))}<br><span>${escapeHtml(I18N.t('popup.addInSettings'))}</span></div>`;
+        return;
+    }
+
+    popup.innerHTML = engines.map(en => {
+        const iconHtml = en.custom
+            ? renderEngineIconHtml(en.key, 24, en.label)
+            : `<img src="icons/search-engine/${getEngineIconFile(en.key)}" alt="${escapeHtml(en.label)}" style="width:24px;height:24px;object-fit:contain;border-radius:6px;">`;
+        // label 可能来自导入的自定义引擎名，转义防止 title/alt 属性被 " 断开注入
+        return `<div class="engine-popup-item${en.key === current ? ' active' : ''}" data-engine="${en.key}" title="${escapeHtml(en.label)}">${iconHtml}</div>`;
+    }).join('');
+
+    popup.querySelectorAll('.engine-popup-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const key = item.dataset.engine;
+            SettingsManager.set('searchEngine', key);
+            updateSearchEngineUI(key);
+            updateSearchEngineIndicator();
+            popup.classList.remove('show');
+        });
+    });
+}
+
+function getEngineConfig(engineKey) {
+    const builtIn = SEARCH_ENGINES[engineKey];
+    if (builtIn) return builtIn;
+    const custom = (SettingsManager.get('customEngines') || []).find(e => e.id === engineKey);
+    if (custom) {
+        // 运行时防御：仅信任 http/https，避免恶意配置（导入/旧数据）注入 javascript:/data: 触发 XSS
+        const probe = (custom.url || '').replace('%s', 'x');
+        if (/^https?:\/\//i.test(probe)) {
+            return { url: custom.url, label: custom.name };
+        }
+    }
+    return SEARCH_ENGINES.google;
 }
