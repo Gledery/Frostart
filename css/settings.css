@@ -34,7 +34,7 @@
     top: 24px;
     right: 24px;
     bottom: 24px;
-    width: 560px;
+    width: 600px;
     max-width: calc(100vw - 48px);
     background-color: var(--bg-primary);
     backdrop-filter: saturate(var(--saturation-amount)) blur(var(--blur-amount));
