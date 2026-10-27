@@ -101,6 +101,7 @@
             <!-- 外观标签页 -->
             <div class="tab-panel active" data-panel="appearance">
                 <div class="settings-section">
+                    <h3 class="section-title" data-i18n="appearance.generalSection">通用</h3>
                     <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="appearance.language">语言</label>
@@ -365,6 +366,7 @@
             <!-- 时钟标签页 -->
             <div class="tab-panel" data-panel="clock">
                 <div class="settings-section">
+                    <h3 class="section-title" data-i18n="clock.timeSection">时间显示</h3>
                     <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="clock.timeFormat">时间格式</label>
@@ -405,6 +407,12 @@
                             </label>
                         </div>
                     </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3 class="section-title" data-i18n="clock.dateSection">日期显示</h3>
+                    <div class="settings-group-card">
                     <div class="setting-item">
                         <div class="switch-row">
                             <span class="setting-label" data-i18n="clock.showWeek">显示星期</span>
@@ -486,6 +494,7 @@
             <!-- 搜索标签页 -->
             <div class="tab-panel" data-panel="search">
                 <div class="settings-section">
+                    <h3 class="section-title" data-i18n="search.engineSection">搜索引擎</h3>
                     <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="search.quickEngines">快捷切换引擎</label>
@@ -511,6 +520,12 @@
                             </label>
                         </div>
                     </div>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3 class="section-title" data-i18n="search.boxSection">搜索框</h3>
+                    <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="search.width">搜索框宽度</label>
                         <div class="slider-container">
@@ -557,9 +572,9 @@
                 </div>
 
                 <div class="settings-section">
+                    <h3 class="section-title" data-i18n="search.customEngines">自定义引擎</h3>
                     <div class="settings-group-card">
                     <div class="setting-item">
-                        <label class="setting-label" data-i18n="search.customEngines">自定义引擎</label>
                         <div class="custom-engines-list" id="custom-engines-list"></div>
                         <button class="add-shortcut-btn" id="add-engine-btn" type="button" style="margin-top:8px;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -649,6 +664,7 @@
                 </div>
 
                 <div class="settings-section">
+                    <h3 class="section-title" data-i18n="sc.listSection">快捷方式</h3>
                     <div class="settings-group-card">
                     <div class="shortcuts-list" id="shortcuts-list"></div>
                     <button class="add-shortcut-btn" id="add-shortcut-btn" type="button">

@@ -53,6 +53,7 @@ const I18N = (function () {
         'tab.data': '数据与关于',
 
         /* 外观 */
+        'appearance.generalSection': '通用',
         'appearance.language': '语言',
         'lang.auto': '自动',
         'lang.zh': '中文',
@@ -85,6 +86,8 @@ const I18N = (function () {
         'appearance.saturation': '饱和度',
 
         /* 时钟 */
+        'clock.timeSection': '时间显示',
+        'clock.dateSection': '日期显示',
         'clock.timeFormat': '时间格式',
         'clock.hours24': '24 小时',
         'clock.hours12': '12 小时',
@@ -145,6 +148,8 @@ const I18N = (function () {
         'wp.wallpaperColorAria': '壁纸颜色',
 
         /* 搜索设置 */
+        'search.engineSection': '搜索引擎',
+        'search.boxSection': '搜索框',
         'search.quickEngines': '快捷切换引擎',
         'search.quickEnginesHint': '可以勾选要出现在搜索框抽屉里的引擎~当前使用的引擎右侧会显示对勾',
         'search.quickSwitch': '搜索框引擎快捷切换',
@@ -163,6 +168,7 @@ const I18N = (function () {
         /* 图标设置 */
         'sc.appearanceSection': '图标外观',
         'sc.textSection': '图标文字',
+        'sc.listSection': '快捷方式',
         'sc.iconSize': '图标大小',
         'sc.radius': '圆角',
         'sc.nameSize': '图标文字大小',
@@ -517,6 +523,7 @@ const I18N = (function () {
         'tab.data': 'Data & About',
 
         /* appearance */
+        'appearance.generalSection': 'General',
         'appearance.language': 'Language',
         'lang.auto': 'Auto',
         'lang.zh': '中文',
@@ -549,6 +556,8 @@ const I18N = (function () {
         'appearance.saturation': 'Saturation',
 
         /* clock */
+        'clock.timeSection': 'Time display',
+        'clock.dateSection': 'Date display',
         'clock.timeFormat': 'Time format',
         'clock.hours24': '24 hours',
         'clock.hours12': '12 hours',
@@ -609,6 +618,8 @@ const I18N = (function () {
         'wp.wallpaperColorAria': 'Wallpaper color',
 
         /* search settings */
+        'search.engineSection': 'Search engines',
+        'search.boxSection': 'Search box',
         'search.quickEngines': 'Quick-switch engines',
         'search.quickEnginesHint': 'Check the engines to show in the search box popup; the current engine has a checkmark',
         'search.quickSwitch': 'Engine quick-switch',
@@ -627,6 +638,7 @@ const I18N = (function () {
         /* icon settings */
         'sc.appearanceSection': 'Icon appearance',
         'sc.textSection': 'Icon labels',
+        'sc.listSection': 'Shortcuts',
         'sc.iconSize': 'Icon size',
         'sc.radius': 'Radius',
         'sc.nameSize': 'Label size',
