@@ -874,7 +874,7 @@
     appearance: none;
     height: 6px;
     border-radius: var(--radius-pill);
-    background: var(--bg-secondary);
+    background: var(--slider-track);
     outline: none;
     box-shadow: var(--shadow-inset);
 }

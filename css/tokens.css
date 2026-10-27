@@ -133,6 +133,8 @@
     --accent-color: #5b6ee1;
     /* 图标背景：高于全局玻璃底色，确保在浅色壁纸上可见 */
     --icon-bg: rgba(255, 255, 255, 0.85);
+    /* 滑块轨道 */
+    --slider-track: var(--bg-secondary);
 }
 
 /* 深色主题 */
@@ -155,5 +157,6 @@
     --divider-color: rgba(255, 255, 255, 0.1);
     --accent-color: #7c8aef;
     --icon-bg: rgba(28, 28, 40, 0.85);
+    --slider-track: rgba(255, 255, 255, 0.16);
 }
 
