@@ -599,7 +599,6 @@
    非条目的直接子元素（标签、列表、按钮组等）天然落在 20px 边缘 */
 .settings-group-card {
     padding: 20px;
-    margin: 0 -8px;
     background-color: var(--bg-secondary);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-sm);
@@ -634,7 +633,7 @@
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin-bottom: 16px;
-    padding-left: 12px;
+    padding-left: 20px;
 }
 
 .section-header-row {
