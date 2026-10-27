@@ -306,17 +306,12 @@
    ========================================= */
 .tab-nav {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 4px;
     padding: 16px 20px;
     border-bottom: 1px solid var(--divider-color);
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
     flex-shrink: 0;
-}
-
-.tab-nav::-webkit-scrollbar {
-    display: none;
 }
 
 .tab-btn {
