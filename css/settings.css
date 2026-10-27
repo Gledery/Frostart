@@ -593,9 +593,12 @@
     margin-bottom: 24px;
 }
 
-/* 分组卡片：section-title 留在卡片外，条目在卡内用分隔线划分 */
+/* 分组卡片：section-title 留在卡片外，条目在卡内用分隔线划分。
+   节奏模型：卡片 20px 内边距承担首尾呼吸空间；条目保留对称 20px 纵向 padding
+   以形成分隔线两侧的 40px 间距；首尾条目的对应 padding 归零，避免与卡片内边距双重叠加。
+   非条目的直接子元素（标签、列表、按钮组等）天然落在 20px 边缘 */
 .settings-group-card {
-    padding: 16px 20px;
+    padding: 20px;
     margin: 0 -8px;
     background-color: var(--bg-secondary);
     border-radius: var(--radius-md);
@@ -608,11 +611,16 @@
 }
 
 .settings-group-card .setting-item:first-child {
-    padding-top: 4px;
+    padding-top: 0;
 }
 
 .settings-group-card .setting-item:last-child {
-    padding-bottom: 4px;
+    padding-bottom: 0;
+}
+
+/* 壁纸区块是纯容器：去掉自带下边距，底部呼吸由卡片内边距承担 */
+.settings-group-card > .wallpaper-type-block {
+    margin-bottom: 0;
 }
 
 .settings-group-card .setting-item + .setting-item {
