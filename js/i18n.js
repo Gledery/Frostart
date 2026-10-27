@@ -48,7 +48,6 @@ const I18N = (function () {
         'tab.appearance': '外观',
         'tab.clock': '时钟',
         'tab.text': '文本',
-        'tab.wallpaper': '壁纸',
         'tab.search': '搜索',
         'tab.shortcuts': '图标',
         'tab.data': '数据与关于',
@@ -112,6 +111,7 @@ const I18N = (function () {
         'text.customFontHint': '选择预设或输入 Google 字体名。',
 
         /* 壁纸 */
+        'wp.sectionTitle': '壁纸',
         'wp.mode': '壁纸模式',
         'wp.gradient': '光斑壁纸',
         'wp.gradientColor1': '背景颜色 1',
@@ -512,7 +512,6 @@ const I18N = (function () {
         'tab.appearance': 'Appearance',
         'tab.clock': 'Clock',
         'tab.text': 'Text',
-        'tab.wallpaper': 'Wallpaper',
         'tab.search': 'Search',
         'tab.shortcuts': 'Icons',
         'tab.data': 'Data & About',
@@ -576,6 +575,7 @@ const I18N = (function () {
         'text.customFontHint': 'Pick a preset or enter a Google font name',
 
         /* wallpaper */
+        'wp.sectionTitle': 'Wallpaper',
         'wp.mode': 'Wallpaper mode',
         'wp.gradient': 'Blob wallpaper',
         'wp.gradientColor1': 'Background color 1',
