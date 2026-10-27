@@ -101,6 +101,7 @@
             <!-- 外观标签页 -->
             <div class="tab-panel active" data-panel="appearance">
                 <div class="settings-section">
+                    <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="appearance.language">语言</label>
                         <div class="simple-toggle">
@@ -172,10 +173,12 @@
                             </label>
                         </div>
                     </div>
+                    </div>
                 </div>
 
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="wp.sectionTitle">壁纸</h3>
+                    <div class="settings-group-card">
                     <span class="setting-label" data-i18n="wp.mode">壁纸模式</span>
                     <div class="wallpaper-mode-toggle">
                         <button class="option-btn" type="button" data-wp-mode="gradient" data-i18n="wp.gradient">光斑壁纸</button>
@@ -322,10 +325,12 @@
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
 
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="appearance.layout">布局</h3>
+                    <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="appearance.contentPosition">内容垂直位置</label>
                         <div class="slider-container">
@@ -333,10 +338,12 @@
                             <span class="slider-value" id="content-position-value">18%</span>
                         </div>
                     </div>
+                    </div>
                 </div>
 
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="appearance.glass">毛玻璃效果</h3>
+                    <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="appearance.blur">模糊度</label>
                         <div class="slider-container">
@@ -351,12 +358,14 @@
                             <span class="slider-value" id="saturation-value">150%</span>
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
 
             <!-- 时钟标签页 -->
             <div class="tab-panel" data-panel="clock">
                 <div class="settings-section">
+                    <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="clock.timeFormat">时间格式</label>
                         <div class="simple-toggle">
@@ -414,10 +423,12 @@
                             </label>
                         </div>
                     </div>
+                    </div>
                 </div>
 
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="clock.colorSection">颜色</h3>
+                    <div class="settings-group-card">
                     <div class="setting-item">
                         <div class="color-input-wrapper">
                             <input type="color" id="clock-color-picker" class="color-picker" value="#ffffff" data-i18n-aria="clock.clockColor" aria-label="时钟颜色">
@@ -432,6 +443,7 @@
                             <button class="color-reset-btn" id="date-color-reset" type="button" data-i18n="common.reset">重置</button>
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
 
@@ -439,6 +451,7 @@
             <div class="tab-panel" data-panel="text">
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="text.font">字体</h3>
+                    <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="text.fontPresets">字体预设</label>
                         <div class="font-presets">
@@ -465,6 +478,7 @@
                         <input type="text" id="custom-font" class="text-input" placeholder="Inter, Noto Sans SC...">
                         <div class="setting-hint" data-i18n="text.customFontHint">选择预设或输入 Google 字体名。</div>
                     </div>
+                    </div>
                 </div>
             </div>
 
@@ -472,6 +486,7 @@
             <!-- 搜索标签页 -->
             <div class="tab-panel" data-panel="search">
                 <div class="settings-section">
+                    <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="search.quickEngines">快捷切换引擎</label>
                         <div class="search-engine-grid" id="search-engine-grid"></div>
@@ -518,10 +533,12 @@
                         </div>
                         <div class="setting-hint" data-i18n="search.radiusHint">拖到最右为完全胶囊形</div>
                     </div>
+                    </div>
                 </div>
 
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="search.colorSection">颜色</h3>
+                    <div class="settings-group-card">
                     <div class="setting-item">
                         <div class="color-input-wrapper">
                             <input type="color" id="search-text-color-picker" class="color-picker" value="#1a1a2a" data-i18n-aria="search.textColor" aria-label="搜索文字颜色">
@@ -536,9 +553,11 @@
                             <button class="color-reset-btn" id="search-placeholder-color-reset" type="button" data-i18n="common.reset">重置</button>
                         </div>
                     </div>
+                    </div>
                 </div>
 
                 <div class="settings-section">
+                    <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="search.customEngines">自定义引擎</label>
                         <div class="custom-engines-list" id="custom-engines-list"></div>
@@ -547,6 +566,7 @@
                             <span data-i18n="search.addEngine">添加引擎</span>
                         </button>
                     </div>
+                    </div>
                 </div>
             </div>
 
@@ -554,6 +574,7 @@
             <div class="tab-panel" data-panel="shortcuts">
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="sc.appearanceSection">图标外观</h3>
+                    <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="sc.iconSize">图标大小</label>
                         <div class="slider-container">
@@ -603,10 +624,12 @@
                             </label>
                         </div>
                     </div>
+                    </div>
                 </div>
 
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="sc.textSection">图标文字</h3>
+                    <div class="settings-group-card">
                     <div class="setting-item">
                         <div class="color-input-wrapper">
                             <input type="color" id="shortcut-name-color-picker" class="color-picker" value="#ffffff" data-i18n-aria="sc.nameColor" aria-label="名称颜色">
@@ -622,9 +645,11 @@
                         </div>
                         <div class="setting-hint" data-i18n="sc.nameSizeHint">设为 0 则隐藏图标下方的名称</div>
                     </div>
+                    </div>
                 </div>
 
                 <div class="settings-section">
+                    <div class="settings-group-card">
                     <div class="shortcuts-list" id="shortcuts-list"></div>
                     <button class="add-shortcut-btn" id="add-shortcut-btn" type="button">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -633,6 +658,7 @@
                         </svg>
                         <span data-i18n="sc.add">添加快捷方式</span>
                     </button>
+                    </div>
                 </div>
             </div>
 
@@ -672,6 +698,7 @@
 
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="data.backup">备份与恢复</h3>
+                    <div class="settings-group-card">
                     <div class="data-actions">
                         <button class="data-btn" id="export-btn" type="button">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -698,10 +725,12 @@
                         </button>
                         <input type="file" id="import-file" accept=".json" style="display:none;">
                     </div>
+                    </div>
                 </div>
 
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="data.changelog">更新日志</h3>
+                    <div class="settings-group-card">
                     <div class="data-actions">
                         <a href="changelog.html" class="data-btn" style="text-decoration:none;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
@@ -721,6 +750,7 @@
                         </ol>
                         <div class="update-guide-note" data-i18n="data.updateNote">所有的配置都是保存在浏览器里的，更新不会丢失w</div>
                     </div>
+                    </div>
                 </div>
 
                 <!-- 存储空间用量 -->
@@ -735,6 +765,7 @@
                             </svg>
                         </button>
                     </div>
+                    <div class="settings-group-card">
                     <div class="storage-usage">
                         <div class="storage-row">
                             <div class="storage-row-head">
@@ -755,6 +786,7 @@
                             </div>
                         </div>
                         <div class="setting-hint" data-i18n-html="data.storageHint">一般来说插件配置本身是只会占几 K的；如果用的太多可能还上传了太多自定义图标或者太大的壁纸<br>（这个限制真的不是我规定的，是万恶的谷歌！！！（超大声 <br> setting.js里已经有了超限兜底，所以你一般不用担心</div>
+                    </div>
                     </div>
                 </div>
 

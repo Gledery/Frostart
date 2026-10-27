@@ -590,16 +590,43 @@
 }
 
 .settings-section {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
+}
+
+/* 分组卡片：section-title 留在卡片外，条目在卡内用分隔线划分 */
+.settings-group-card {
+    padding: 16px 20px;
+    margin: 0 -8px;
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+}
+
+.settings-group-card .setting-item {
+    margin-bottom: 0;
+    padding: 20px 0;
+}
+
+.settings-group-card .setting-item:first-child {
+    padding-top: 4px;
+}
+
+.settings-group-card .setting-item:last-child {
+    padding-bottom: 4px;
+}
+
+.settings-group-card .setting-item + .setting-item {
+    border-top: 1px solid var(--divider-color);
 }
 
 .section-title {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin-bottom: 16px;
+    padding-left: 12px;
 }
 
 .section-header-row {
