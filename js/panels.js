@@ -84,6 +84,7 @@ function renderGradientPresetPreviews() {
         if (!preset) return;
         const variant = preset[btn.dataset.variant] || preset.light;
         btn.style.background = buildGradientPresetPreview(variant);
+        btn.style.setProperty('--preset-edge', variant.b2);
     });
 }
 
