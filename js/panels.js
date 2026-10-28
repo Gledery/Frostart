@@ -96,10 +96,9 @@ function initWallpaperSettings() {
     // 渲染预设格预览（浅/深两行，渐变底 + 双光斑）
     renderGradientPresetPreviews();
 
-    // 模式分段选择器
-    document.querySelectorAll('.wallpaper-mode-toggle .option-btn').forEach(btn => {
-        btn.addEventListener('click', () => selectWallpaperType(btn.dataset.wpMode));
-    });
+    // 模式下拉
+    const modeSelect = document.getElementById('wallpaper-mode-select');
+    modeSelect?.addEventListener('selectchange', (e) => selectWallpaperType(e.detail.value));
     syncWallpaperModeUI(settings.wallpaperMode);
 
     // 上传本地图片
@@ -267,11 +266,10 @@ function initWallpaperSettings() {
     updateBingWallpaperInfo();
 }
 
-/* 同步分段选择器选中态与区块显隐 */
+/* 同步下拉选中态与区块显隐 */
 function syncWallpaperModeUI(mode) {
-    document.querySelectorAll('.wallpaper-mode-toggle .option-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.wpMode === mode);
-    });
+    const select = document.getElementById('wallpaper-mode-select');
+    if (select) FrostartSelect.setValue(select, mode, true);
     document.querySelectorAll('.wallpaper-type-block').forEach(block => {
         block.classList.toggle('active', block.dataset.type === mode);
         block.classList.remove('revealed');

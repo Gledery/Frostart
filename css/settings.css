@@ -1,6 +1,6 @@
 /* =========================================
    设置层：抽屉框架（遮罩 / 抽屉主体 / 设置搜索 / 标签导航 / 分区入场）
-         与通用控件（开关 / 二选一切换 / 危险按钮 / 字体预设 / 主题按钮组 / 滑块 / 文本输入 / 主题色选择器）
+         与通用控件（开关 / 二选一切换 / 下拉选择 / 危险按钮 / 字体预设 / 滑块 / 文本输入 / 主题色选择器）
    —— 依赖 tokens.css 的变量与 base.css 的 .glass-effect
    加载顺序：tokens → base → settings → panels → components
    ========================================= */
@@ -34,7 +34,7 @@
     top: 24px;
     right: 24px;
     bottom: 24px;
-    width: 600px;
+    width: 640px;
     max-width: calc(100vw - 48px);
     background-color: var(--bg-primary);
     backdrop-filter: saturate(var(--saturation-amount)) blur(var(--blur-amount));
@@ -502,12 +502,9 @@
     gap: 8px;
 }
 
-.simple-toggle .option-btn,
-.wallpaper-mode-toggle .option-btn {
-    flex: 1;
-    flex-direction: row;
-    justify-content: center;
-    padding: 10px 16px;
+/* 迷你变体（滑块行内的单位切换） */
+.option-btn.option-btn--mini {
+    padding: 6px 12px;
 }
 
 /* =========================================
@@ -671,11 +668,40 @@
 }
 
 .setting-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    column-gap: 16px;
+    align-items: center;
     margin-bottom: 20px;
 }
 
 .setting-item:last-child {
     margin-bottom: 0;
+}
+
+/* 行式布局中标签不再独占一行；堆叠项（--stack）恢复标签下间距 */
+.setting-item > .setting-label,
+.switch-row .setting-label,
+.color-input-wrapper .setting-label {
+    margin-bottom: 0;
+}
+
+.setting-item--stack {
+    display: block;
+}
+
+.setting-item--stack > .setting-label {
+    margin-bottom: 10px;
+}
+
+/* 说明文字与开关行横跨两列 */
+.setting-item > .setting-hint,
+.setting-item > .switch-row {
+    grid-column: 1 / -1;
+}
+
+.setting-item > .slider-container {
+    width: 280px;
 }
 
 .setting-label {
@@ -693,10 +719,8 @@
 }
 
 /* =========================================
-   主题切换按钮组
+   搜索引擎切换按钮组
    ========================================= */
-.theme-toggle,
-.wallpaper-mode-toggle,
 .search-engine-toggle {
     display: flex;
     gap: 8px;
@@ -844,12 +868,13 @@
 }
 
 .option-btn {
-    flex: 1;
+    flex: 0 0 auto;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
+    justify-content: center;
     gap: 6px;
-    padding: 12px 8px;
+    padding: 8px 14px;
     border-radius: var(--radius-sm);
     background-color: var(--bg-secondary);
     border: var(--border-glass);
@@ -886,6 +911,154 @@
 
 .option-btn.active svg {
     color: var(--text-primary);
+}
+
+/* =========================================
+   下拉选择（Select）
+   ========================================= */
+.select {
+    position: relative;
+    display: inline-flex;
+    min-width: 140px;
+}
+
+.select-trigger {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 14px;
+    font-size: 13px;
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+    border: var(--border-glass);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition:
+        background-color var(--time-normal) var(--easing-standard),
+        box-shadow var(--time-normal) var(--easing-standard),
+        transform var(--time-fast) var(--easing-elastic);
+}
+
+.select-trigger:hover {
+    background-color: var(--bg-hover);
+}
+
+.select-trigger:active {
+    transform: scale(0.9);
+}
+
+.select.open .select-trigger {
+    box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+.select-value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.select-arrow {
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    transform: rotate(45deg) translate(-1px, -1px);
+    transition:
+        transform var(--time-fast) var(--easing-standard),
+        border-color var(--time-fast) var(--easing-standard);
+}
+
+.select.open .select-arrow {
+    transform: rotate(-135deg) translate(-1px, -1px);
+    border-color: var(--accent-color);
+}
+
+.select-menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 6px;
+    max-height: 240px;
+    overflow-y: auto;
+    background-color: var(--bg-primary);
+    border: var(--border-glass);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.96) translateY(-8px);
+    filter: blur(2px);
+    /* Chromium 在 opacity/transform 动画期间会丢弃 backdrop-filter，
+       故收起态用恒等滤镜并与缩放同步插值，避免动画结束毛玻璃才突然出现 */
+    backdrop-filter: blur(0px) saturate(100%);
+    -webkit-backdrop-filter: blur(0px) saturate(100%);
+    transition:
+        opacity var(--time-normal) var(--easing-enter),
+        transform var(--time-normal) var(--easing-elastic),
+        filter var(--time-normal) var(--easing-enter),
+        backdrop-filter var(--time-normal) var(--easing-enter),
+        visibility var(--time-normal) var(--easing-enter);
+}
+
+.select--up .select-menu {
+    top: auto;
+    bottom: calc(100% + 8px);
+    transform: translateY(12px);
+    filter: blur(4px);
+}
+
+.select.open .select-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    filter: none;
+    backdrop-filter: saturate(var(--saturation-amount)) blur(var(--blur-amount));
+    -webkit-backdrop-filter: saturate(var(--saturation-amount)) blur(var(--blur-amount));
+}
+
+.select-option {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    font-size: 13px;
+    text-align: left;
+    color: var(--text-primary);
+    background-color: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition:
+        background-color var(--time-fast) var(--easing-standard),
+        transform var(--time-fast) var(--easing-elastic);
+}
+
+.select-option:hover {
+    background-color: var(--bg-hover);
+}
+
+.select-option:active {
+    transform: scale(0.98);
+}
+
+/* 选中项右侧打勾标识，文字颜色不变 */
+.select-option.active::after {
+    content: "";
+    flex-shrink: 0;
+    width: 5px;
+    height: 9px;
+    margin-left: auto;
+    border-right: 2px solid var(--accent-color);
+    border-bottom: 2px solid var(--accent-color);
+    transform: rotate(45deg) translate(-1px, -1px);
 }
 
 /* =========================================
@@ -940,6 +1113,7 @@
 .slider-value {
     min-width: 54px;
     font-size: 13px;
+    font-variant-numeric: tabular-nums;
     color: var(--text-secondary);
     text-align: right;
     cursor: text;

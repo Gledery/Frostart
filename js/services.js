@@ -245,24 +245,20 @@ function applyTheme(theme) {
     syncAccentPickerUI();
 }
 
-/* 绑定主题按钮事件（只应在初始化时调一次，避免重复绑定） */
+/* 绑定主题下拉事件（只应在初始化时调一次，避免重复绑定） */
 function bindThemeButtons() {
-    document.querySelectorAll('[data-theme-option]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('[data-theme-option]').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            SettingsManager.set('theme', btn.dataset.themeOption);
-            applyTheme(btn.dataset.themeOption);
-        });
+    const select = document.getElementById('theme-select');
+    if (!select) return;
+    select.addEventListener('selectchange', (e) => {
+        SettingsManager.set('theme', e.detail.value);
+        applyTheme(e.detail.value);
     });
 }
 
-/* 同步主题按钮选中态（可重复调，用于初始化 / 导入 / 重置后） */
+/* 同步主题下拉选中态（可重复调，用于初始化 / 导入 / 重置后） */
 function syncThemeUI() {
-    const theme = SettingsManager.get('theme');
-    document.querySelectorAll('[data-theme-option]').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.themeOption === theme);
-    });
+    const select = document.getElementById('theme-select');
+    if (select) FrostartSelect.setValue(select, SettingsManager.get('theme') || 'auto', true);
 }
 
 /* 自定义主题色：非空时覆盖 --accent-color，空值则移除覆盖回归主题默认 */
@@ -502,21 +498,17 @@ function initTime() {
 }
 
 function initTimeFormat() {
-    document.querySelectorAll('[data-time-format]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const fmt = parseInt(btn.dataset.timeFormat);
-            document.querySelectorAll('[data-time-format]').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            SettingsManager.set('timeFormat', fmt);
-            updateTime();
-        });
+    const select = document.getElementById('time-format-select');
+    if (!select) return;
+    select.addEventListener('selectchange', (e) => {
+        SettingsManager.set('timeFormat', parseInt(e.detail.value));
+        updateTime();
     });
 }
 
 function updateTimeFormatUI(format) {
-    document.querySelectorAll('[data-time-format]').forEach(btn => {
-        btn.classList.toggle('active', parseInt(btn.dataset.timeFormat) === format);
-    });
+    const select = document.getElementById('time-format-select');
+    if (select) FrostartSelect.setValue(select, format, true);
 }
 
 /* 农历日期 */

@@ -164,25 +164,20 @@ function initKaomojiToggle() {
 /* =========================================
    语言（界面国际化）
    ========================================= */
-/* 同步语言选项按钮选中态（初始化 / 导入 / 重置后通用） */
+/* 同步语言下拉选中态（初始化 / 导入 / 重置后通用） */
 function syncLanguageUI() {
     const lang = SettingsManager.get('lang') || 'auto';
-    document.querySelectorAll('[data-lang-option]').forEach(b => {
-        b.classList.toggle('active', b.dataset.langOption === lang);
-    });
+    const select = document.getElementById('language-select');
+    if (select) FrostartSelect.setValue(select, lang, true);
 }
 
 function initLanguage() {
     syncLanguageUI();
-    document.querySelectorAll('[data-lang-option]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const lang = btn.dataset.langOption;
-            SettingsManager.set('lang', lang);
-            document.querySelectorAll('[data-lang-option]').forEach(b => {
-                b.classList.toggle('active', b.dataset.langOption === lang);
-            });
-            applyLanguageChange();
-        });
+    const select = document.getElementById('language-select');
+    if (!select) return;
+    select.addEventListener('selectchange', (e) => {
+        SettingsManager.set('lang', e.detail.value);
+        applyLanguageChange();
     });
 }
 

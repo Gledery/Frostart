@@ -9,8 +9,8 @@
 /* =========================================
    设置搜索
    ========================================= */
-/* 搜索目标：普通设置项 + 壁纸模式分段按钮 */
-const SETTINGS_SEARCH_TARGETS = '.setting-item, .wallpaper-mode-toggle .option-btn';
+/* 搜索目标：普通设置项（下拉选项在 DOM 内，随所属条目一起被检索） */
+const SETTINGS_SEARCH_TARGETS = '.setting-item';
 const SETTINGS_SEARCH_LIMIT = 10;
 
 /* 重建设置搜索索引（语言切换后需要重建，让标题/hint/位置用新语言重新入索引） */

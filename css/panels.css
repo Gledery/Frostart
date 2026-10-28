@@ -63,10 +63,6 @@
     display: block;
 }
 
-.wallpaper-mode-toggle {
-    margin-bottom: 8px;
-}
-
 .gradient-presets {
     display: grid;
     gap: 10px;

@@ -105,43 +105,30 @@
                     <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="appearance.language">语言</label>
-                        <div class="simple-toggle">
-                            <button class="option-btn active" data-lang-option="auto" data-i18n="lang.auto">自动</button>
-                            <button class="option-btn" data-lang-option="zh" data-i18n="lang.zh">中文</button>
-                            <button class="option-btn" data-lang-option="en" data-i18n="lang.en">English</button>
+                        <div class="select" id="language-select">
+                            <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false">
+                                <span class="select-value" data-i18n="lang.auto">自动</span>
+                                <span class="select-arrow" aria-hidden="true"></span>
+                            </button>
+                            <div class="select-menu" role="listbox">
+                                <button type="button" class="select-option active" role="option" aria-selected="true" data-value="auto" data-i18n="lang.auto">自动</button>
+                                <button type="button" class="select-option" role="option" aria-selected="false" data-value="zh" data-i18n="lang.zh">中文</button>
+                                <button type="button" class="select-option" role="option" aria-selected="false" data-value="en" data-i18n="lang.en">English</button>
+                            </div>
                         </div>
                     </div>
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="appearance.themeMode">模式</label>
-                        <div class="theme-toggle">
-                            <button class="option-btn" data-theme-option="light" data-i18n-aria="appearance.lightAria" aria-label="浅色模式">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <circle cx="12" cy="12" r="5"></circle>
-                                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                                </svg>
-                                <span data-i18n="appearance.light">浅色</span>
+                        <div class="select" id="theme-select">
+                            <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false">
+                                <span class="select-value" data-i18n="appearance.autoAria">跟随系统</span>
+                                <span class="select-arrow" aria-hidden="true"></span>
                             </button>
-                            <button class="option-btn active" data-theme-option="auto" data-i18n-aria="appearance.autoAria" aria-label="跟随系统">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                                    <line x1="8" y1="21" x2="16" y2="21"></line>
-                                    <line x1="12" y1="17" x2="12" y2="21"></line>
-                                </svg>
-                                <span data-i18n="appearance.auto">自动</span>
-                            </button>
-                            <button class="option-btn" data-theme-option="dark" data-i18n-aria="appearance.darkAria" aria-label="深色模式">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                                </svg>
-                                <span data-i18n="appearance.dark">深色</span>
-                            </button>
+                            <div class="select-menu" role="listbox">
+                                <button type="button" class="select-option" role="option" aria-selected="false" data-value="light" data-i18n="appearance.lightAria">浅色模式</button>
+                                <button type="button" class="select-option active" role="option" aria-selected="true" data-value="auto" data-i18n="appearance.autoAria">跟随系统</button>
+                                <button type="button" class="select-option" role="option" aria-selected="false" data-value="dark" data-i18n="appearance.darkAria">深色模式</button>
+                            </div>
                         </div>
                     </div>
                     <div class="setting-item">
@@ -180,17 +167,25 @@
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="wp.sectionTitle">壁纸</h3>
                     <div class="settings-group-card">
-                    <span class="setting-label" data-i18n="wp.mode">壁纸模式</span>
-                    <div class="wallpaper-mode-toggle">
-                        <button class="option-btn" type="button" data-wp-mode="gradient" data-i18n="wp.gradient">光斑壁纸</button>
-                        <button class="option-btn" type="button" data-wp-mode="image" data-i18n="wp.image">图片壁纸</button>
-                        <button class="option-btn" type="button" data-wp-mode="bing" data-i18n="wp.bing">必应每日壁纸</button>
-                        <button class="option-btn" type="button" data-wp-mode="solid" data-i18n="wp.solid">纯色壁纸</button>
+                    <div class="setting-item">
+                        <label class="setting-label" data-i18n="wp.mode">壁纸模式</label>
+                        <div class="select" id="wallpaper-mode-select">
+                            <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false">
+                                <span class="select-value" data-i18n="wp.gradient">光斑壁纸</span>
+                                <span class="select-arrow" aria-hidden="true"></span>
+                            </button>
+                            <div class="select-menu" role="listbox">
+                                <button type="button" class="select-option active" role="option" aria-selected="true" data-value="gradient" data-i18n="wp.gradient">光斑壁纸</button>
+                                <button type="button" class="select-option" role="option" aria-selected="false" data-value="image" data-i18n="wp.image">图片壁纸</button>
+                                <button type="button" class="select-option" role="option" aria-selected="false" data-value="bing" data-i18n="wp.bing">必应每日壁纸</button>
+                                <button type="button" class="select-option" role="option" aria-selected="false" data-value="solid" data-i18n="wp.solid">纯色壁纸</button>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 光斑壁纸 -->
                     <div class="wallpaper-type-block" data-type="gradient">
-                        <div class="setting-item">
+                        <div class="setting-item setting-item--stack">
                             <label class="setting-label" data-i18n="wp.gradientPresets">配色预设</label>
                             <div class="gradient-presets">
                                 <span class="gradient-presets-label" data-i18n="wp.groupLight">浅色</span>
@@ -225,7 +220,7 @@
                         </div>
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="wp.blobColor">光斑颜色</label>
-                            <div class="color-input-wrapper" id="blob-colors-wrapper" style="gap:12px;align-items:center;margin-top:10px;">
+                            <div class="color-input-wrapper" id="blob-colors-wrapper">
                                 <input type="color" id="blob-color-1" class="color-picker" value="#5a93e2" data-i18n-aria="wp.blobColor1" aria-label="光斑颜色1">
                                 <input type="color" id="blob-color-2" class="color-picker" value="#5f96f2" data-i18n-aria="wp.blobColor2" aria-label="光斑颜色2">
                             </div>
@@ -252,7 +247,7 @@
                             <div class="setting-hint" data-i18n="wp.bingHint">每天自动通过官方接口获取 Bing 首页美图</div>
                         </div>
                         <div class="setting-item">
-                            <button class="data-btn" id="bing-refresh-btn" type="button" style="width:100%;" data-i18n="wp.refreshNow">
+                            <button class="data-btn" id="bing-refresh-btn" type="button" data-i18n="wp.refreshNow">
                                 立即刷新
                             </button>
                         </div>
@@ -277,7 +272,7 @@
 
                     <!-- 图片壁纸 -->
                     <div class="wallpaper-type-block" data-type="image">
-                        <div class="setting-item">
+                        <div class="setting-item setting-item--stack">
                             <div class="wallpaper-upload-area">
                                 <button class="upload-btn" id="wallpaper-upload-btn" type="button">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -370,12 +365,18 @@
                     <div class="settings-group-card">
                     <div class="setting-item">
                         <label class="setting-label" data-i18n="clock.timeFormat">时间格式</label>
-                        <div class="simple-toggle">
-                            <button class="option-btn active" data-time-format="24" data-i18n="clock.hours24">24 小时</button>
-                            <button class="option-btn" data-time-format="12" data-i18n="clock.hours12">12 小时</button>
+                        <div class="select" id="time-format-select">
+                            <button type="button" class="select-trigger" aria-haspopup="listbox" aria-expanded="false">
+                                <span class="select-value" data-i18n="clock.hours24">24 小时</span>
+                                <span class="select-arrow" aria-hidden="true"></span>
+                            </button>
+                            <div class="select-menu" role="listbox">
+                                <button type="button" class="select-option active" role="option" aria-selected="true" data-value="24" data-i18n="clock.hours24">24 小时</button>
+                                <button type="button" class="select-option" role="option" aria-selected="false" data-value="12" data-i18n="clock.hours12">12 小时</button>
+                            </div>
                         </div>
                     </div>
-                    <div class="setting-item">
+                    <div class="setting-item setting-item--stack">
                         <label class="setting-label" data-i18n="clock.font">时钟数字字体</label>
                         <div class="font-presets">
                             <button class="clock-font-preset-btn font-preset-btn active" data-clock-font="Outfit" style="font-family:Outfit,sans-serif;font-variant-numeric:tabular-nums;">08:24</button>
@@ -460,7 +461,7 @@
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="text.font">字体</h3>
                     <div class="settings-group-card">
-                    <div class="setting-item">
+                    <div class="setting-item setting-item--stack">
                         <label class="setting-label" data-i18n="text.fontPresets">字体预设</label>
                         <div class="font-presets">
                             <button class="font-preset-btn" data-font-preset="" data-i18n="common.default">默认</button>
@@ -496,10 +497,10 @@
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="search.engineSection">搜索引擎</h3>
                     <div class="settings-group-card">
-                    <div class="setting-item">
+                    <div class="setting-item setting-item--stack">
                         <label class="setting-label" data-i18n="search.quickEngines">快捷切换引擎</label>
                         <div class="search-engine-grid" id="search-engine-grid"></div>
-                        <div class="setting-hint" style="margin-top:8px;" data-i18n="search.quickEnginesHint">可以勾选要出现在搜索框抽屉里的引擎~当前使用的引擎右侧会显示对勾</div>
+                        <div class="setting-hint" data-i18n="search.quickEnginesHint">可以勾选要出现在搜索框抽屉里的引擎~当前使用的引擎右侧会显示对勾</div>
                     </div>
                     <div class="setting-item">
                         <div class="switch-row">
@@ -574,9 +575,9 @@
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="search.customEngines">自定义引擎</h3>
                     <div class="settings-group-card">
-                    <div class="setting-item">
+                    <div class="setting-item setting-item--stack">
                         <div class="custom-engines-list" id="custom-engines-list"></div>
-                        <button class="add-shortcut-btn" id="add-engine-btn" type="button" style="margin-top:8px;">
+                        <button class="add-shortcut-btn" id="add-engine-btn" type="button">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                             <span data-i18n="search.addEngine">添加引擎</span>
                         </button>
@@ -616,9 +617,9 @@
                         <div class="slider-container">
                             <input type="range" id="icon-max-width-slider" class="slider" min="200" max="1920" value="960">
                             <span class="slider-value" id="icon-max-width-value">960</span>
-                            <div class="simple-toggle" style="margin-left:8px;">
-                                <button class="option-btn active" data-width-unit="px" style="flex-direction:row;padding:6px 12px;font-size:12px;">px</button>
-                                <button class="option-btn" data-width-unit="%" style="flex-direction:row;padding:6px 12px;font-size:12px;">%</button>
+                            <div class="simple-toggle">
+                                <button class="option-btn option-btn--mini active" data-width-unit="px">px</button>
+                                <button class="option-btn option-btn--mini" data-width-unit="%">%</button>
                             </div>
                         </div>
                     </div>
@@ -1015,6 +1016,7 @@
     <script src="js/utils/color-utils.js"></script>
     <script src="js/utils/font-utils.js"></script>
 
+    <script src="js/select.js"></script>
     <script src="js/changelog.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/services.js"></script>
