@@ -167,31 +167,31 @@
     background-color: var(--bg-hover);
 }
 
-/* 搜索结果浮层：输入时出现在搜索框下方，胶囊轮廓 + 标准毛玻璃 */
+/* 搜索结果浮层：输入时出现在搜索框下方，胶囊轮廓 + 标准毛玻璃。
+   展开时由 JS 挂到 body 下并写入 fixed 坐标（同 Select 菜单，脱离抽屉玻璃层） */
 .settings-search-results {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    right: 0;
-    z-index: 20;
+    position: fixed;
+    z-index: 120;
     max-height: 60vh;
     overflow-y: auto;
     overscroll-behavior: contain;
     padding: 6px;
-    background-color: var(--bg-primary);
-    backdrop-filter: saturate(var(--saturation-amount)) blur(var(--blur-amount));
-    -webkit-backdrop-filter: saturate(var(--saturation-amount)) blur(var(--blur-amount));
-    border: var(--border-glass);
+    background-color: var(--surface-menu);
+    border: var(--border-popover);
     border-radius: calc(var(--settings-search-height) / 2);
     box-shadow: var(--shadow-xl);
-    /* 显隐过渡：收起时不可交互，展开从顶部轻微下落 */
+    /* 显隐过渡：收起时不可交互，展开从顶部轻微下落；
+       收起态恒等滤镜与 backdrop-filter 同步插值（同 Select 菜单） */
     opacity: 0;
     transform: translateY(-6px) scale(0.98);
     transform-origin: top center;
     visibility: hidden;
+    backdrop-filter: blur(0px) saturate(100%);
+    -webkit-backdrop-filter: blur(0px) saturate(100%);
     transition:
         opacity var(--time-normal) var(--easing-enter),
         transform var(--time-normal) var(--easing-enter),
+        backdrop-filter var(--time-normal) var(--easing-enter),
         visibility var(--time-normal);
 }
 
@@ -199,6 +199,8 @@
     opacity: 1;
     transform: translateY(0) scale(1);
     visibility: visible;
+    backdrop-filter: var(--glass-elevated-filter);
+    -webkit-backdrop-filter: var(--glass-elevated-filter);
 }
 
 .settings-search-result {
@@ -978,19 +980,17 @@
 }
 
 .select-menu {
-    position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    right: 0;
-    z-index: 50;
+    /* 打开时由 JS 挂到 body 下并写入 fixed 坐标，脱离抽屉的 backdrop-filter 层 */
+    position: fixed;
+    z-index: 120;
     display: flex;
     flex-direction: column;
     gap: 4px;
     padding: 6px;
     max-height: 240px;
     overflow-y: auto;
-    background-color: var(--bg-primary);
-    border: var(--border-glass);
+    background-color: var(--surface-menu);
+    border: var(--border-popover);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-lg);
     opacity: 0;
@@ -1009,20 +1009,18 @@
         visibility var(--time-normal) var(--easing-enter);
 }
 
-.select--up .select-menu {
-    top: auto;
-    bottom: calc(100% + 8px);
+.select-menu.select-menu--up {
     transform: translateY(12px);
     filter: blur(4px);
 }
 
-.select.open .select-menu {
+.select-menu.open {
     opacity: 1;
     visibility: visible;
     transform: none;
     filter: none;
-    backdrop-filter: saturate(var(--saturation-amount)) blur(var(--blur-amount));
-    -webkit-backdrop-filter: saturate(var(--saturation-amount)) blur(var(--blur-amount));
+    backdrop-filter: var(--glass-elevated-filter);
+    -webkit-backdrop-filter: var(--glass-elevated-filter);
 }
 
 .select-option {

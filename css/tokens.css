@@ -54,6 +54,9 @@
     /* 玻璃底色基础 alpha（模糊度只作用于背景） */
     --bg-base-alpha: 0.7;
     --saturation-amount: 150%;
+    /* 浮层玻璃滤镜：叠在抽屉玻璃上的菜单/浮层用强模糊 + 高饱和，
+       把被抽屉冲淡的背景重新提艳 */
+    --glass-elevated-filter: blur(20px) saturate(180%);
     --icon-size: 72px;
     --icon-max-width: 960px;
     --border-radius: 24px;
@@ -135,6 +138,9 @@
     --icon-bg: rgba(255, 255, 255, 0.85);
     /* 滑块轨道 */
     --slider-track: var(--bg-secondary);
+    /* 浮层表面：菜单 / 下拉等叠在玻璃抽屉上的元素*/
+    --surface-menu: rgba(255, 255, 255, 0.68);
+    --border-popover: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 /* 深色主题 */
@@ -158,5 +164,8 @@
     --accent-color: #7c8aef;
     --icon-bg: rgba(28, 28, 40, 0.85);
     --slider-track: rgba(255, 255, 255, 0.16);
+    /* 浮层表面：深色底掺 6% 白 + 68% 透明度，与浅色同源 */
+    --surface-menu: rgba(36, 36, 48, 0.68);
+    --border-popover: 1px solid rgba(255, 255, 255, 0.12);
 }
 

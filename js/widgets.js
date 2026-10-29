@@ -59,6 +59,19 @@ function initSettingsSearch() {
     let activeIndex = -1;
     let matches = [];
     let resultButtons = [];
+    let detachTimer = null;
+
+    /* 展开时把浮层挂到 body 下按 fixed 坐标定位，收起动画播完再归位 */
+    function attachResults() {
+        clearTimeout(detachTimer);
+        detachTimer = null;
+        if (results.parentElement === document.body) return;
+        const r = wrap.getBoundingClientRect();
+        results.style.left = `${r.left}px`;
+        results.style.top = `${r.bottom + 8}px`;
+        results.style.width = `${r.width}px`;
+        document.body.appendChild(results);
+    }
 
     function hideResults() {
         results.classList.remove('show');
@@ -66,6 +79,16 @@ function initSettingsSearch() {
         matches = [];
         resultButtons = [];
         input.removeAttribute('aria-activedescendant');
+        clearTimeout(detachTimer);
+        detachTimer = setTimeout(() => {
+            if (results.parentElement !== wrap) {
+                wrap.appendChild(results);
+                results.style.left = '';
+                results.style.top = '';
+                results.style.width = '';
+            }
+            detachTimer = null;
+        }, 320);
     }
 
     function clearSearch() {
@@ -167,6 +190,7 @@ function initSettingsSearch() {
             });
         }
         resultButtons = buttons;
+        attachResults();
         results.classList.add('show');
         activeIndex = -1;
     }
@@ -193,9 +217,9 @@ function initSettingsSearch() {
         }
     });
 
-    // 点击搜索框以外区域：收起结果
+    // 点击搜索框与结果浮层以外区域：收起结果（浮层展开时挂在 body 下，需单独判断）
     document.addEventListener('mousedown', (e) => {
-        if (!wrap.contains(e.target)) clearSearch();
+        if (!wrap.contains(e.target) && !results.contains(e.target)) clearSearch();
     });
 
     // "/" 快捷键聚焦搜索框（抽屉打开时）
