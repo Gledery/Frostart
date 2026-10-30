@@ -124,9 +124,10 @@ function initWallpaperSettings() {
         uploadInput.value = '';
     });
 
-    // URL 输入
+    // URL 输入：本地上传的 data URL 不回填输入框，输入框只用于在线直链
     const urlInput = document.getElementById('wallpaper-url');
-    urlInput.value = SettingsManager.get('wallpaperImage') || '';
+    const storedImage = SettingsManager.get('wallpaperImage') || '';
+    urlInput.value = /^data:/i.test(storedImage) ? '' : storedImage;
     urlInput.addEventListener('change', () => {
         const val = urlInput.value.trim();
         if (!val) {
@@ -135,7 +136,7 @@ function initWallpaperSettings() {
             updateWallpaperUI(SettingsManager.getAll());
             return;
         }
-        if (!/^https?:\/\//i.test(val) && !val.startsWith('data:')) {
+        if (!/^https?:\/\//i.test(val)) {
             showToast(I18N.t('toast.wrongUrl'), 'error');
             return;
         }
@@ -298,17 +299,22 @@ function updateWallpaperUI(settings) {
         if (settings.wallpaperImage) {
             preview.style.backgroundImage = `url("${settings.wallpaperImage}")`;
             preview.classList.remove('empty');
+            preview.removeAttribute('data-i18n');
             preview.textContent = '';
         } else {
             preview.style.backgroundImage = '';
             preview.classList.add('empty');
-            preview.textContent = I18N.t('wallpaper.noImageSet');
+            preview.setAttribute('data-i18n', 'wp.noImage');
+            preview.textContent = I18N.t('wp.noImage');
         }
     }
 
-    // URL 输入框
+    // URL 输入框：data URL（本地上传）不回填
     const urlInput = document.getElementById('wallpaper-url');
-    if (urlInput) urlInput.value = settings.wallpaperImage || '';
+    if (urlInput) {
+        const img = settings.wallpaperImage || '';
+        urlInput.value = /^data:/i.test(img) ? '' : img;
+    }
 
     // 颜色选择器
     const colorPicker = document.getElementById('wallpaper-color');
@@ -337,18 +343,27 @@ function updateWallpaperUI(settings) {
     updateBingWallpaperInfo();
 }
 
-/* 必应每日壁纸版权/标题信息展示 */
+/* 必应每日壁纸预览与版权/标题信息展示 */
 function updateBingWallpaperInfo() {
-    const wrap = document.getElementById('bing-info-wrap');
+    const preview = document.getElementById('bing-preview');
+    if (preview) {
+        const url = SettingsManager.get('bingWallpaperUrl');
+        preview.style.backgroundImage = url ? `url("${url}")` : '';
+        preview.classList.toggle('empty', !url);
+        if (url) {
+            preview.removeAttribute('data-i18n');
+            preview.textContent = '';
+        } else {
+            preview.setAttribute('data-i18n', 'wp.bingNoImage');
+            preview.textContent = I18N.t('wp.bingNoImage');
+        }
+    }
     const text = document.getElementById('bing-info-text');
-    if (!wrap || !text) return;
-    const s = SettingsManager.getAll();
-    const info = s.bingWallpaperCopyright || s.bingWallpaperTitle;
-    if (info) {
-        text.textContent = info;
-        wrap.style.display = '';
-    } else {
-        wrap.style.display = 'none';
+    if (text) {
+        const s = SettingsManager.getAll();
+        const info = s.bingWallpaperCopyright || s.bingWallpaperTitle;
+        text.textContent = info || '';
+        text.style.display = info ? '' : 'none';
     }
 }
 

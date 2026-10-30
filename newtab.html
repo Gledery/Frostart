@@ -242,16 +242,15 @@
 
                     <!-- 必应每日壁纸 -->
                     <div class="wallpaper-type-block" data-type="bing">
-                        <div class="setting-item">
+                        <div class="setting-item setting-item--stack">
+                            <div class="wallpaper-preview empty" id="bing-preview" data-i18n="wp.bingNoImage">还没有获取到今日壁纸</div>
                             <div class="setting-hint" data-i18n="wp.bingHint">每天自动通过官方接口获取 Bing 首页美图</div>
+                            <div class="setting-hint" id="bing-info-text" style="display:none;"></div>
                         </div>
                         <div class="setting-item">
                             <button class="data-btn" id="bing-refresh-btn" type="button" data-i18n="wp.refreshNow">
                                 立即刷新
                             </button>
-                        </div>
-                        <div class="setting-item" id="bing-info-wrap" style="display:none;">
-                            <div class="setting-hint" id="bing-info-text"></div>
                         </div>
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="wp.maskOpacity">遮罩不透明度</label>
@@ -272,6 +271,7 @@
                     <!-- 图片壁纸 -->
                     <div class="wallpaper-type-block" data-type="image">
                         <div class="setting-item setting-item--stack">
+                            <div class="wallpaper-preview empty" id="wallpaper-preview" data-i18n="wp.noImage">暂无图片</div>
                             <div class="wallpaper-upload-area">
                                 <button class="upload-btn" id="wallpaper-upload-btn" type="button">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -290,11 +290,13 @@
                                     <span data-i18n="common.clear">清除</span>
                                 </button>
                             </div>
+                            <div class="setting-hint" data-i18n="wp.imageUploadHint">选择本地图片作为背景壁纸，大图会自动压缩</div>
                         </div>
-                        <div class="setting-item">
+                        <div class="setting-item setting-item--stack">
+                            <label class="setting-label" data-i18n="wp.imageUrlLabel">图片网址</label>
                             <input type="url" id="wallpaper-url" class="text-input" data-i18n-ph="wp.imageUrlPlaceholder" placeholder="图片网址...">
+                            <div class="setting-hint" data-i18n="wp.imageUrlHint">你也可以使用网络图片的网址来设置背景图片</div>
                         </div>
-                        <div class="wallpaper-preview empty" id="wallpaper-preview" data-i18n="wp.noImage">暂无图片</div>
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="wp.maskOpacity">遮罩不透明度</label>
                             <div class="slider-container">
