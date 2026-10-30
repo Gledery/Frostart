@@ -119,16 +119,20 @@ function getBlobAlphas() {
 function applyWallpaper(settings) {
     document.body.dataset.wallpaper = settings.wallpaperMode;
 
-    // 图片层：image / bing 各一层，只要对应图源存在就写入各自图层（与当前模式无关）。
+    // 图片层：image / bing / url 各一层，只要对应图源存在就写入各自图层（与当前模式无关）。
     // 图层常驻渲染，浏览器会预加载背景图；切换模式时由 CSS opacity 规则交叉淡化，
     // 避免同一图层换 background-image 导致的硬切与跳变。图源被清除时才清空对应图层
     const imageLayer = document.querySelector('.wallpaper-image[data-wp="image"]');
     const bingLayer = document.querySelector('.wallpaper-image[data-wp="bing"]');
+    const urlLayer = document.querySelector('.wallpaper-image[data-wp="url"]');
     if (imageLayer) {
         imageLayer.style.backgroundImage = settings.wallpaperImage ? `url("${settings.wallpaperImage}")` : '';
     }
     if (bingLayer) {
         bingLayer.style.backgroundImage = settings.bingWallpaperUrl ? `url("${settings.bingWallpaperUrl}")` : '';
+    }
+    if (urlLayer) {
+        urlLayer.style.backgroundImage = settings.wallpaperUrl ? `url("${settings.wallpaperUrl}")` : '';
     }
 
     // 纯色壁纸（写入类型化变量 --wp-solid，便于平滑过渡）
@@ -181,7 +185,9 @@ function applyWallpaper(settings) {
         imageBlur,
         image: (settings.wallpaperMode === 'image' && settings.wallpaperImage)
             ? settings.wallpaperImage
-            : (settings.wallpaperMode === 'bing' && settings.bingWallpaperUrl ? settings.bingWallpaperUrl : '')
+            : (settings.wallpaperMode === 'bing' && settings.bingWallpaperUrl)
+                ? settings.bingWallpaperUrl
+                : (settings.wallpaperMode === 'url' && settings.wallpaperUrl ? settings.wallpaperUrl : '')
     });
 }
 

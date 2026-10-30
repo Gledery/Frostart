@@ -565,6 +565,7 @@ const FROSTART_DEFAULTS = {
     showLunar: false,
     wallpaperMode: 'gradient',
     wallpaperImage: '',
+    wallpaperUrl: '',
     wallpaperColor: '#e6eef7',
     wallpaperMask: 20,
     wallpaperBlur: 0,
@@ -815,8 +816,8 @@ function convertFrostartToItab(fs) {
             wallpaper: {
                 mask: (fs.wallpaperMask || 0) / 100,
                 blur: fs.wallpaperBlur || 0,
-                type: fs.wallpaperMode === 'image' ? 4 : (fs.wallpaperMode === 'solid' ? 1 : 0),
-                src: fs.wallpaperImage || ''
+                type: (fs.wallpaperMode === 'image' || fs.wallpaperMode === 'url') ? 4 : (fs.wallpaperMode === 'solid' ? 1 : 0),
+                src: (fs.wallpaperMode === 'url' ? fs.wallpaperUrl : fs.wallpaperImage) || ''
             },
             time: {
                 show: true,

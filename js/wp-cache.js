@@ -32,5 +32,9 @@
             const bingImg = document.querySelector('.wallpaper-image[data-wp="bing"]');
             if (bingImg) bingImg.style.backgroundImage = 'url("' + c.image + '")';
         }
+        if (c.mode === 'url' && c.image) {
+            const urlImg = document.querySelector('.wallpaper-image[data-wp="url"]');
+            if (urlImg) urlImg.style.backgroundImage = 'url("' + c.image + '")';
+        }
     } catch (e) { /* 放弃缓存，回退到默认值 */ }
 })();

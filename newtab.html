@@ -18,9 +18,10 @@
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
     </div>
-    <!-- 壁纸系统：图片层（image / bing 各一层，切换时由 opacity 交叉淡化） -->
+    <!-- 壁纸系统：图片层（image / bing / url 各一层，切换时由 opacity 交叉淡化） -->
     <div class="wallpaper-image" data-wp="image" aria-hidden="true"></div>
     <div class="wallpaper-image" data-wp="bing" aria-hidden="true"></div>
+    <div class="wallpaper-image" data-wp="url" aria-hidden="true"></div>
     <!-- 壁纸系统：遮罩层 -->
     <div class="wallpaper-mask" aria-hidden="true"></div>
 
@@ -177,6 +178,7 @@
                             <div class="select-menu" role="listbox">
                                 <button type="button" class="select-option active" role="option" aria-selected="true" data-value="gradient" data-i18n="wp.gradient">光斑壁纸</button>
                                 <button type="button" class="select-option" role="option" aria-selected="false" data-value="image" data-i18n="wp.image">图片壁纸</button>
+                                <button type="button" class="select-option" role="option" aria-selected="false" data-value="url" data-i18n="wp.url">网络链接</button>
                                 <button type="button" class="select-option" role="option" aria-selected="false" data-value="bing" data-i18n="wp.bing">必应每日壁纸</button>
                                 <button type="button" class="select-option" role="option" aria-selected="false" data-value="solid" data-i18n="wp.solid">纯色壁纸</button>
                             </div>
@@ -292,11 +294,6 @@
                             </div>
                             <div class="setting-hint" data-i18n="wp.imageUploadHint">选择本地图片作为背景壁纸，大图会自动压缩</div>
                         </div>
-                        <div class="setting-item setting-item--stack">
-                            <label class="setting-label" data-i18n="wp.imageUrlLabel">图片网址</label>
-                            <input type="url" id="wallpaper-url" class="text-input" data-i18n-ph="wp.imageUrlPlaceholder" placeholder="图片网址...">
-                            <div class="setting-hint" data-i18n="wp.imageUrlHint">你也可以使用网络图片的网址来设置背景图片</div>
-                        </div>
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="wp.maskOpacity">遮罩不透明度</label>
                             <div class="slider-container">
@@ -309,6 +306,30 @@
                             <div class="slider-container">
                                 <input type="range" id="wallpaper-blur-slider" class="slider" min="0" max="30" value="0">
                                 <span class="slider-value" id="wallpaper-blur-value">0px</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 网络链接壁纸 -->
+                    <div class="wallpaper-type-block" data-type="url">
+                        <div class="setting-item setting-item--stack">
+                            <div class="wallpaper-preview empty" id="url-preview" data-i18n="wp.urlNoImage">还没有设置网络图片</div>
+                            <label class="setting-label" data-i18n="wp.imageUrlLabel">图片网址</label>
+                            <input type="url" id="wallpaper-url" class="text-input" data-i18n-ph="wp.imageUrlPlaceholder" placeholder="图片网址...">
+                            <div class="setting-hint" data-i18n="wp.imageUrlHint">你也可以使用网络图片的网址来设置背景图片</div>
+                        </div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="wp.maskOpacity">遮罩不透明度</label>
+                            <div class="slider-container">
+                                <input type="range" id="url-mask-slider" class="slider" min="0" max="80" value="20">
+                                <span class="slider-value" id="url-mask-value">20%</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="wp.blur">模糊度</label>
+                            <div class="slider-container">
+                                <input type="range" id="url-blur-slider" class="slider" min="0" max="30" value="0">
+                                <span class="slider-value" id="url-blur-value">0px</span>
                             </div>
                         </div>
                     </div>

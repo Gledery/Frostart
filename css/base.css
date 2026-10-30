@@ -234,6 +234,10 @@ body[data-wallpaper="bing"] .wallpaper-layer { opacity: 0; }
 body[data-wallpaper="bing"] .wallpaper-image[data-wp="bing"] { opacity: 1; }
 body[data-wallpaper="bing"] .wallpaper-mask { opacity: var(--wallpaper-mask-opacity, 0.5); }
 
+body[data-wallpaper="url"] .wallpaper-layer { opacity: 0; }
+body[data-wallpaper="url"] .wallpaper-image[data-wp="url"] { opacity: 1; }
+body[data-wallpaper="url"] .wallpaper-mask { opacity: var(--wallpaper-mask-opacity, 0.5); }
+
 body[data-wallpaper="solid"] .wallpaper-layer { opacity: 0; }
 body[data-wallpaper="solid"] {
     background-image: none;

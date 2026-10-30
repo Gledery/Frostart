@@ -117,31 +117,26 @@ function initWallpaperSettings() {
         }
         compressImage(file, 1920, 0.85, (dataUrl) => {
             SettingsManager.set('wallpaperImage', dataUrl);
-            applyWallpaper(SettingsManager.getAll());
+            selectWallpaperType('image');
             updateWallpaperUI(SettingsManager.getAll());
             showToast(I18N.t('toast.wallpaperSet'));
         });
         uploadInput.value = '';
     });
 
-    // URL 输入：本地上传的 data URL 不回填输入框，输入框只用于在线直链
+    // 网络链接输入：独立存储键 wallpaperUrl，与本地上传互不影响
     const urlInput = document.getElementById('wallpaper-url');
-    const storedImage = SettingsManager.get('wallpaperImage') || '';
-    urlInput.value = /^data:/i.test(storedImage) ? '' : storedImage;
+    urlInput.value = SettingsManager.get('wallpaperUrl') || '';
     urlInput.addEventListener('change', () => {
         const val = urlInput.value.trim();
-        if (!val) {
-            SettingsManager.set('wallpaperImage', '');
-            applyWallpaper(SettingsManager.getAll());
-            updateWallpaperUI(SettingsManager.getAll());
-            return;
-        }
+        if (!val) return;
         if (!/^https?:\/\//i.test(val)) {
             showToast(I18N.t('toast.wrongUrl'), 'error');
+            urlInput.value = SettingsManager.get('wallpaperUrl') || '';
             return;
         }
-        SettingsManager.set('wallpaperImage', val);
-        applyWallpaper(SettingsManager.getAll());
+        SettingsManager.set('wallpaperUrl', val);
+        selectWallpaperType('url');
         updateWallpaperUI(SettingsManager.getAll());
     });
 
@@ -171,7 +166,6 @@ function initWallpaperSettings() {
     document.getElementById('wallpaper-clear-ok').addEventListener('click', () => {
         clearOverlay.classList.remove('open');
         SettingsManager.set('wallpaperImage', '');
-        document.getElementById('wallpaper-url').value = '';
         applyWallpaper(SettingsManager.getAll());
         updateWallpaperUI(SettingsManager.getAll());
     });
@@ -320,12 +314,25 @@ function updateWallpaperUI(settings) {
         }
     }
 
-    // URL 输入框：data URL（本地上传）不回填
-    const urlInput = document.getElementById('wallpaper-url');
-    if (urlInput) {
-        const img = settings.wallpaperImage || '';
-        urlInput.value = /^data:/i.test(img) ? '' : img;
+    // 网络链接预览
+    const urlPreview = document.getElementById('url-preview');
+    if (urlPreview) {
+        if (settings.wallpaperUrl) {
+            urlPreview.style.backgroundImage = `url("${settings.wallpaperUrl}")`;
+            urlPreview.classList.remove('empty');
+            urlPreview.removeAttribute('data-i18n');
+            urlPreview.textContent = '';
+        } else {
+            urlPreview.style.backgroundImage = '';
+            urlPreview.classList.add('empty');
+            urlPreview.setAttribute('data-i18n', 'wp.urlNoImage');
+            urlPreview.textContent = I18N.t('wp.urlNoImage');
+        }
     }
+
+    // 网络链接输入框
+    const urlInput = document.getElementById('wallpaper-url');
+    if (urlInput) urlInput.value = settings.wallpaperUrl || '';
 
     // 颜色选择器
     const colorPicker = document.getElementById('wallpaper-color');
@@ -338,7 +345,7 @@ function updateWallpaperUI(settings) {
     // 渐变/光斑取色器与角度滑块
     syncGradientPresetUI(settings);
 
-    // 必应模式遮罩/模糊滑块同步（与图片模式共享同一设置项，导入/重置后需回填）
+    // 图片/必应/网络链接模式遮罩/模糊滑块同步（共享同一设置项，导入/重置后需回填）
     const bingMask = document.getElementById('bing-mask-slider');
     if (bingMask) {
         bingMask.value = settings.wallpaperMask;
@@ -350,6 +357,18 @@ function updateWallpaperUI(settings) {
         bingBlur.value = settings.wallpaperBlur;
         const bingBlurValue = document.getElementById('bing-blur-value');
         if (bingBlurValue) bingBlurValue.textContent = `${settings.wallpaperBlur}px`;
+    }
+    const urlMask = document.getElementById('url-mask-slider');
+    if (urlMask) {
+        urlMask.value = settings.wallpaperMask;
+        const urlMaskValue = document.getElementById('url-mask-value');
+        if (urlMaskValue) urlMaskValue.textContent = `${settings.wallpaperMask}%`;
+    }
+    const urlBlur = document.getElementById('url-blur-slider');
+    if (urlBlur) {
+        urlBlur.value = settings.wallpaperBlur;
+        const urlBlurValue = document.getElementById('url-blur-value');
+        if (urlBlurValue) urlBlurValue.textContent = `${settings.wallpaperBlur}px`;
     }
     updateBingWallpaperInfo();
 }

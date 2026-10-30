@@ -46,6 +46,7 @@ const SettingsManager = {
         showLunar: false,
         wallpaperMode: 'gradient',
         wallpaperImage: '',
+        wallpaperUrl: '',
         wallpaperColor: '#e6eef7',
         wallpaperMask: 20,
         wallpaperBlur: 0,
