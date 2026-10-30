@@ -637,13 +637,9 @@ body.hide-shortcut-names .shortcut-item {
 }
 
 /* =========================================
-   重置确认弹窗
+   确认弹窗说明文字
    ========================================= */
-.reset-modal-title {
-    text-align: center;
-}
-
-.reset-modal-text {
+.modal-text {
     font-size: 13px;
     line-height: 1.6;
     color: var(--text-secondary);

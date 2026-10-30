@@ -63,6 +63,10 @@ function initSettingsDrawer() {
             if (resetOverlay && resetOverlay.classList.contains('open')) {
                 resetOverlay.classList.remove('open');
             }
+            const clearOverlay = document.getElementById('wallpaper-clear-overlay');
+            if (clearOverlay && clearOverlay.classList.contains('open')) {
+                clearOverlay.classList.remove('open');
+            }
         }
     });
 }

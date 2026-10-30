@@ -998,11 +998,23 @@
     <!-- 重置确认弹窗 -->
     <div class="modal-overlay" id="reset-confirm-overlay" role="dialog" data-i18n-aria="reset.aria" aria-label="确认恢复默认设置" aria-modal="true">
         <div class="modal glass-effect" style="max-width:400px;">
-            <h3 class="modal-title reset-modal-title" data-i18n="reset.title">恢复默认设置？</h3>
-            <p class="reset-modal-text" data-i18n="reset.text">所有自定义设置都会被清空，没法撤销哦。</p>
+            <h3 class="modal-title" data-i18n="reset.title">恢复默认设置？</h3>
+            <p class="modal-text" data-i18n="reset.text">所有自定义设置都会被清空，没法撤销哦。</p>
             <div class="modal-actions">
                 <button class="modal-btn cancel-btn" id="reset-confirm-cancel" type="button" data-i18n="common.cancel">取消</button>
                 <button class="modal-btn confirm-btn" id="reset-confirm-ok" type="button" data-i18n="common.confirm">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 清除壁纸图片确认弹窗 -->
+    <div class="modal-overlay" id="wallpaper-clear-overlay" role="dialog" data-i18n-aria="wp.clearAria" aria-label="确认清除壁纸图片" aria-modal="true">
+        <div class="modal glass-effect" style="max-width:400px;">
+            <h3 class="modal-title" data-i18n="wp.clearTitle">清除壁纸图片？</h3>
+            <p class="modal-text" data-i18n="wp.clearText">当前设置的背景图片会被移除，随时可以重新上传或填写网址</p>
+            <div class="modal-actions">
+                <button class="modal-btn cancel-btn" id="wallpaper-clear-cancel" type="button" data-i18n="common.cancel">取消</button>
+                <button class="modal-btn confirm-btn" id="wallpaper-clear-ok" type="button" data-i18n="common.confirm">确定</button>
             </div>
         </div>
     </div>

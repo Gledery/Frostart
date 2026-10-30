@@ -157,8 +157,19 @@ function initWallpaperSettings() {
         setWallpaperTransition(true);
     });
 
-    // 清除图片
+    // 清除图片：弹窗二次确认
+    const clearOverlay = document.getElementById('wallpaper-clear-overlay');
     document.getElementById('wallpaper-clear-btn').addEventListener('click', () => {
+        clearOverlay.classList.add('open');
+    });
+    document.getElementById('wallpaper-clear-cancel').addEventListener('click', () => {
+        clearOverlay.classList.remove('open');
+    });
+    clearOverlay.addEventListener('click', (e) => {
+        if (e.target === clearOverlay) clearOverlay.classList.remove('open');
+    });
+    document.getElementById('wallpaper-clear-ok').addEventListener('click', () => {
+        clearOverlay.classList.remove('open');
         SettingsManager.set('wallpaperImage', '');
         document.getElementById('wallpaper-url').value = '';
         applyWallpaper(SettingsManager.getAll());
