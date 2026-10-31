@@ -24,10 +24,6 @@ function initSliders() {
         { id: 'icon-max-width-slider', key: 'iconMaxWidth', unit: 'px', cssVar: '--icon-max-width', customHandler: handleIconMaxWidthChange },
         { id: 'wallpaper-mask-slider', key: 'wallpaperMask', unit: '%', cssVar: '--wallpaper-mask-opacity', transform: v => v / 100 },
         { id: 'wallpaper-blur-slider', key: 'wallpaperBlur', unit: 'px', cssVar: '--wallpaper-image-blur' },
-        { id: 'bing-mask-slider', key: 'wallpaperMask', unit: '%', cssVar: '--wallpaper-mask-opacity', transform: v => v / 100 },
-        { id: 'bing-blur-slider', key: 'wallpaperBlur', unit: 'px', cssVar: '--wallpaper-image-blur' },
-        { id: 'url-mask-slider', key: 'wallpaperMask', unit: '%', cssVar: '--wallpaper-mask-opacity', transform: v => v / 100 },
-        { id: 'url-blur-slider', key: 'wallpaperBlur', unit: 'px', cssVar: '--wallpaper-image-blur' },
         { id: 'icon-bg-slider', key: 'iconBgOpacity', unit: '%', customHandler: handleIconBgChange }
     ];
 
@@ -248,10 +244,6 @@ function updateSliderValues() {
         { id: 'icon-max-width-slider', valueId: 'icon-max-width-value', key: 'iconMaxWidth', unit: '', special: 'maxwidth' },
         { id: 'wallpaper-mask-slider', valueId: 'wallpaper-mask-value', key: 'wallpaperMask', unit: '%' },
         { id: 'wallpaper-blur-slider', valueId: 'wallpaper-blur-value', key: 'wallpaperBlur', unit: 'px' },
-        { id: 'bing-mask-slider', valueId: 'bing-mask-value', key: 'wallpaperMask', unit: '%' },
-        { id: 'bing-blur-slider', valueId: 'bing-blur-value', key: 'wallpaperBlur', unit: 'px' },
-        { id: 'url-mask-slider', valueId: 'url-mask-value', key: 'wallpaperMask', unit: '%' },
-        { id: 'url-blur-slider', valueId: 'url-blur-value', key: 'wallpaperBlur', unit: 'px' },
         { id: 'icon-bg-slider', valueId: 'icon-bg-value', key: 'iconBgOpacity', unit: '%', special: 'iconOpacity' }
     ];
 

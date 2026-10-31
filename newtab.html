@@ -254,20 +254,6 @@
                                 立即刷新
                             </button>
                         </div>
-                        <div class="setting-item">
-                            <label class="setting-label" data-i18n="wp.maskOpacity">遮罩不透明度</label>
-                            <div class="slider-container">
-                                <input type="range" id="bing-mask-slider" class="slider" min="0" max="80" value="20">
-                                <span class="slider-value" id="bing-mask-value">20%</span>
-                            </div>
-                        </div>
-                        <div class="setting-item">
-                            <label class="setting-label" data-i18n="wp.blur">模糊度</label>
-                            <div class="slider-container">
-                                <input type="range" id="bing-blur-slider" class="slider" min="0" max="30" value="0">
-                                <span class="slider-value" id="bing-blur-value">0px</span>
-                            </div>
-                        </div>
                     </div>
 
                     <!-- 图片壁纸 -->
@@ -294,6 +280,34 @@
                             </div>
                             <div class="setting-hint" data-i18n="wp.imageUploadHint">选择本地图片作为背景壁纸，大图会自动压缩</div>
                         </div>
+                    </div>
+
+                    <!-- 网络链接壁纸 -->
+                    <div class="wallpaper-type-block" data-type="url">
+                        <div class="setting-item setting-item--stack">
+                            <div class="wallpaper-preview empty" id="url-preview" data-i18n="wp.urlNoImage">还没有设置网络图片</div>
+                            <label class="setting-label" data-i18n="wp.imageUrlLabel">图片网址</label>
+                            <div class="input-with-btn">
+                                <input type="url" id="wallpaper-url" class="text-input" data-i18n-ph="wp.imageUrlPlaceholder" placeholder="图片网址...">
+                                <button class="data-btn accent-btn" id="wallpaper-url-apply-btn" type="button" data-i18n-aria="wp.applyUrl" data-i18n-title="wp.applyUrl" aria-label="更新" title="更新">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <polyline points="23 4 23 10 20 10"></polyline>
+                                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                                    </svg>
+                                </button>
+                                <button class="data-btn danger-btn" id="wallpaper-url-clear-btn" type="button" data-i18n-aria="common.clear" data-i18n-title="common.clear" aria-label="清除" title="清除">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="setting-hint" data-i18n="wp.imageUrlHint">你也可以使用网络图片的网址来设置背景图片</div>
+                        </div>
+                    </div>
+
+                    <!-- 壁纸效果：图片 / 网络链接 / 必应三种图源模式共用 -->
+                    <div class="wallpaper-type-block" data-type="effects">
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="wp.maskOpacity">遮罩不透明度</label>
                             <div class="slider-container">
@@ -306,30 +320,6 @@
                             <div class="slider-container">
                                 <input type="range" id="wallpaper-blur-slider" class="slider" min="0" max="30" value="0">
                                 <span class="slider-value" id="wallpaper-blur-value">0px</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 网络链接壁纸 -->
-                    <div class="wallpaper-type-block" data-type="url">
-                        <div class="setting-item setting-item--stack">
-                            <div class="wallpaper-preview empty" id="url-preview" data-i18n="wp.urlNoImage">还没有设置网络图片</div>
-                            <label class="setting-label" data-i18n="wp.imageUrlLabel">图片网址</label>
-                            <input type="url" id="wallpaper-url" class="text-input" data-i18n-ph="wp.imageUrlPlaceholder" placeholder="图片网址...">
-                            <div class="setting-hint" data-i18n="wp.imageUrlHint">你也可以使用网络图片的网址来设置背景图片</div>
-                        </div>
-                        <div class="setting-item">
-                            <label class="setting-label" data-i18n="wp.maskOpacity">遮罩不透明度</label>
-                            <div class="slider-container">
-                                <input type="range" id="url-mask-slider" class="slider" min="0" max="80" value="20">
-                                <span class="slider-value" id="url-mask-value">20%</span>
-                            </div>
-                        </div>
-                        <div class="setting-item">
-                            <label class="setting-label" data-i18n="wp.blur">模糊度</label>
-                            <div class="slider-container">
-                                <input type="range" id="url-blur-slider" class="slider" min="0" max="30" value="0">
-                                <span class="slider-value" id="url-blur-value">0px</span>
                             </div>
                         </div>
                     </div>

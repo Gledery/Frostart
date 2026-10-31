@@ -118,26 +118,31 @@ function initWallpaperSettings() {
         compressImage(file, 1920, 0.85, (dataUrl) => {
             SettingsManager.set('wallpaperImage', dataUrl);
             selectWallpaperType('image');
-            updateWallpaperUI(SettingsManager.getAll());
             showToast(I18N.t('toast.wallpaperSet'));
         });
         uploadInput.value = '';
     });
 
-    // 网络链接输入：独立存储键 wallpaperUrl，与本地上传互不影响
+    // 网络链接输入：草稿态，点更新按钮或按 Enter 才提交，与本地上传互不影响
     const urlInput = document.getElementById('wallpaper-url');
     urlInput.value = SettingsManager.get('wallpaperUrl') || '';
-    urlInput.addEventListener('change', () => {
+    const applyWallpaperUrl = () => {
         const val = urlInput.value.trim();
         if (!val) return;
         if (!/^https?:\/\//i.test(val)) {
             showToast(I18N.t('toast.wrongUrl'), 'error');
-            urlInput.value = SettingsManager.get('wallpaperUrl') || '';
             return;
         }
         SettingsManager.set('wallpaperUrl', val);
         selectWallpaperType('url');
-        updateWallpaperUI(SettingsManager.getAll());
+        showToast(I18N.t('toast.wallpaperSet'));
+    };
+    document.getElementById('wallpaper-url-apply-btn').addEventListener('click', applyWallpaperUrl);
+    urlInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            applyWallpaperUrl();
+        }
     });
 
     // 纯色选择器
@@ -152,11 +157,15 @@ function initWallpaperSettings() {
         setWallpaperTransition(true);
     });
 
-    // 清除图片：弹窗二次确认
+    // 清除图源（本地图片 / 网络链接）：弹窗二次确认，按目标键清除
     const clearOverlay = document.getElementById('wallpaper-clear-overlay');
-    document.getElementById('wallpaper-clear-btn').addEventListener('click', () => {
+    let wallpaperClearTarget = 'image';
+    const openWallpaperClear = (target) => {
+        wallpaperClearTarget = target;
         clearOverlay.classList.add('open');
-    });
+    };
+    document.getElementById('wallpaper-clear-btn').addEventListener('click', () => openWallpaperClear('image'));
+    document.getElementById('wallpaper-url-clear-btn').addEventListener('click', () => openWallpaperClear('url'));
     document.getElementById('wallpaper-clear-cancel').addEventListener('click', () => {
         clearOverlay.classList.remove('open');
     });
@@ -165,7 +174,7 @@ function initWallpaperSettings() {
     });
     document.getElementById('wallpaper-clear-ok').addEventListener('click', () => {
         clearOverlay.classList.remove('open');
-        SettingsManager.set('wallpaperImage', '');
+        SettingsManager.set(wallpaperClearTarget === 'url' ? 'wallpaperUrl' : 'wallpaperImage', '');
         applyWallpaper(SettingsManager.getAll());
         updateWallpaperUI(SettingsManager.getAll());
     });
@@ -273,12 +282,14 @@ function initWallpaperSettings() {
     updateBingWallpaperInfo();
 }
 
-/* 同步下拉选中态与区块显隐 */
+/* 同步下拉选中态与区块显隐；effects 区块服务图片/网络链接/必应三种图源模式 */
 function syncWallpaperModeUI(mode) {
     const select = document.getElementById('wallpaper-mode-select');
     if (select) FrostartSelect.setValue(select, mode, true);
+    const imageLike = mode === 'image' || mode === 'url' || mode === 'bing';
     document.querySelectorAll('.wallpaper-type-block').forEach(block => {
-        block.classList.toggle('active', block.dataset.type === mode);
+        const type = block.dataset.type;
+        block.classList.toggle('active', type === 'effects' ? imageLike : type === mode);
         block.classList.remove('revealed');
     });
 }
@@ -292,43 +303,31 @@ function selectWallpaperType(type) {
         refreshBingWallpaper();
     }
 
-    syncWallpaperModeUI(type);
+    updateWallpaperUI(SettingsManager.getAll());
+}
+
+/* 壁纸预览框通用回填：有图源显示缩略图，无图源回到空态文案 */
+function setWallpaperPreview(el, src, emptyKey) {
+    if (!el) return;
+    if (src) {
+        el.style.backgroundImage = `url("${src}")`;
+        el.classList.remove('empty');
+        el.removeAttribute('data-i18n');
+        el.textContent = '';
+    } else {
+        el.style.backgroundImage = '';
+        el.classList.add('empty');
+        el.setAttribute('data-i18n', emptyKey);
+        el.textContent = I18N.t(emptyKey);
+    }
 }
 
 function updateWallpaperUI(settings) {
     syncWallpaperModeUI(settings.wallpaperMode);
 
     // 预览
-    const preview = document.getElementById('wallpaper-preview');
-    if (preview) {
-        if (settings.wallpaperImage) {
-            preview.style.backgroundImage = `url("${settings.wallpaperImage}")`;
-            preview.classList.remove('empty');
-            preview.removeAttribute('data-i18n');
-            preview.textContent = '';
-        } else {
-            preview.style.backgroundImage = '';
-            preview.classList.add('empty');
-            preview.setAttribute('data-i18n', 'wp.noImage');
-            preview.textContent = I18N.t('wp.noImage');
-        }
-    }
-
-    // 网络链接预览
-    const urlPreview = document.getElementById('url-preview');
-    if (urlPreview) {
-        if (settings.wallpaperUrl) {
-            urlPreview.style.backgroundImage = `url("${settings.wallpaperUrl}")`;
-            urlPreview.classList.remove('empty');
-            urlPreview.removeAttribute('data-i18n');
-            urlPreview.textContent = '';
-        } else {
-            urlPreview.style.backgroundImage = '';
-            urlPreview.classList.add('empty');
-            urlPreview.setAttribute('data-i18n', 'wp.urlNoImage');
-            urlPreview.textContent = I18N.t('wp.urlNoImage');
-        }
-    }
+    setWallpaperPreview(document.getElementById('wallpaper-preview'), settings.wallpaperImage, 'wp.noImage');
+    setWallpaperPreview(document.getElementById('url-preview'), settings.wallpaperUrl, 'wp.urlNoImage');
 
     // 网络链接输入框
     const urlInput = document.getElementById('wallpaper-url');
@@ -345,49 +344,12 @@ function updateWallpaperUI(settings) {
     // 渐变/光斑取色器与角度滑块
     syncGradientPresetUI(settings);
 
-    // 图片/必应/网络链接模式遮罩/模糊滑块同步（共享同一设置项，导入/重置后需回填）
-    const bingMask = document.getElementById('bing-mask-slider');
-    if (bingMask) {
-        bingMask.value = settings.wallpaperMask;
-        const bingMaskValue = document.getElementById('bing-mask-value');
-        if (bingMaskValue) bingMaskValue.textContent = `${settings.wallpaperMask}%`;
-    }
-    const bingBlur = document.getElementById('bing-blur-slider');
-    if (bingBlur) {
-        bingBlur.value = settings.wallpaperBlur;
-        const bingBlurValue = document.getElementById('bing-blur-value');
-        if (bingBlurValue) bingBlurValue.textContent = `${settings.wallpaperBlur}px`;
-    }
-    const urlMask = document.getElementById('url-mask-slider');
-    if (urlMask) {
-        urlMask.value = settings.wallpaperMask;
-        const urlMaskValue = document.getElementById('url-mask-value');
-        if (urlMaskValue) urlMaskValue.textContent = `${settings.wallpaperMask}%`;
-    }
-    const urlBlur = document.getElementById('url-blur-slider');
-    if (urlBlur) {
-        urlBlur.value = settings.wallpaperBlur;
-        const urlBlurValue = document.getElementById('url-blur-value');
-        if (urlBlurValue) urlBlurValue.textContent = `${settings.wallpaperBlur}px`;
-    }
     updateBingWallpaperInfo();
 }
 
 /* 必应每日壁纸预览与版权/标题信息展示 */
 function updateBingWallpaperInfo() {
-    const preview = document.getElementById('bing-preview');
-    if (preview) {
-        const url = SettingsManager.get('bingWallpaperUrl');
-        preview.style.backgroundImage = url ? `url("${url}")` : '';
-        preview.classList.toggle('empty', !url);
-        if (url) {
-            preview.removeAttribute('data-i18n');
-            preview.textContent = '';
-        } else {
-            preview.setAttribute('data-i18n', 'wp.bingNoImage');
-            preview.textContent = I18N.t('wp.bingNoImage');
-        }
-    }
+    setWallpaperPreview(document.getElementById('bing-preview'), SettingsManager.get('bingWallpaperUrl'), 'wp.bingNoImage');
     const text = document.getElementById('bing-info-text');
     if (text) {
         const s = SettingsManager.getAll();

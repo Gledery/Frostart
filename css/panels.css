@@ -62,6 +62,25 @@
     display: block;
 }
 
+/* 输入框与右侧按钮成行 */
+.input-with-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-with-btn .text-input {
+    flex: 1;
+    min-width: 0;
+}
+
+.input-with-btn .data-btn {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+}
+
 .gradient-presets {
     display: grid;
     gap: 10px;
