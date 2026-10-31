@@ -383,15 +383,6 @@ function initSearchEngine() {
             showToast(isPinned ? I18N.t('toast.removedQuick') : I18N.t('toast.addedQuick'));
         });
     }
-
-    // 快捷切换开关
-    const quickSwitch = document.getElementById('engine-quick-switch');
-    if (quickSwitch) {
-        quickSwitch.checked = SettingsManager.get('engineQuickSwitch');
-        quickSwitch.addEventListener('change', () => {
-            SettingsManager.set('engineQuickSwitch', quickSwitch.checked);
-        });
-    }
 }
 
 function renderSearchEngineGrid() {

@@ -65,8 +65,6 @@ const SettingsManager = {
         searchEngine: 'google',
         // 已加入搜索框快捷切换的引擎 key 列表（仅这些会出现在 engine-popup 里）
         pinnedEngines: ['google', 'bing', 'baidu', 'duckduckgo'],
-        // 是否启用搜索框左侧引擎图标的快捷切换
-        engineQuickSwitch: true,
         customEngines: [],
         searchInNewTab: false,
         openInNewTab: true,
@@ -146,10 +144,11 @@ const SettingsManager = {
     },
 
     _migrateSettings(settings) {
-        // 已下线的设置项：全局文本色、图标单独模糊度、渐变预设模式标签，清理存量/导入数据中的死键
+        // 已下线的设置项：全局文本色、图标单独模糊度、渐变预设模式标签、引擎快捷切换开关，清理存量/导入数据中的死键
         delete settings.globalTextColor;
         delete settings.iconBlur;
         delete settings.gradientPreset;
+        delete settings.engineQuickSwitch;
         // 光斑改为显式调色盘值：旧数据中的空值（派生态）按当时的壁纸底色烘焙一次；
         // 工具函数不可用（如 converter 单文件环境）时回退默认烘焙值
         if (!settings.blobColor1 || !settings.blobColor2) {

@@ -317,9 +317,6 @@ function updateSwitchUI(settings) {
 
     const openNewTab = document.getElementById('open-new-tab');
     if (openNewTab) openNewTab.checked = settings.openInNewTab !== false;
-
-    const engineQuickSwitch = document.getElementById('engine-quick-switch');
-    if (engineQuickSwitch) engineQuickSwitch.checked = settings.engineQuickSwitch !== false;
 }
 
 /* =========================================

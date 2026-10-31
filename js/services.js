@@ -660,8 +660,6 @@ function initEnginePopup() {
 
     indicator.addEventListener('click', (e) => {
         e.stopPropagation();
-        // 关闭快捷切换功能时不弹出列表
-        if (!SettingsManager.get('engineQuickSwitch')) return;
         renderEnginePopup();
         popup.classList.toggle('show');
     });
