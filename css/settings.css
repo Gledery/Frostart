@@ -630,8 +630,9 @@
     padding-top: 0;
 }
 
+/* 只有卡片的真末项去底部留白 */
 .settings-group-card > .setting-item:last-child,
-.settings-group-card > .wallpaper-type-block > .setting-item:last-child {
+.settings-group-card > .wallpaper-type-block:last-child > .setting-item:last-child {
     padding-bottom: 0;
 }
 
