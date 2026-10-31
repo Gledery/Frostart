@@ -557,6 +557,13 @@
     gap: 8px;
 }
 
+/* 时钟字体预设：等宽网格，按钮整齐且更大，数字看得清 */
+.font-presets--grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 12px;
+}
+
 .font-preset-btn {
     padding: 10px 16px;
     border-radius: var(--radius-sm);
@@ -590,11 +597,10 @@
 
 /* 时钟字体预设：演示数字更醒目，便于看出字形设计 */
 .clock-font-preset-btn {
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 600;
-    padding: 10px 14px;
+    padding: 12px 8px;
     letter-spacing: -0.5px;
-    min-width: 56px;
     text-align: center;
 }
 
