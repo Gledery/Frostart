@@ -164,7 +164,7 @@ const I18N = (function () {
         'search.width': '搜索框宽度',
         'search.height': '搜索框高度',
         'search.radius': '搜索框圆角',
-        'search.radiusHint': '拖到最右为完全胶囊形',
+        'search.radiusHint': '拖到最右则使用胶囊外观',
         'search.colorSection': '颜色',
         'search.textColor': '搜索文字颜色',
         'search.placeholderColor': '搜索占位符颜色',
