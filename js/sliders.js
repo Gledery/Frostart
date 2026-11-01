@@ -52,19 +52,15 @@ function initSliders() {
 /* =========================================
    滑块数值点击直接输入
    每个 slider-value 点击后变成输入框，回车/失焦时写入。
-   支持特殊词：跟随/默认/-1、隐藏/0、胶囊/9999。
+   支持特殊词：隐藏/0、胶囊/9999。
    ========================================= */
 /* 特殊词 → 数值映射。中英双语都接受：
    用户可能在中文界面保存了中文词，切到英文后又输入英文词，
    历史数据也可能是中文，所以解析不能只认当前语言。
    匹配时统一小写（中文不受影响） */
 const EDITABLE_WORD_MAP = {
-    '跟随': -1,      // follow
-    '默认': -1,      // default
     '隐藏': 0,       // hidden
     '胶囊': 9999,    // pill
-    'follow': -1,
-    'default': -1,
     'hidden': 0,
     'pill': 9999
 };
@@ -82,8 +78,6 @@ function getSliderMeta(sliderId) {
 function clampSliderValue(sliderId, value) {
     const meta = getSliderMeta(sliderId);
     if (!meta) return value;
-    // 允许 -1（跟随/默认）这种特殊值原样通过
-    if (value === -1) return value;
     return Math.min(meta.max, Math.max(meta.min, value));
 }
 
@@ -179,17 +173,17 @@ function startEditingValue(display, slider) {
     display.addEventListener('keydown', onKey);
 }
 
-/* 图标背景透明度：-1 = 默认（高不透明度，确保图标可见）；0–100 = 背景色 alpha */
+/* 图标背景透明度：0–100 = 背景色 alpha */
 function applyIconBgOpacity(value) {
     const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
     const baseRgb = theme === 'dark' ? '28, 28, 40' : '255, 255, 255';
-    const alpha = (value === -1 || value == null) ? 0.85 : (value / 100);
+    const alpha = value / 100;
     document.documentElement.style.setProperty('--icon-bg', `rgba(${baseRgb}, ${alpha})`);
 }
 
 function handleIconBgChange(value, display, unit) {
     if (display) {
-        display.textContent = value === -1 ? I18N.t('word.default') : `${value}${unit}`;
+        display.textContent = `${value}${unit}`;
     }
     SettingsManager.set('iconBgOpacity', value);
     applyIconBgOpacity(value);
@@ -244,7 +238,7 @@ function updateSliderValues() {
         { id: 'icon-max-width-slider', valueId: 'icon-max-width-value', key: 'iconMaxWidth', unit: '', special: 'maxwidth' },
         { id: 'wallpaper-mask-slider', valueId: 'wallpaper-mask-value', key: 'wallpaperMask', unit: '%' },
         { id: 'wallpaper-blur-slider', valueId: 'wallpaper-blur-value', key: 'wallpaperBlur', unit: 'px' },
-        { id: 'icon-bg-slider', valueId: 'icon-bg-value', key: 'iconBgOpacity', unit: '%', special: 'iconOpacity' }
+        { id: 'icon-bg-slider', valueId: 'icon-bg-value', key: 'iconBgOpacity', unit: '%' }
     ];
 
     map.forEach(({ id, valueId, key, unit, special }) => {
@@ -261,9 +255,7 @@ function updateSliderValues() {
         }
 
         if (display && settings[key] !== undefined) {
-            if (special === 'iconOpacity') {
-                display.textContent = settings[key] === -1 ? I18N.t('word.default') : `${settings[key]}${unit}`;
-            } else if (special === 'maxwidth') {
+            if (special === 'maxwidth') {
                 const u = settings.iconMaxWidthUnit || 'px';
                 display.textContent = `${settings[key]}${u}`;
             } else if (special === 'nameSize') {

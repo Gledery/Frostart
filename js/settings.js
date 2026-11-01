@@ -23,7 +23,7 @@ const SettingsManager = {
         saturation: 150,
         iconSize: 72,
         borderRadius: 24,
-        iconBgOpacity: -1,
+        iconBgOpacity: 85,
         shortcutGap: 24,
         shortcutNameSize: 13,
         searchHeight: 58,
@@ -149,6 +149,8 @@ const SettingsManager = {
         delete settings.iconBlur;
         delete settings.gradientPreset;
         delete settings.engineQuickSwitch;
+        // 图标背景透明度已取消最左"默认"档：存量 -1 转为原默认外观（85%）
+        if (settings.iconBgOpacity === -1) settings.iconBgOpacity = 85;
         // 光斑改为显式调色盘值：旧数据中的空值（派生态）按当时的壁纸底色烘焙一次；
         // 工具函数不可用（如 converter 单文件环境）时回退默认烘焙值
         if (!settings.blobColor1 || !settings.blobColor2) {

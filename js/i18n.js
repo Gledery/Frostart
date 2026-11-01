@@ -27,7 +27,6 @@ const I18N = (function () {
         'common.edit': '编辑',
         'common.clear': '清除',
         'common.upload': '上传',
-        'word.default': '默认',
         'word.hidden': '隐藏',
         'word.pill': '胶囊',
 
@@ -181,7 +180,6 @@ const I18N = (function () {
         'sc.nameSizeHint': '设为 0 则隐藏图标下方的名称',
         'sc.nameColor': '名称颜色',
         'sc.bgOpacity': '图标背景透明度',
-        'sc.bgOpacityHint': '设为"默认"则使用高不透明度，保证图标可见',
         'sc.gap': '图标间距',
         'sc.maxWidth': '图标区域宽度',
         'sc.openInNewTab': '在新标签页打开',
@@ -504,7 +502,6 @@ const I18N = (function () {
         'common.edit': 'Edit',
         'common.clear': 'Clear',
         'common.upload': 'Upload',
-        'word.default': 'Default',
         'word.hidden': 'Hidden',
         'word.pill': 'Pill',
 
@@ -657,7 +654,6 @@ const I18N = (function () {
         'sc.nameSizeHint': 'Set to 0 to hide labels under icons',
         'sc.nameColor': 'Label color',
         'sc.bgOpacity': 'Icon background opacity',
-        'sc.bgOpacityHint': '"Default" uses high opacity to keep icons visible',
         'sc.gap': 'Icon gap',
         'sc.maxWidth': 'Icon area width',
         'sc.openInNewTab': 'Open in new tab',

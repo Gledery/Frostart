@@ -544,7 +544,7 @@ const FROSTART_DEFAULTS = {
     saturation: 150,
     iconSize: 72,
     borderRadius: 24,
-    iconBgOpacity: -1,
+    iconBgOpacity: 85,
     shortcutGap: 24,
     shortcutNameSize: 13,
     customFont: '',
@@ -832,7 +832,7 @@ function convertFrostartToItab(fs) {
                 iconRadius: fs.borderRadius || 24,
                 nameSize: fs.shortcutNameSize || 13,
                 nameColor: fs.shortcutNameColor || '#fff',
-                opactiy: fs.iconBgOpacity >= 0 ? fs.iconBgOpacity / 100 : 1
+                opactiy: fs.iconBgOpacity >= 0 ? fs.iconBgOpacity / 100 : 0.85
             },
             open: {
                 searchBlank: fs.searchInNewTab || false,

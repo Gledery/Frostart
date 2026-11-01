@@ -115,7 +115,7 @@ function applySettings() {
     // 同步宽度单位切换按钮 + 滑块范围（导入/重置后单位可能变化）
     syncWidthUnitUI(settings.iconMaxWidthUnit);
 
-    // 图标背景透明度自定义（-1 = 默认高不透明度，确保可见）
+    // 图标背景透明度
     applyIconBgOpacity(settings.iconBgOpacity);
 
     applyWallpaper(settings);
