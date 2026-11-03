@@ -606,13 +606,7 @@ button.about-link-btn {
 /* =========================================
    数据管理
    ========================================= */
-.data-actions {
-    display: flex;
-    gap: 8px;
-}
-
 .data-btn {
-    flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -628,6 +622,12 @@ button.about-link-btn {
         transform var(--time-fast) ease,
         background-color var(--time-fast) ease,
         box-shadow var(--time-fast) ease;
+}
+
+/* 行内右置的操作按钮：比整块按钮紧凑 */
+.setting-item > .data-btn {
+    padding: 8px 14px;
+    white-space: nowrap;
 }
 
 .data-btn svg {
@@ -689,23 +689,15 @@ button.about-link-btn {
 /* =========================================
    存储空间用量
    ========================================= */
-.storage-usage {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-}
-
-.storage-row {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-}
-
 .storage-row-head {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: var(--space-sm);
+}
+
+.storage-row-head + .storage-bar {
+    margin-top: var(--space-xs);
 }
 
 .storage-label {
@@ -811,13 +803,6 @@ button.about-link-btn {
     margin-top: 8px;
 }
 
-.update-guide-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 8px;
-}
-
 .update-guide-steps {
     margin: 0;
     padding-left: 20px;
@@ -845,14 +830,47 @@ button.about-link-btn {
     color: var(--text-muted);
 }
 
-/* 窄屏：数据按钮换行，避免过度挤压 */
-@media (max-width: 420px) {
-    .data-actions {
-        flex-wrap: wrap;
-    }
-    .data-actions .data-btn {
-        flex: 1 1 calc(50% - 4px);
-    }
+/* 卡片末尾的折叠指南：与条目同节奏，summary 右置箭头 */
+.setting-details {
+    border-top: 1px solid var(--divider-color);
+    padding-top: 20px;
+}
+
+.setting-details > summary {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: var(--text-primary);
+    cursor: pointer;
+    list-style: none;
+    transition: color var(--time-fast) var(--easing-standard);
+}
+
+.setting-details > summary::-webkit-details-marker {
+    display: none;
+}
+
+.setting-details > summary::after {
+    content: '';
+    margin-left: auto;
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    transform: rotate(45deg);
+    transition: transform var(--time-normal) var(--easing-elastic);
+}
+
+.setting-details[open] > summary::after {
+    transform: rotate(225deg);
+}
+
+.setting-details > summary:hover {
+    color: var(--accent-color);
+}
+
+.setting-details .update-guide-steps {
+    margin-top: 10px;
 }
 
 /* =========================================

@@ -717,57 +717,47 @@
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="data.backup">备份与恢复</h3>
                     <div class="settings-group-card">
-                    <div class="data-actions">
-                        <button class="data-btn" id="export-btn" type="button">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="7 10 12 15 17 10"></polyline>
-                                <line x1="12" y1="15" x2="12" y2="3"></line>
-                            </svg>
-                            <span data-i18n="data.export">导出配置</span>
-                        </button>
-                        <button class="data-btn" id="import-btn" type="button">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                <polyline points="17 8 12 3 7 8"></polyline>
-                                <line x1="12" y1="3" x2="12" y2="15"></line>
-                            </svg>
-                            <span data-i18n="data.import">导入配置</span>
-                        </button>
-                        <button class="data-btn danger-btn" id="reset-btn" type="button">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                <polyline points="1 4 1 10 7 10"></polyline>
-                                <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
-                            </svg>
-                            <span data-i18n="data.resetDefault">恢复默认</span>
-                        </button>
-                        <input type="file" id="import-file" accept=".json" style="display:none;">
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="data.export">导出配置</label>
+                            <button class="data-btn" id="export-btn" type="button" data-i18n="common.export">导出</button>
+                            <div class="setting-hint" data-i18n="data.exportHint">下载 JSON 文件，用于备份或换机迁移</div>
+                        </div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="data.import">导入配置</label>
+                            <button class="data-btn" id="import-btn" type="button" data-i18n="common.import">导入</button>
+                            <div class="setting-hint" data-i18n="data.importHint">从之前导出的 JSON 文件恢复设置</div>
+                        </div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="data.resetDefault">恢复默认</label>
+                            <button class="data-btn danger-btn" id="reset-btn" type="button" data-i18n="common.reset">重置</button>
+                            <div class="setting-hint" data-i18n="data.resetHint">清空所有自定义设置，操作前会再确认一次</div>
+                        </div>
                     </div>
-                    </div>
+                    <input type="file" id="import-file" accept=".json" style="display:none;">
                 </div>
 
                 <div class="settings-section">
                     <h3 class="section-title" data-i18n="data.changelog">更新日志</h3>
                     <div class="settings-group-card">
-                    <div class="data-actions">
-                        <a href="changelog.html" class="data-btn" style="text-decoration:none;">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
-                            <span data-i18n="data.viewChangelog">查看更新日志</span>
-                        </a>
-                        <button class="data-btn" id="check-update-btn" type="button">
-                            <svg class="check-update-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-                            <span id="check-update-label" data-i18n="data.checkUpdate">检查更新</span>
-                        </button>
-                    </div>
-                    <div class="update-guide">
-                        <div class="update-guide-title" data-i18n="data.updateGuideTitle">更新方法（没办法鸢没钱买服务器QAQ</div>
-                        <ol class="update-guide-steps">
-                            <li data-i18n="data.updateStep1">发现新版本后，点击按钮跳转 GitHub</li>
-                            <li data-i18n="data.updateStep2">下载最新版项目文件并解压</li>
-                            <li data-i18n="data.updateStep3">在开启开发者模式的浏览器扩展管理中点击加载解压缩的扩展， 选择这个文件夹即可</li>
-                        </ol>
-                        <div class="update-guide-note" data-i18n="data.updateNote">所有的配置都是保存在浏览器里的，更新不会丢失w</div>
-                    </div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="data.changelog">更新日志</label>
+                            <a href="changelog.html" class="data-btn" style="text-decoration:none;" data-i18n="common.view">查看</a>
+                            <div class="setting-hint" data-i18n="data.changelogHint">看看每个版本都改了什么</div>
+                        </div>
+                        <div class="setting-item">
+                            <label class="setting-label" data-i18n="data.checkUpdate">检查更新</label>
+                            <button class="data-btn" id="check-update-btn" type="button"><span id="check-update-label" data-i18n="common.check">检查</span></button>
+                            <div class="setting-hint" data-i18n="data.updateHint">发现新版本时按钮会出现红点，点击可跳转下载</div>
+                        </div>
+                        <details class="setting-details">
+                            <summary data-i18n="data.updateGuideTitle">更新方法（没办法鸢没钱买服务器QAQ</summary>
+                            <ol class="update-guide-steps">
+                                <li data-i18n="data.updateStep1">发现新版本后，点击按钮跳转 GitHub</li>
+                                <li data-i18n="data.updateStep2">下载最新版项目文件并解压</li>
+                                <li data-i18n="data.updateStep3">在开启开发者模式的浏览器扩展管理中点击加载解压缩的扩展， 选择这个文件夹即可</li>
+                            </ol>
+                            <div class="update-guide-note" data-i18n="data.updateNote">所有的配置都是保存在浏览器里的，更新不会丢失w</div>
+                        </details>
                     </div>
                 </div>
 
@@ -784,8 +774,7 @@
                         </button>
                     </div>
                     <div class="settings-group-card">
-                    <div class="storage-usage">
-                        <div class="storage-row">
+                        <div class="setting-item setting-item--stack">
                             <div class="storage-row-head">
                                 <span class="storage-label" data-i18n="data.extStorage">插件存储<span class="storage-quota-name">chrome.storage.local</span></span>
                                 <span class="storage-value" id="storage-cs-value">— / 10 MB</span>
@@ -794,7 +783,7 @@
                                 <div class="storage-bar-fill" id="storage-cs-fill"></div>
                             </div>
                         </div>
-                        <div class="storage-row">
+                        <div class="setting-item setting-item--stack">
                             <div class="storage-row-head">
                                 <span class="storage-label" data-i18n="data.firstScreenCache">首屏缓存<span class="storage-quota-name">localStorage</span></span>
                                 <span class="storage-value" id="storage-ls-value">— / 10 MB</span>
@@ -802,9 +791,8 @@
                             <div class="storage-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-i18n-aria="data.firstScreenCacheAria" aria-label="首屏缓存用量">
                                 <div class="storage-bar-fill" id="storage-ls-fill"></div>
                             </div>
+                            <div class="setting-hint" data-i18n-html="data.storageHint">一般来说插件配置本身是只会占几 K的；如果用的太多可能还上传了太多自定义图标或者太大的壁纸<br>（这个限制真的不是我规定的，是万恶的谷歌！！！（超大声 <br> setting.js里已经有了超限兜底，所以你一般不用担心</div>
                         </div>
-                        <div class="setting-hint" data-i18n-html="data.storageHint">一般来说插件配置本身是只会占几 K的；如果用的太多可能还上传了太多自定义图标或者太大的壁纸<br>（这个限制真的不是我规定的，是万恶的谷歌！！！（超大声 <br> setting.js里已经有了超限兜底，所以你一般不用担心</div>
-                    </div>
                     </div>
                 </div>
 
