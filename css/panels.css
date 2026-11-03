@@ -626,7 +626,9 @@ button.about-link-btn {
 
 /* 行内右置的操作按钮：比整块按钮紧凑 */
 .setting-item > .data-btn {
-    padding: 8px 14px;
+    padding: 10px 18px;
+    gap: 8px;
+    font-size: 14px;
     white-space: nowrap;
 }
 

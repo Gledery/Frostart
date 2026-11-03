@@ -719,17 +719,37 @@
                     <div class="settings-group-card">
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="data.export">导出配置</label>
-                            <button class="data-btn" id="export-btn" type="button" data-i18n="common.export">导出</button>
+                            <button class="data-btn" id="export-btn" type="button">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                <span data-i18n="data.export">导出配置</span>
+                            </button>
                             <div class="setting-hint" data-i18n="data.exportHint">下载 JSON 文件，用于备份或换机迁移</div>
                         </div>
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="data.import">导入配置</label>
-                            <button class="data-btn" id="import-btn" type="button" data-i18n="common.import">导入</button>
+                            <button class="data-btn" id="import-btn" type="button">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="17 8 12 3 7 8"></polyline>
+                                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                                </svg>
+                                <span data-i18n="data.import">导入配置</span>
+                            </button>
                             <div class="setting-hint" data-i18n="data.importHint">从之前导出的 JSON 文件恢复设置</div>
                         </div>
                         <div class="setting-item">
-                            <label class="setting-label" data-i18n="data.resetDefault">恢复默认</label>
-                            <button class="data-btn danger-btn" id="reset-btn" type="button" data-i18n="common.reset">重置</button>
+                            <label class="setting-label" data-i18n="data.resetDefault">重置配置</label>
+                            <button class="data-btn danger-btn" id="reset-btn" type="button">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                                    <polyline points="1 4 1 10 7 10"></polyline>
+                                    <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+                                </svg>
+                                <span data-i18n="data.resetDefault">重置配置</span>
+                            </button>
                             <div class="setting-hint" data-i18n="data.resetHint">清空所有自定义设置，操作前会再确认一次</div>
                         </div>
                     </div>
@@ -741,12 +761,18 @@
                     <div class="settings-group-card">
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="data.changelog">更新日志</label>
-                            <a href="changelog.html" class="data-btn" style="text-decoration:none;" data-i18n="common.view">查看</a>
+                            <a href="changelog.html" class="data-btn" style="text-decoration:none;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
+                                <span data-i18n="data.changelog">更新日志</span>
+                            </a>
                             <div class="setting-hint" data-i18n="data.changelogHint">看看每个版本都改了什么</div>
                         </div>
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="data.checkUpdate">检查更新</label>
-                            <button class="data-btn" id="check-update-btn" type="button"><span id="check-update-label" data-i18n="common.check">检查</span></button>
+                            <button class="data-btn" id="check-update-btn" type="button">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+                                <span id="check-update-label" data-i18n="data.checkUpdate">检查更新</span>
+                            </button>
                             <div class="setting-hint" data-i18n="data.updateHint">发现新版本时按钮会出现红点，点击可跳转下载</div>
                         </div>
                         <details class="setting-details">
