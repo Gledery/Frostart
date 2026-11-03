@@ -615,7 +615,7 @@ button.about-link-btn {
     border-radius: var(--radius-sm);
     background-color: var(--bg-secondary);
     color: var(--text-secondary);
-    font-size: 14px;
+    font-size: 13.5px;
     white-space: nowrap;
     border: var(--border-glass);
     box-shadow: var(--shadow-sm);
@@ -626,8 +626,8 @@ button.about-link-btn {
 }
 
 .action-btn svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
 }
 
 .action-btn:hover {

@@ -952,7 +952,7 @@
     justify-content: space-between;
     gap: 10px;
     padding: 8px 14px;
-    font-size: 13px;
+    font-size: 13.5px;
     color: var(--text-primary);
     background-color: var(--bg-secondary);
     border: var(--border-glass);
@@ -1048,7 +1048,7 @@
     display: flex;
     align-items: center;
     padding: 8px 12px;
-    font-size: 13px;
+    font-size: 13.5px;
     text-align: left;
     color: var(--text-primary);
     background-color: transparent;
