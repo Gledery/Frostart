@@ -144,7 +144,7 @@
     flex-wrap: wrap;
 }
 
-/* 按钮基础样式（转换工具的 .btn-primary / .btn-import-now 不依赖主站 .data-btn） */
+/* 按钮基础样式（转换工具的 .btn-primary / .btn-import-now 不依赖主站 .action-btn） */
 .converter-actions button {
     display: inline-flex;
     align-items: center;

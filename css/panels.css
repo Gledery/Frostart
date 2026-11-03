@@ -74,7 +74,7 @@
     min-width: 0;
 }
 
-.input-with-btn .data-btn {
+.input-with-btn .action-btn {
     flex: 0 0 auto;
     width: 44px;
     height: 44px;
@@ -604,18 +604,19 @@ button.about-link-btn {
 }
 
 /* =========================================
-   数据管理
+   通用操作按钮 action-btn
    ========================================= */
-.data-btn {
+.action-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    padding: 12px 10px;
+    gap: 8px;
+    padding: 10px 18px;
     border-radius: var(--radius-sm);
     background-color: var(--bg-secondary);
     color: var(--text-secondary);
-    font-size: 13.5px;
+    font-size: 14px;
+    white-space: nowrap;
     border: var(--border-glass);
     box-shadow: var(--shadow-sm);
     transition:
@@ -624,32 +625,24 @@ button.about-link-btn {
         box-shadow var(--time-fast) ease;
 }
 
-/* 行内右置的操作按钮：比整块按钮紧凑 */
-.setting-item > .data-btn {
-    padding: 10px 18px;
-    gap: 8px;
-    font-size: 14px;
-    white-space: nowrap;
-}
-
-.data-btn svg {
+.action-btn svg {
     width: 18px;
     height: 18px;
 }
 
-.data-btn:hover {
+.action-btn:hover {
     background-color: var(--bg-hover);
     color: var(--text-primary);
     box-shadow: var(--shadow-md);
 }
 
-.data-btn:active {
+.action-btn:active {
     transform: scale(0.85);
     box-shadow: var(--shadow-sm);
 }
 
 /* 有新版本时：检查更新按钮变为 accent 渐变背景 + 右上角红点 */
-.data-btn.has-update {
+.action-btn.has-update {
     position: relative;
     color: var(--accent-color);
     background:
@@ -660,7 +653,7 @@ button.about-link-btn {
     border-color: color-mix(in srgb, var(--accent-color) 35%, transparent);
 }
 
-.data-btn.has-update:hover {
+.action-btn.has-update:hover {
     background:
         linear-gradient(135deg,
             color-mix(in srgb, var(--accent-color) 20%, transparent),
@@ -670,7 +663,7 @@ button.about-link-btn {
 }
 
 /* 右上角小红点（带脉冲） */
-.data-btn.has-update::after {
+.action-btn.has-update::after {
     content: '';
     position: absolute;
     top: 7px;

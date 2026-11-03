@@ -251,7 +251,7 @@
                             <div class="setting-hint" id="bing-info-text" style="display:none;"></div>
                         </div>
                         <div class="setting-item">
-                            <button class="data-btn" id="bing-refresh-btn" type="button" data-i18n="wp.refreshNow">
+                            <button class="action-btn" id="bing-refresh-btn" type="button" data-i18n="wp.refreshNow">
                                 立即刷新
                             </button>
                         </div>
@@ -290,13 +290,13 @@
                             <label class="setting-label" data-i18n="wp.imageUrlLabel">图片网址</label>
                             <div class="input-with-btn">
                                 <input type="url" id="wallpaper-url" class="text-input" data-i18n-ph="wp.imageUrlPlaceholder" placeholder="图片网址...">
-                                <button class="data-btn accent-btn" id="wallpaper-url-apply-btn" type="button" data-i18n-aria="wp.applyUrl" data-i18n-title="wp.applyUrl" aria-label="更新" title="更新">
+                                <button class="action-btn accent-btn" id="wallpaper-url-apply-btn" type="button" data-i18n-aria="wp.applyUrl" data-i18n-title="wp.applyUrl" aria-label="更新" title="更新">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                         <polyline points="23 4 23 10 20 10"></polyline>
                                         <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
                                     </svg>
                                 </button>
-                                <button class="data-btn danger-btn" id="wallpaper-url-clear-btn" type="button" data-i18n-aria="common.clear" data-i18n-title="common.clear" aria-label="清除" title="清除">
+                                <button class="action-btn danger-btn" id="wallpaper-url-clear-btn" type="button" data-i18n-aria="common.clear" data-i18n-title="common.clear" aria-label="清除" title="清除">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                         <polyline points="3 6 5 6 21 6"></polyline>
                                         <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
@@ -719,7 +719,7 @@
                     <div class="settings-group-card">
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="data.export">导出配置</label>
-                            <button class="data-btn" id="export-btn" type="button">
+                            <button class="action-btn" id="export-btn" type="button">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                     <polyline points="7 10 12 15 17 10"></polyline>
@@ -731,7 +731,7 @@
                         </div>
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="data.import">导入配置</label>
-                            <button class="data-btn" id="import-btn" type="button">
+                            <button class="action-btn" id="import-btn" type="button">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                     <polyline points="17 8 12 3 7 8"></polyline>
@@ -743,7 +743,7 @@
                         </div>
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="data.resetDefault">重置配置</label>
-                            <button class="data-btn danger-btn" id="reset-btn" type="button">
+                            <button class="action-btn danger-btn" id="reset-btn" type="button">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                     <polyline points="1 4 1 10 7 10"></polyline>
                                     <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
@@ -761,7 +761,7 @@
                     <div class="settings-group-card">
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="data.changelog">更新日志</label>
-                            <a href="changelog.html" class="data-btn" style="text-decoration:none;">
+                            <a href="changelog.html" class="action-btn" style="text-decoration:none;">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>
                                 <span data-i18n="data.changelog">更新日志</span>
                             </a>
@@ -769,7 +769,7 @@
                         </div>
                         <div class="setting-item">
                             <label class="setting-label" data-i18n="data.checkUpdate">检查更新</label>
-                            <button class="data-btn" id="check-update-btn" type="button">
+                            <button class="action-btn" id="check-update-btn" type="button">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
                                 <span id="check-update-label" data-i18n="data.checkUpdate">检查更新</span>
                             </button>
@@ -910,7 +910,7 @@
                     <label for="shortcut-icon" data-i18n="modal.iconUrl">图标 URL (可选)</label>
                     <input type="url" id="shortcut-icon" class="text-input" data-i18n-ph="modal.autoFetchPh" placeholder="留空会自动获取">
                     <div class="icon-upload-row">
-                        <button class="data-btn" id="icon-upload-btn" type="button" style="margin-top:8px;">
+                        <button class="action-btn" id="icon-upload-btn" type="button" style="margin-top:8px;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="17 8 12 3 7 8"></polyline>
@@ -947,7 +947,7 @@
                 <div class="form-group">
                     <label data-i18n="modal.iconOptional">图标（可选）</label>
                     <div class="icon-upload-row">
-                        <button class="data-btn" id="engine-icon-upload-btn" type="button" style="margin-top:8px;">
+                        <button class="action-btn" id="engine-icon-upload-btn" type="button" style="margin-top:8px;">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="17 8 12 3 7 8"></polyline>
