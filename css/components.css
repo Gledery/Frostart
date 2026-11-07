@@ -7,6 +7,19 @@
    ========================================= */
 
 /* =========================================
+   UI 图标（icons/ui-sprite.svg + <use> 引用）
+   描边属性设在宿主 svg 上，可继承进 use 影子树
+   ========================================= */
+.icon {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--icon-stroke);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+}
+
+/* =========================================
    搜索框
    ========================================= */
 .search-box {

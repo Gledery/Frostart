@@ -59,6 +59,8 @@
     --glass-elevated-filter: blur(20px) saturate(180%);
     --icon-size: 72px;
     --icon-max-width: 960px;
+    /* UI 图标描边宽度（配合 icons/ui-sprite.svg 的 .icon 类） */
+    --icon-stroke: 2;
     --border-radius: 24px;
     --shortcut-gap: 24px;
     --shortcut-name-size: 13px;
