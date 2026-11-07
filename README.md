@@ -5,10 +5,6 @@
 <h1 align="center">Frostart</h1>
 
 <p align="center">
-  Frostart 是鸢做的一款可高度自定义的本地毛玻璃浏览器首页插件~
-</p>
-
-<p align="center">
   <a href="https://github.com/Gledery/frostart/releases/latest"><img src="https://img.shields.io/github/v/release/Gledery/frostart?label=Release&color=%230969da"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-GPL--3.0-%23808080"></a>
   <a href="https://developer.chrome.com/docs/extensions/develop/concepts/manifest-files"><img src="https://img.shields.io/badge/Manifest-V3-%23a855f7"></a>
