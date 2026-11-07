@@ -408,7 +408,7 @@ function renderSearchEngineGrid() {
         return `
             <button class="engine-chip${en.pinned ? ' pinned' : ''}${isCurrent ? ' active' : ''}" data-search-engine="${en.key}" title="${escapeHtml(en.label)}">
                 <span class="engine-chip-check" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    ${iconHtml('check', '', 3)}
                 </span>
                 <img src="icons/search-engine/${en.key}.svg" alt="${escapeHtml(en.label)}" class="engine-chip-icon">
                 <span class="engine-chip-name">${escapeHtml(en.label)}</span>
@@ -717,10 +717,10 @@ function renderCustomEngines() {
             </div>
             <div class="shortcut-list-actions">
                 <button class="shortcut-action-btn use-engine" data-i18n-title="title.useEngine" title="${escapeHtml(I18N.t('title.useEngine'))}">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                    ${iconHtml('check')}
                 </button>
                 <button class="shortcut-action-btn delete-engine" data-i18n-title="common.delete" title="${escapeHtml(I18N.t('common.delete'))}">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>
+                    ${iconHtml('trash-2')}
                 </button>
             </div>
         </div>
