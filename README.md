@@ -138,8 +138,8 @@ Frostart/
 │   ├── widgets.js         # 快捷键 / 右键菜单 / 拖拽 / 图标编辑器
 │   ├── packager.js        # 开发环境自打包
 │   ├── kaomoji.js         # 角落颜文字
-│   └── utils/             # 数学 / 字符串 / 色彩 / 字体 / 版本工具函数
-├── icons/                 # 扩展图标与内置引擎图标
+│   └── utils/             # 数学 / 字符串 / 色彩 / 字体 / 版本 / 图标工具函数
+├── icons/                 # 扩展图标、内置引擎图标与 UI 图标精灵表（ui-sprite.svg）
 ├── docs/                  # 文档用图片
 ├── PRIVACY.md             # 权限与隐私说明
 └── LICENSE                # GPL-3.0
@@ -183,6 +183,8 @@ Frostart/
 ## 协议
 
 [GPL-3.0](./LICENSE) © 灰鸢 Gledery
+
+界面图标取自 [Lucide Icons](https://lucide.dev)（ISC 许可），vendored 在 [icons/ui-sprite.svg](./icons/ui-sprite.svg)
 
 ---
 
