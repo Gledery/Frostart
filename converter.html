@@ -29,6 +29,7 @@
         --blur-amount: 8px;
         --glass-opacity: 1;
         --bg-base-alpha: 0.6;
+        --icon-stroke: 2;
         --saturation-amount: 150%;
 
         --radius-sm: 16px;
@@ -185,6 +186,15 @@
     /* =========================================
        5. 转换工具专属样式（原 pages.css 全量内联）
        ========================================= */
+    .icon {
+        fill: none;
+        stroke: currentColor;
+        stroke-width: var(--icon-stroke);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex-shrink: 0;
+    }
+
     .converter-page {
         min-height: 100vh;
         display: flex;
@@ -420,7 +430,7 @@
     <!-- 返回按钮：仅作为扩展页面打开时才有意义；独立网页打开时点击会 404，无副作用。
          文字包 span，避免 data-i18n 的 textContent 覆盖掉 svg -->
     <a href="newtab.html" class="converter-back glass-effect" data-i18n-title="page.backToNewTabTitle" title="返回新标签页">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="icons/ui-sprite.svg#chevron-left"/></svg>
         <span data-i18n="page.backToNewTab">返回新标签页</span>
     </a>
 
@@ -437,11 +447,7 @@
             <!-- 导入面板 -->
             <div class="tab-panel active" data-cpanel="import">
                 <div class="drop-zone" id="itab-drop">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="17 8 12 3 7 8"></polyline>
-                        <line x1="12" y1="3" x2="12" y2="15"></line>
-                    </svg>
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="icons/ui-sprite.svg#upload"/></svg>
                     <p data-i18n="converter.dropItab">点击或拖拽 iTab 备份文件到这里</p>
                     <p class="ext" data-i18n="converter.itabExt">支持 .itabdata 格式</p>
                     <input type="file" id="itab-input" accept=".itabdata,.json" style="display:none;">
@@ -449,11 +455,11 @@
                 <div class="converter-preview" id="import-preview" style="display:none;"></div>
                 <div class="converter-actions">
                     <button class="btn-primary" id="convert-btn" disabled>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="icons/ui-sprite.svg#repeat"/></svg>
                         <span data-i18n="converter.convertDownload">转换并下载</span>
                     </button>
                     <button class="btn-import-now" id="import-now-btn" disabled>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="icons/ui-sprite.svg#arrow-right"/></svg>
                         <span data-i18n="converter.importNow">导入到新标签页</span>
                     </button>
                 </div>
@@ -462,25 +468,21 @@
             <!-- 导出面板 -->
             <div class="tab-panel" data-cpanel="export">
                 <div class="drop-zone" id="frostart-drop">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="17 8 12 3 7 8"></polyline>
-                        <line x1="12" y1="3" x2="12" y2="15"></line>
-                    </svg>
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="icons/ui-sprite.svg#upload"/></svg>
                     <p data-i18n="converter.dropFrostart">点击或拖拽 Frostart 备份文件</p>
                     <p class="ext" data-i18n="converter.frostartExt">支持 .frostartdata 格式</p>
                     <input type="file" id="frostart-input" accept=".frostartdata,.json" style="display:none;">
                 </div>
                 <div class="converter-actions" style="margin-top:0;">
                     <button id="export-current-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="icons/ui-sprite.svg#download"/></svg>
                         <span data-i18n="converter.exportCurrent">从当前新标签页导出</span>
                     </button>
                 </div>
                 <div class="converter-preview" id="export-preview" style="display:none;"></div>
                 <div class="converter-actions">
                     <button class="btn-primary" id="export-itab-btn" disabled>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="icons/ui-sprite.svg#repeat"/></svg>
                         <span data-i18n="converter.convertToItab">转换为 iTab 格式</span>
                     </button>
                 </div>
