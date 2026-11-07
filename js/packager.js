@@ -42,6 +42,7 @@ const Packager = {
         'js/utils/version-utils.js',
         'js/utils/color-utils.js',
         'js/utils/font-utils.js',
+        'js/utils/icon-utils.js',
         'js/settings.js',
         'js/wp-cache.js',
         'js/services.js',
@@ -60,6 +61,7 @@ const Packager = {
         'icons/Frostart2606-256px-margined.png',
         'icons/gledery@250w_250h_1c.avif',
         'icons/phaswer-logo.png',
+        'icons/ui-sprite.svg',
         ...PACKAGER_ENGINE_ICONS.map(k => `icons/search-engine/${k}.svg`),
         // 文档
         'LICENSE',
