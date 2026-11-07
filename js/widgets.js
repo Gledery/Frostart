@@ -440,6 +440,8 @@ function initContextMenu() {
             { divider: true },
             { label: I18N.t('menu.gradient'), icon: wpMode === 'gradient' ? 'check' : '', action: () => selectWallpaperType('gradient') },
             { label: I18N.t('menu.image'), icon: wpMode === 'image' ? 'check' : '', action: () => selectWallpaperType('image') },
+            { label: I18N.t('menu.url'), icon: wpMode === 'url' ? 'check' : '', action: () => selectWallpaperType('url') },
+            { label: I18N.t('menu.bing'), icon: wpMode === 'bing' ? 'check' : '', action: () => selectWallpaperType('bing') },
             { label: I18N.t('menu.solid'), icon: wpMode === 'solid' ? 'check' : '', action: () => selectWallpaperType('solid') },
             { divider: true },
             { label: theme === 'light' ? I18N.t('menu.darkMode') : I18N.t('menu.lightMode'), icon: 'theme', action: () => {
