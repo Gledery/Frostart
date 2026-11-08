@@ -151,7 +151,7 @@
        嵌套在玻璃上的表面用中亮灰半透明填充提亮——保持通透、只加光，也不像纯白那样洗掉底色饱和度 */
     --surface-dark-base: #2b2e34;
     --bg-primary: color-mix(in srgb, color-mix(in srgb, var(--surface-dark-base) 97%, white) calc(var(--bg-base-alpha) * 100%), transparent);
-    --bg-secondary: rgba(131, 131, 145, 0.1);
+    --bg-secondary: rgba(131, 131, 145, 0.14);
     --bg-hover: rgba(255, 255, 255, 0.08);
     --bg-active: rgba(255, 255, 255, 0.15);
     --border-glass: 2px solid rgba(255, 255, 255, 0.12);
@@ -169,8 +169,9 @@
     --accent-color: #7c8aef;
     --icon-bg: color-mix(in srgb, color-mix(in srgb, var(--surface-dark-base) 90%, white) 85%, transparent);
     --slider-track: rgba(255, 255, 255, 0.16);
-    /* 浮层表面：菜单 / 下拉等叠在玻璃抽屉上的元素，填充再重一档 */
-    --surface-menu: rgba(131, 131, 145, 0.16);
+    /* 浮层表面：backdrop-filter 会把卡片上的文字描边糊成亮雾，填充色无法抵消，
+       必须用深色薄纱压低 backdrop 亮度。40% 基准灰下浮层合成亮度约等于卡片 */
+    --surface-menu: color-mix(in srgb, var(--surface-dark-base) 40%, transparent);
     --border-popover: 1px solid rgba(255, 255, 255, 0.12);
 }
 
