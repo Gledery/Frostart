@@ -54,6 +54,7 @@ function initializeApp() {
         document.body.classList.remove('wp-instant');
     });
     initAccentPicker();
+    initDarkBasePicker();
     initLanguage();
     initKaomojiToggle();
     initTime();
@@ -97,6 +98,8 @@ function applySettings() {
 
     // 自定义主题色（空值=移除覆盖，回归主题默认 accent）
     applyAccentColor(settings.accentColor);
+    // 深色基准色（空值=移除覆盖，回归令牌默认基准灰）
+    applyDarkBaseColor(settings.darkBaseColor);
 
     root.style.setProperty('--blur-amount', `${settings.blur}px`);
     root.style.setProperty('--saturation-amount', `${settings.saturation}%`);
@@ -405,6 +408,8 @@ function initDataManagement() {
             try {
                 await SettingsManager.import(file);
                 applyTheme(SettingsManager.get('theme'));
+                applyDarkBaseColor(SettingsManager.get('darkBaseColor'));
+                syncDarkBasePickerUI();
                 updateWallpaperUI(SettingsManager.getAll());
                 syncThemeUI();
                 renderShortcuts();

@@ -46,8 +46,15 @@
     inherits: true;
     initial-value: rgba(140, 200, 255, 0.38);
 }
+@property --surface-dark-base {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #2b2e34;
+}
 
 :root {
+    /* 深色基准色切换时平滑过渡：已注册为 @property，依赖它的玻璃/浮层/图标底色逐帧跟随 */
+    transition: --surface-dark-base var(--time-slow) ease;
     /* 毛玻璃可调参数 */
     --blur-amount: 8px;
     --glass-opacity: 1;

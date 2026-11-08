@@ -14,6 +14,9 @@
         if (s && s.accentColor) {
             document.documentElement.style.setProperty('--accent-color', s.accentColor);
         }
+        if (s && s.darkBaseColor) {
+            document.documentElement.style.setProperty('--surface-dark-base', s.darkBaseColor);
+        }
     }
 
     function readFromLocalStorage() {

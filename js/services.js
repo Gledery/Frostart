@@ -222,6 +222,8 @@ function applyTheme(theme) {
     } else {
         document.documentElement.setAttribute('data-theme', theme);
     }
+    // 深色基准色设置项仅在深色下可见
+    updateDarkBaseVisibility();
     // 主题切换后 blob alpha 值变化，清除缓存以重新读取
     _blobAlphaCache = null;
     // 主题切换后图标背景基色 RGB 变化，需重新应用
@@ -334,6 +336,66 @@ function initAccentPicker() {
 
     // 初始化选中态
     syncAccentPickerUI();
+}
+
+/* 深色基准色：非空时覆盖 --surface-dark-base，空值则移除覆盖回归令牌默认 */
+function applyDarkBaseColor(color) {
+    const root = document.documentElement;
+    if (color && typeof color === 'string') {
+        root.style.setProperty('--surface-dark-base', color);
+    } else {
+        root.style.removeProperty('--surface-dark-base');
+    }
+}
+
+/* 设置项仅在深色模式显示 */
+function updateDarkBaseVisibility() {
+    const item = document.getElementById('dark-base-item');
+    if (item) item.style.display = getResolvedTheme() === 'dark' ? '' : 'none';
+}
+
+/* 同步基准色选择器选中态：color 缺省时读取设置，可在初始化 / 导入后重复调用 */
+function syncDarkBasePickerUI(color) {
+    const picker = document.getElementById('dark-base-picker');
+    if (!picker) return;
+    const swatches = picker.querySelectorAll('.accent-swatch');
+    const customInput = document.getElementById('dark-base-color-input');
+    const customLabel = picker.querySelector('.accent-custom');
+    const resetBtn = document.getElementById('dark-base-reset-btn');
+
+    const current = (color != null ? color : SettingsManager.get('darkBaseColor') || '').toLowerCase();
+    swatches.forEach(sw => {
+        sw.classList.toggle('active', sw.dataset.color.toLowerCase() === current);
+    });
+    const isPreset = Array.from(swatches).some(sw => sw.dataset.color.toLowerCase() === current);
+    customLabel.classList.toggle('active', !!current && !isPreset);
+    resetBtn.classList.toggle('active', !current);
+    if (current) customInput.value = current;
+}
+
+/* 基准色选择器：预设灰度 + 自定义拾色器 + 恢复默认 */
+function initDarkBasePicker() {
+    const picker = document.getElementById('dark-base-picker');
+    if (!picker) return;
+    const swatches = picker.querySelectorAll('.accent-swatch');
+    const customInput = document.getElementById('dark-base-color-input');
+    const resetBtn = document.getElementById('dark-base-reset-btn');
+
+    function setDarkBase(color) {
+        SettingsManager.set('darkBaseColor', color);
+        applyDarkBaseColor(color);
+        syncDarkBasePickerUI(color);
+    }
+
+    swatches.forEach(sw => {
+        sw.addEventListener('click', () => setDarkBase(sw.dataset.color));
+    });
+
+    customInput.addEventListener('input', (e) => setDarkBase(e.target.value));
+
+    resetBtn.addEventListener('click', () => setDarkBase(SettingsManager.defaultSettings.darkBaseColor));
+
+    syncDarkBasePickerUI();
 }
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {

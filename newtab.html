@@ -141,6 +141,23 @@
                         </div>
                         <div class="setting-hint" data-i18n="appearance.accentHint">点击预设或自定义颜色；恢复默认则跟随浅/深主题</div>
                     </div>
+                    <div class="setting-item" id="dark-base-item">
+                        <label class="setting-label" data-i18n="appearance.darkBase">深色基准色</label>
+                        <div class="accent-picker" id="dark-base-picker">
+                            <button type="button" class="accent-swatch" data-color="#1f2226" style="background:#1f2226" data-i18n-title="color.charcoal" title="深炭" data-i18n-aria="color.charcoal" aria-label="深炭"></button>
+                            <button type="button" class="accent-swatch" data-color="#2b2e34" style="background:#2b2e34" data-i18n-title="color.graphite" title="石墨" data-i18n-aria="color.graphite" aria-label="石墨"></button>
+                            <button type="button" class="accent-swatch" data-color="#383c43" style="background:#383c43" data-i18n-title="color.steel" title="钢灰" data-i18n-aria="color.steel" aria-label="钢灰"></button>
+                            <button type="button" class="accent-swatch" data-color="#464b53" style="background:#464b53" data-i18n-title="color.silver" title="银灰" data-i18n-aria="color.silver" aria-label="银灰"></button>
+                            <label class="accent-custom" data-i18n-title="appearance.customColor" title="自定义颜色">
+                                <input type="color" id="dark-base-color-input" value="#2b2e34" data-i18n-aria="appearance.darkBaseAria" aria-label="自定义深色基准色">
+                                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="icons/ui-sprite.svg#palette"/></svg>
+                            </label>
+                            <button type="button" class="accent-reset" id="dark-base-reset-btn" data-i18n-title="appearance.resetDarkBase" title="恢复默认基准色" data-i18n-aria="appearance.resetDarkBase" aria-label="恢复默认基准色">
+                                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="icons/ui-sprite.svg#rotate-ccw"/></svg>
+                            </button>
+                        </div>
+                        <div class="setting-hint" data-i18n="appearance.darkBaseHint">深色模式玻璃表面的基础灰度</div>
+                    </div>
                     <div class="setting-item">
                         <div class="switch-row">
                             <span class="setting-label" data-i18n="appearance.kaomoji">Kaomoji</span>

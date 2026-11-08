@@ -16,6 +16,8 @@ const SettingsManager = {
         // 自定义主题色：默认雾蓝 #5f96f2（默认晨雾蓝渐变在光斑联动下的派生色）；
         // 空字符串则回退主题自带 accent（浅色#5b6ee1 / 深色#7c8aef）
         accentColor: '#5f96f2',
+        // 深色基准色：空字符串则使用 tokens.css 的默认基准灰
+        darkBaseColor: '',
         // 角落颜文字开关
         kaomoji: true,
         blur: 8,
