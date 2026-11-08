@@ -147,8 +147,11 @@
 
 /* 深色主题 */
 [data-theme="dark"] {
-    --bg-primary: rgba(28, 28, 40, var(--bg-base-alpha));
-    --bg-secondary: rgba(28, 28, 40, calc(var(--bg-base-alpha) * 0.85));
+    /* 深色玻璃基准灰：抽屉等顶层玻璃由它掺白派生；
+       嵌套在玻璃上的表面用中亮灰半透明填充提亮——保持通透、只加光，也不像纯白那样洗掉底色饱和度 */
+    --surface-dark-base: #2b2e34;
+    --bg-primary: color-mix(in srgb, color-mix(in srgb, var(--surface-dark-base) 97%, white) calc(var(--bg-base-alpha) * 100%), transparent);
+    --bg-secondary: rgba(131, 131, 145, 0.1);
     --bg-hover: rgba(255, 255, 255, 0.08);
     --bg-active: rgba(255, 255, 255, 0.15);
     --border-glass: 2px solid rgba(255, 255, 255, 0.12);
@@ -164,10 +167,10 @@
     --wallpaper-mask-color: rgba(20, 20, 35, 0.55);
     --divider-color: rgba(255, 255, 255, 0.1);
     --accent-color: #7c8aef;
-    --icon-bg: rgba(28, 28, 40, 0.85);
+    --icon-bg: color-mix(in srgb, color-mix(in srgb, var(--surface-dark-base) 90%, white) 85%, transparent);
     --slider-track: rgba(255, 255, 255, 0.16);
-    /* 浮层表面：深色底掺 6% 白 + 68% 透明度，与浅色同源 */
-    --surface-menu: rgba(36, 36, 48, 0.68);
+    /* 浮层表面：菜单 / 下拉等叠在玻璃抽屉上的元素，填充再重一档 */
+    --surface-menu: rgba(131, 131, 145, 0.16);
     --border-popover: 1px solid rgba(255, 255, 255, 0.12);
 }
 
