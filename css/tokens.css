@@ -51,10 +51,17 @@
     inherits: true;
     initial-value: #2b2e34;
 }
+@property --accent-color {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #5b6ee1;
+}
 
 :root {
-    /* 深色基准色切换时平滑过渡：已注册为 @property，依赖它的玻璃/浮层/图标底色逐帧跟随 */
-    transition: --surface-dark-base var(--time-slow) ease;
+    /* 基准色/主题色切换时平滑过渡：已注册为 @property，依赖它们的颜色派生值逐帧跟随 */
+    transition:
+        --surface-dark-base var(--time-slow) ease,
+        --accent-color var(--time-slow) ease;
     /* 毛玻璃可调参数 */
     --blur-amount: 8px;
     --glass-opacity: 1;

@@ -37,23 +37,28 @@
         }
     }
 
+    /* 系统主题变化时的切换：临时挂 theme-switching（规则见 base.css）让全站颜色统一过渡，
+       窗口时长略长于 --time-normal，确保过渡走完再移除 */
+    function switchTheme(resolved) {
+        const root = document.documentElement;
+        if (root.getAttribute('data-theme') === resolved) return;
+        root.classList.add('theme-switching');
+        root.setAttribute('data-theme', resolved);
+        setTimeout(() => root.classList.remove('theme-switching'), 350);
+    }
+
     // auto 主题跟随系统变化
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
         // 简化：只切换 data-theme，accent 不变
+        const resolved = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.local) {
             chrome.storage.local.get(['frostartSettings'], function (result) {
                 const s = result && result.frostartSettings;
-                if (!s || (s.theme || 'auto') === 'auto') {
-                    document.documentElement.setAttribute('data-theme',
-                        window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                }
+                if (!s || (s.theme || 'auto') === 'auto') switchTheme(resolved);
             });
         } else {
             const s = readFromLocalStorage();
-            if ((s.theme || 'auto') === 'auto') {
-                document.documentElement.setAttribute('data-theme',
-                    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-            }
+            if ((s.theme || 'auto') === 'auto') switchTheme(resolved);
         }
     });
 

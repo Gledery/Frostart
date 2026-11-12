@@ -215,13 +215,23 @@ function getResolvedTheme() {
     return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
 }
 
+/* 主题切换过渡窗口：theme-switching 类定义在 base.css，窗口时长略长于 --time-normal，
+   确保过渡完整走完再移除；首次应用发生在载入阶段，不做过渡，避免整页从默认主题淡入 */
+let themeSwitchTimer = null;
+let themeAppliedOnce = false;
+
 function applyTheme(theme) {
-    if (theme === 'auto') {
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-    } else {
-        document.documentElement.setAttribute('data-theme', theme);
+    const root = document.documentElement;
+    const resolved = theme === 'auto'
+        ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+        : theme;
+    if (themeAppliedOnce && root.getAttribute('data-theme') !== resolved) {
+        root.classList.add('theme-switching');
+        clearTimeout(themeSwitchTimer);
+        themeSwitchTimer = setTimeout(() => root.classList.remove('theme-switching'), 350);
     }
+    themeAppliedOnce = true;
+    root.setAttribute('data-theme', resolved);
     // 深色基准色设置项仅在深色下可见
     updateDarkBaseVisibility();
     // 主题切换后 blob alpha 值变化，清除缓存以重新读取

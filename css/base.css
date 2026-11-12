@@ -55,9 +55,7 @@ body {
     color: var(--text-primary);
     background: var(--gradient-page);
     background-attachment: fixed;
-    transition:
-        --wp-solid var(--time-slow) ease,
-        color var(--time-normal) ease;
+    transition: --wp-solid var(--time-slow) ease;
 }
 
 /* 强制所有元素继承字体设置 */
@@ -65,31 +63,23 @@ body {
     font-family: inherit;
 }
 
-/* 全局主题切换过渡 */
-.glass-effect,
-.shortcut-icon,
-.search-box,
-.settings-btn,
-.settings-drawer,
-.modal,
-.option-btn,
-.upload-btn,
-.action-btn,
-.add-shortcut-btn,
-.shortcut-list-item,
-.text-input,
-.tab-btn,
-.setting-label,
-.section-title,
-.setting-hint,
-.shortcut-name,
-.search-engine-indicator,
-.search-icon,
-.font-preset-btn,
-.danger-btn {
-    transition-property: background-color, border-color, color, box-shadow, transform;
-    transition-duration: var(--time-normal);
-    transition-timing-function: var(--easing-standard);
+/* 主题切换瞬间的全站过渡：applyTheme 切换深浅色时临时挂上 theme-switching，
+   让所有 UI 元素（含伪元素）的颜色类属性统一过渡，替代原先逐个组件声明的清单。
+   只列廉价绘制属性：注册自定义属性绝不能再加进来——它们逐级继承，
+   每个元素各跑一份过渡会逐帧重算整棵子树的 var() 依赖链，样式风暴直接卡死页面；
+   root/body/壁纸层的 --surface-dark-base、--accent-color、--wp-* 由各自的声明负责，
+   这里用 :not 排除，避免被 !important 覆盖。
+   切换窗口结束即移除，按压/悬停反馈仍由各组件自己的 transition 负责 */
+@media (prefers-reduced-motion: no-preference) {
+    html.theme-switching *:not(body):not(.wallpaper-layer):not(.blob),
+    html.theme-switching *:not(body):not(.wallpaper-layer):not(.blob)::before,
+    html.theme-switching *:not(body):not(.wallpaper-layer):not(.blob)::after,
+    html.theme-switching *:not(body):not(.wallpaper-layer):not(.blob)::placeholder {
+        transition-property: background-color, color, border-color,
+            fill, stroke, outline-color, caret-color !important;
+        transition-duration: var(--time-normal) !important;
+        transition-timing-function: var(--easing-standard) !important;
+    }
 }
 
 ::selection {
