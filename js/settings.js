@@ -123,10 +123,13 @@ const SettingsManager = {
         }
     },
 
-    /* 把当前 settings 写入 localStorage 作为首屏快速缓存 */
+    /* 把当前 settings 写入 localStorage 作为首屏快速缓存。
+       剔除 wallpaperImage：镜像的消费者（core.js 首屏变量 / page-theme / i18n）都只用小设置，
+       壁纸图片首屏由 frostartWpCache 独立键负责，避免每次保存同步序列化几 MB 的 base64 */
     _cacheToLocalStorage() {
         try {
-            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.settings));
+            const { wallpaperImage, ...light } = this.settings;
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(light));
         } catch (e) { /* 放弃缓存 */ }
     },
 

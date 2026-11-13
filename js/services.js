@@ -225,7 +225,9 @@ function applyTheme(theme) {
     const resolved = theme === 'auto'
         ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
         : theme;
-    if (themeAppliedOnce && root.getAttribute('data-theme') !== resolved) {
+    // 主题是否真的发生了切换：载入阶段的首次应用不算切换
+    const themeChanged = themeAppliedOnce && root.getAttribute('data-theme') !== resolved;
+    if (themeChanged) {
         root.classList.add('theme-switching');
         clearTimeout(themeSwitchTimer);
         themeSwitchTimer = setTimeout(() => root.classList.remove('theme-switching'), 350);
@@ -241,11 +243,11 @@ function applyTheme(theme) {
     // 文本默认色随主题变化，需重新解析（单独覆盖的优先级在函数内保留）
     applyTextColors(SettingsManager.getAll());
 
-    // 壁纸跟随主题：仅渐变模式下，三字段匹配某预设变体时重写为新主题的对应变体，不匹配则保留自定义。
+    // 壁纸跟随主题：仅在主题真正切换时触发（载入时的首次应用不算，保留用户保存的颜色，
+    // 包括刻意选的跨主题变体）。三字段匹配某预设变体时重写为新主题的对应变体，不匹配则保留自定义。
     // 光斑按字段独立跟随：当前光斑值仍等于所匹配变体的烘焙值（未被手动改过）才跟随重写，改过则保留。
-    // 放在 applyTheme 里可一处覆盖主题按钮、auto 随系统变化、初始化等所有路径（幂等）
     const s = SettingsManager.getAll();
-    if (s.wallpaperMode === 'gradient') {
+    if (themeChanged && s.wallpaperMode === 'gradient') {
         const matched = matchGradientPreset(s);
         if (matched) {
             const oldVariant = WALLPAPER_PRESETS[matched.id][matched.variant];
