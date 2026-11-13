@@ -8,6 +8,8 @@ const SettingsManager = {
     },
     STORAGE_KEY: 'frostartSettings',
     BACKUP_KEY: 'frostartSettings_backup',
+    // 壁纸图片独立备份键：备份本体只存轻设置，图片仅在变化时刷新此键
+    BACKUP_IMG_KEY: 'frostartSettings_backup_img',
     
     defaultSettings: {
         // 界面语言：auto=跟随浏览器，也可手动指定 zh/en
@@ -82,13 +84,17 @@ const SettingsManager = {
     lastSaveTime: null,
     _saveTimer: null,
     _SAVE_DEBOUNCE: 300,
+    // 图片独立备份键的当前内容，用于 _persist 判断是否需要刷新
+    _backedUpImage: '',
 
     async load() {
         return new Promise((resolve) => {
             try {
                 if (typeof chrome !== 'undefined' && chrome.storage) {
-                    chrome.storage.local.get([this.STORAGE_KEY, this.BACKUP_KEY], (result) => {
-                        this.settings = this._loadWithFallback(result[this.STORAGE_KEY], result[this.BACKUP_KEY]);
+                    chrome.storage.local.get([this.STORAGE_KEY, this.BACKUP_KEY, this.BACKUP_IMG_KEY], (result) => {
+                        this.settings = this._loadWithFallback(result[this.STORAGE_KEY], result[this.BACKUP_KEY], result[this.BACKUP_IMG_KEY]);
+                        // 以存储中图片备份键的实际内容为准（首次安装没有此键，首次保存时补写）
+                        this._backedUpImage = result[this.BACKUP_IMG_KEY] || '';
                         // 同步缓存到 localStorage，供下次首屏无闪烁加载
                         this._cacheToLocalStorage();
                         resolve(this.settings);
@@ -96,7 +102,9 @@ const SettingsManager = {
                 } else {
                     const stored = localStorage.getItem(this.STORAGE_KEY);
                     const backup = localStorage.getItem(this.BACKUP_KEY);
-                    this.settings = this._loadWithFallback(stored ? JSON.parse(stored) : null, backup ? JSON.parse(backup) : null);
+                    const backupImg = localStorage.getItem(this.BACKUP_IMG_KEY) || '';
+                    this.settings = this._loadWithFallback(stored ? JSON.parse(stored) : null, backup ? JSON.parse(backup) : null, backupImg);
+                    this._backedUpImage = backupImg;
                     resolve(this.settings);
                 }
             } catch (e) {
@@ -133,7 +141,7 @@ const SettingsManager = {
         } catch (e) { /* 放弃缓存 */ }
     },
 
-    _loadWithFallback(primary, backup) {
+    _loadWithFallback(primary, backup, backupImg) {
         const validate = (data) => {
             return data && typeof data === 'object' && !Array.isArray(data);
         };
@@ -143,11 +151,14 @@ const SettingsManager = {
         }
         if (validate(backup)) {
             console.warn('Using backup settings');
+            // 备份本体只存轻设置，图片从独立键合并回来（旧全量备份自带图片字段时不覆盖）
+            if (backupImg) backup.wallpaperImage = backupImg;
             return { ...this.defaultSettings, ...this._migrateSettings(backup) };
         }
         return { ...this.defaultSettings };
     },
 
+    // 上个版本及更早的存储数据可能未经清洗（安装后从未触发保存），读取时统一迁移
     _migrateSettings(settings) {
         // 已下线的设置项：全局文本色、图标单独模糊度、渐变预设模式标签、引擎快捷切换开关，清理存量/导入数据中的死键
         delete settings.globalTextColor;
@@ -174,7 +185,7 @@ const SettingsManager = {
 
     // 防抖保存：连续 set()（如点击预设会连续改 3 个字段）时，
     // 每次调用重置计时器，最后一次变更后 _SAVE_DEBOUNCE 毫秒才真正写盘。
-    // 这样既避免高频写盘，又保证最终状态一定被持久化（修复旧节流会丢弃中途值的问题）。
+    // 这样既避免高频写盘，又保证最终状态一定被持久化。
     async save() {
         return new Promise((resolve) => {
             if (this._saveTimer) clearTimeout(this._saveTimer);
@@ -198,12 +209,21 @@ const SettingsManager = {
         return new Promise((resolve) => {
             try {
                 this.settings.version = this.VERSION;
+                const { wallpaperImage, ...light } = this.settings;
+                const img = wallpaperImage || '';
 
                 if (typeof chrome !== 'undefined' && chrome.storage) {
-                    chrome.storage.local.set({
+                    // 备份只存轻设置；图片进独立键且仅在变化时刷新，
+                    // 避免每次保存把几 MB 的 base64 序列化两遍
+                    const writes = {
                         [this.STORAGE_KEY]: this.settings,
-                        [this.BACKUP_KEY]: this.settings
-                    }, () => {
+                        [this.BACKUP_KEY]: light
+                    };
+                    if (img !== this._backedUpImage) {
+                        writes[this.BACKUP_IMG_KEY] = img;
+                        this._backedUpImage = img;
+                    }
+                    chrome.storage.local.set(writes, () => {
                         this.lastSaveTime = Date.now();
                         resolve();
                     });
@@ -211,16 +231,21 @@ const SettingsManager = {
                     this._cacheToLocalStorage();
                 } else {
                     localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.settings));
-                    localStorage.setItem(this.BACKUP_KEY, JSON.stringify(this.settings));
+                    localStorage.setItem(this.BACKUP_KEY, JSON.stringify(light));
+                    if (img !== this._backedUpImage) {
+                        localStorage.setItem(this.BACKUP_IMG_KEY, img);
+                        this._backedUpImage = img;
+                    }
                     this.lastSaveTime = Date.now();
                     resolve();
                 }
             } catch (e) {
                 console.error('Settings save error:', e);
                 if (e.name === 'QuotaExceededError') {
-                    // localStorage 满了，尝试清理后重试
+                    // localStorage 满了：先清掉体积最大的图片备份再重试写主键
                     try {
-                        localStorage.removeItem(this.BACKUP_KEY);
+                        localStorage.removeItem(this.BACKUP_IMG_KEY);
+                        this._backedUpImage = '';
                         localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.settings));
                         this.lastSaveTime = Date.now();
                     } catch (e2) {

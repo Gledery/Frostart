@@ -646,18 +646,23 @@ function readFrostartSettings() {
 
 function writeFrostartSettings(settings) {
     return new Promise((resolve) => {
+        // 与 SettingsManager._persist 保持同一存储结构：
+        // 备份只存轻设置，图片进独立键；localStorage 镜像同样剔除图片
+        const { wallpaperImage, ...light } = settings || {};
         if (isExtensionEnv()) {
             chrome.storage.local.set({
                 frostartSettings: settings,
-                frostartSettings_backup: settings
+                frostartSettings_backup: light,
+                frostartSettings_backup_img: wallpaperImage || ''
             }, () => resolve());
             try {
-                localStorage.setItem('frostartSettings', JSON.stringify(settings));
+                localStorage.setItem('frostartSettings', JSON.stringify(light));
             } catch (e) { /* 忽略 */ }
         } else {
             try {
                 localStorage.setItem('frostartSettings', JSON.stringify(settings));
-                localStorage.setItem('frostartSettings_backup', JSON.stringify(settings));
+                localStorage.setItem('frostartSettings_backup', JSON.stringify(light));
+                localStorage.setItem('frostartSettings_backup_img', wallpaperImage || '');
             } catch (e) { /* 配额超限忽略，调用方已下载文件兜底 */ }
             resolve();
         }
