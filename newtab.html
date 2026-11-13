@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="i18n-loading">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,12 +25,15 @@
     <!-- 壁纸系统：遮罩层 -->
     <div class="wallpaper-mask" aria-hidden="true"></div>
 
-    <!-- 首屏壁纸缓存：在主 JS 加载前同步应用 localStorage 中的壁纸变量，
-         避免首屏从默认壁纸闪烁到用户自定义壁纸。三层防线第 1 层。
-         置于壁纸三层 DOM 之后，确保 .wallpaper-image 已可查询。
-         注意：MV3 默认 CSP 禁止内联 <script>，必须用外部文件同步加载。 -->
-    <!-- i18n 必须最先加载：语言判定与静态文案替换，且为后续所有 JS 提供 I18N.t -->
-    <script src="js/i18n.js"></script>
+    <!-- 首屏防闪体系（三层）：
+         1. html.i18n-loading 静态隐藏 body（规则在 base.css），i18n.js 应用完文案后移除，
+            body 不再等全部 JS 执行完才显示，消除首屏白屏
+         2. wp-cache.js 同步执行：壁纸 + 主题 + 尺寸等首屏视觉变量在主 JS 加载前从 localStorage 抢先应用，
+            保证 body 显示的第一帧就是用户自己的外观（MV3 CSP 禁止内联脚本，必须外部文件同步加载）
+         3. 其余脚本全部 defer：DOM 解析完即按文档顺序执行，依赖链顺序不变，
+            DOMContentLoaded 仍等全部 defer 完成后才触发，初始化时序不受影响 -->
+    <!-- i18n 必须最先执行（defer 链首位）：语言判定与静态文案替换，且为后续所有 JS 提供 I18N.t -->
+    <script src="js/i18n.js" defer></script>
     <script src="js/wp-cache.js"></script>
 
     <main class="main-container">
@@ -991,23 +994,23 @@
     <!-- Toast 通知 -->
     <div class="toast-container" id="toast-container" aria-live="polite"></div>
 
-    <!-- 工具函数库（纯函数，零依赖，最先加载） -->
-    <script src="js/utils/math-utils.js"></script>
-    <script src="js/utils/string-utils.js"></script>
-    <script src="js/utils/version-utils.js"></script>
-    <script src="js/utils/color-utils.js"></script>
-    <script src="js/utils/font-utils.js"></script>
-    <script src="js/utils/icon-utils.js"></script>
+    <!-- 工具函数库（纯函数，零依赖；i18n 之后的 defer 链首段） -->
+    <script src="js/utils/math-utils.js" defer></script>
+    <script src="js/utils/string-utils.js" defer></script>
+    <script src="js/utils/version-utils.js" defer></script>
+    <script src="js/utils/color-utils.js" defer></script>
+    <script src="js/utils/font-utils.js" defer></script>
+    <script src="js/utils/icon-utils.js" defer></script>
 
-    <script src="js/select.js"></script>
-    <script src="js/changelog.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/services.js"></script>
-    <script src="js/kaomoji.js"></script>
-    <script src="js/core.js"></script>
-    <script src="js/sliders.js"></script>
-    <script src="js/panels.js"></script>
-    <script src="js/widgets.js"></script>
-    <script src="js/packager.js"></script>
+    <script src="js/select.js" defer></script>
+    <script src="js/changelog.js" defer></script>
+    <script src="js/settings.js" defer></script>
+    <script src="js/services.js" defer></script>
+    <script src="js/kaomoji.js" defer></script>
+    <script src="js/core.js" defer></script>
+    <script src="js/sliders.js" defer></script>
+    <script src="js/panels.js" defer></script>
+    <script src="js/widgets.js" defer></script>
+    <script src="js/packager.js" defer></script>
 </body>
 </html>

@@ -45,6 +45,18 @@ html {
     font-size: 16px;
 }
 
+/* 首屏文案应用前隐藏 body 内容（静态规则，早于任何 JS 生效；
+   newtab.html 的 <html> 静态带此类，i18n.js 应用完文案后移除）。
+   用 visibility 而非 display：body 背景由浏览器传播到 canvas 作为页面底色，
+   display:none 会让底色一起消失（白屏闪白），visibility:hidden 保留底色
+   （data-theme 已由 wp-cache.js 在首次绘制前同步设置，深色用户不闪白）。
+   注意：切勿给 html 设置背景——那会禁用 body 背景传播，
+   body 自身背景层将盖住负 z-index 的壁纸三层（光斑/图片/遮罩）。
+   i18n.js 运行时注入的仍是 display:none 规则，供未加静态类的子页面使用，两处并存幂等 */
+html.i18n-loading body {
+    visibility: hidden;
+}
+
 body {
     font-family: var(--custom-font, "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
     min-height: 100vh;
