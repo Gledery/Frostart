@@ -33,7 +33,7 @@
 - **配置存储走 `chrome.storage.local`**：键名 `frostartSettings`（见 [settings.js](./js/settings.js)）。为了消除首屏 FOUC，会同步从 `localStorage` 读一份缓存抢先应用 CSS 变量（[core.js](./js/core.js) `DOMContentLoaded` 前 30 行）。改存储结构时两层都要兼容，否则用户配置会丢或闪
 - **壁纸颜色变量是 `@property` 注册的类型化属性**：`--wp-c1` / `--wp-c2` / `--wp-angle` / `--wp-solid` / `--blob-*` 都在 [tokens.css](./css/tokens.css) 用 `@property` 声明了 `<color>` / `<angle>` 类型，**这是壁纸切换能平滑过渡的前提**。不要把它们改成普通 `--var`，否则颜色变化会突变
 - **MV3 service worker 不稳定**：不要依赖持久后台任务，时钟已经做了"标签页隐藏时暂停"（`0.1.13`），新增定时器类逻辑要考虑页面随时可能被冻结
-- **面向用户的下载入口只分发最新正式 Release 的资产**：网页版的"下载安装包"走 GitHub Releases（手动上传的安装 ZIP 优先，自动生成的源码 ZIP 兜底），禁止把工作树或部署目录里的文件自行打包后发给用户；扩展环境的自打包仅限开发者本地使用
+- **面向用户的下载入口只分发最新正式 Release 的资产**：网页版的"下载安装包"走 GitHub Releases（手动上传的安装 ZIP 优先，自动生成的源码 ZIP 兜底），禁止把工作树或部署目录里的文件自行打包后发给用户
 
 ---
 

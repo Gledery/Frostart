@@ -132,7 +132,7 @@ Frostart/
 │   ├── sliders.js         # 滑块系统
 │   ├── panels.js          # 设置面板
 │   ├── widgets.js         # 快捷键 / 右键菜单 / 拖拽 / 图标编辑器
-│   ├── packager.js        # 开发环境自打包
+│   ├── packager.js        # 网页版下载正式安装包入口
 │   ├── kaomoji.js         # 角落颜文字
 │   └── utils/             # 数学 / 字符串 / 色彩 / 字体 / 版本 / 图标工具函数
 ├── icons/                 # 扩展图标、内置引擎图标与 UI 图标精灵表（ui-sprite.svg）

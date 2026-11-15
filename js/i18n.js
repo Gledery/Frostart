@@ -3,7 +3,7 @@
    职责：界面文案中英双语 / 语言判定（设置项优先，否则跟随浏览器）/
          data-i18n 静态文本批量替换 / I18N.t 动态文案查询
    加载顺序：必须在所有脚本之前加载（newtab / changelog / converter / index 四个页面的头部，
-             均为页面第一个脚本或紧随极简内联引导之后；packager 打包清单中也必须排第一）
+             均为页面第一个脚本或紧随极简内联引导之后）
    机制：
    1. 语言判定同步从 localStorage 预读 frostartSettings.lang（与壁纸缓存同一思路，防首屏闪烁）
    2. body 在文案应用前默认隐藏，DOMContentLoaded 时 applyToDom 后再显示
@@ -311,7 +311,6 @@ const I18N = (function () {
         /* Toast / 状态文案 */
         'state.checking': '检查中…',
         'state.refreshing': '刷新中…',
-        'state.packaging': '打包中…',
         'toast.exported': '配置已导出~',
         'toast.imported': '配置导入成功',
         'toast.deleted': '已删除~',
@@ -346,16 +345,11 @@ const I18N = (function () {
         'toast.svgParseFailed': 'SVG 文件解析失败',
         'toast.readFailed': '读取文件失败',
         'toast.icon2mb': '图标不能超过 2MB',
-        'packager.localToast': '本地直接打开无法打包哦，请用在线网页版或已加载的扩展新标签页',
-        'packager.filesSkipped': '（{n} 个文件跳过）',
-        'packager.noManifest': '无法读取 manifest.json',
-        'packager.noFiles': '没有抓到任何文件',
+        'packager.localToast': '本地直接打开下载不了安装包哦，请用在线网页版获取',
         'packager.releaseDownload': '正在从 GitHub 下载最新正式版安装包',
         'packager.sourceDownload': '正在下载源码 ZIP，加载扩展时请选择解压后的内层文件夹',
         'packager.releasePage': '无法获取下载地址，已打开 Release 页面',
         'toast.unknownError': '未知错误',
-        'toast.packageReady': '安装包已生成~ 共 {n} 个文件{extra}',
-        'toast.packageFailed': '打包失败了：',
         'error.configFormat': '配置文件格式不太对',
         'error.readFailed': '文件读取失败',
 
@@ -796,7 +790,6 @@ const I18N = (function () {
         /* toast / state */
         'state.checking': 'Checking…',
         'state.refreshing': 'Refreshing…',
-        'state.packaging': 'Packaging…',
         'toast.exported': 'Settings exported',
         'toast.imported': 'Settings imported',
         'toast.deleted': 'Deleted',
@@ -831,16 +824,11 @@ const I18N = (function () {
         'toast.svgParseFailed': 'Failed to parse the SVG file',
         'toast.readFailed': 'Failed to read file',
         'toast.icon2mb': 'Icon must not exceed 2MB',
-        'packager.localToast': 'Can\'t package when opened locally, use the online version or an extension new tab',
-        'packager.filesSkipped': '({n} files skipped)',
-        'packager.noManifest': 'Unable to read manifest.json',
-        'packager.noFiles': 'No files were fetched',
+        'packager.localToast': 'Downloads aren\'t available when opened locally, use the online version',
         'packager.releaseDownload': 'Downloading the latest official release from GitHub',
         'packager.sourceDownload': 'Downloading the source ZIP — select the inner extracted folder when loading',
         'packager.releasePage': 'Couldn\'t get a download link, opened the release page',
         'toast.unknownError': 'unknown error',
-        'toast.packageReady': 'Package ready, {n} files{extra}',
-        'toast.packageFailed': 'Packaging failed: ',
         'error.configFormat': 'Invalid settings file format',
         'error.readFailed': 'Failed to read file',
 
