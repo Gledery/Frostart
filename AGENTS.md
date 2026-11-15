@@ -25,7 +25,7 @@
 - **`newtab.html` 的 `<script>` 加载顺序不能动**：依赖链是固定的——
 
   ```
-  wp-cache.js → utils/* → changelog.js → settings.js → services.js
+  wp-cache.js → utils/* → select.js → changelog.js → settings.js → services.js
             → kaomoji.js → core.js → sliders.js → panels.js → widgets.js → packager.js
   ```
 

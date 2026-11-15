@@ -7,7 +7,7 @@
      嵌套在其内部的浮层无法正确采样毛玻璃背景，必须脱离抽屉这一层渲染
    - 选中：更新触发器文案与 i18n 键、标记选中项、派发 selectchange 事件
    - FrostartSelect.setValue 供设置初始化 / 导入 / 重置 / 右键菜单同步 UI
-   加载顺序：utils/* 之后、services.js 之前（DOMContentLoaded 前完成定义即可）
+   加载顺序：utils/* 之后、changelog.js 之前（DOMContentLoaded 前完成定义即可）
    ========================================= */
 const FrostartSelect = (() => {
     const MENU_GAP = 8;
