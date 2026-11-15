@@ -46,12 +46,13 @@ function initializeApp() {
     bindThemeButtons();        // 绑定主题按钮事件（只一次）
     applyTheme(SettingsManager.get('theme'));  // 先确定主题，applyTextColors 依赖 data-theme 解析默认色
     syncThemeUI();             // 同步主题按钮选中态
-    // 首屏：临时禁用壁纸过渡，避免从 initial-value 到用户保存值出现一次 0.8s 颜色过渡闪动；
+    // 首屏：临时禁用所有颜色过渡（wp-instant 覆盖 :root 与壁纸层），
+    // 避免从 initial-value 到用户保存值出现一次 0.8s 颜色过渡闪动；
     // 下一帧移除，恢复正常过渡行为。
-    document.body.classList.add('wp-instant');
+    document.documentElement.classList.add('wp-instant');
     applySettings();
     requestAnimationFrame(() => {
-        document.body.classList.remove('wp-instant');
+        document.documentElement.classList.remove('wp-instant');
     });
     initAccentPicker();
     initDarkBasePicker();
@@ -407,6 +408,7 @@ function initDataManagement() {
         if (file) {
             try {
                 await SettingsManager.import(file);
+                startColorWindow();
                 applyTheme(SettingsManager.get('theme'));
                 applyDarkBaseColor(SettingsManager.get('darkBaseColor'));
                 syncDarkBasePickerUI();

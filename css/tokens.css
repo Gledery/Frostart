@@ -57,11 +57,83 @@
     initial-value: #5b6ee1;
 }
 
+/* 主题色变量注册为 @property 后才能在 :root 上逐帧插值。
+   派生变量（依赖基准色/滑块 alpha）也必须注册，否则主题切换时
+   表达式整个换掉，计算值不连续直接跳变。
+   插值清单里基准色（--surface-dark-base）不插值：它只被派生表达式引用，
+   直跳后派生变量的插值目标立即稳定，避免"插值追插值"的双层滞后；
+   --slider-track 浅色值同样改为直接表达式，不引用插值中的 --bg-secondary */
+@property --text-primary {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #1a1a2a;
+}
+@property --text-secondary {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #4a4a5a;
+}
+@property --text-muted {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: #6a6a7a;
+}
+@property --bg-primary {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: rgba(255, 255, 255, 0.7);
+}
+@property --bg-secondary {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: rgba(255, 255, 255, 0.49);
+}
+@property --bg-hover {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: rgba(0, 0, 0, 0.05);
+}
+@property --bg-active {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: rgba(0, 0, 0, 0.1);
+}
+@property --divider-color {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: rgba(0, 0, 0, 0.1);
+}
+@property --icon-bg {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: rgba(255, 255, 255, 0.85);
+}
+@property --slider-track {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: rgba(255, 255, 255, 0.49);
+}
+@property --surface-menu {
+    syntax: '<color>';
+    inherits: true;
+    initial-value: rgba(255, 255, 255, 0.68);
+}
+
 :root {
-    /* 基准色/主题色切换时平滑过渡：已注册为 @property，依赖它们的颜色派生值逐帧跟随 */
+    /* 主题色变化统一 0.8s 平滑，与壁纸层 --wp-* 过渡同时长同缓动 */
     transition:
-        --surface-dark-base var(--time-slow) ease,
-        --accent-color var(--time-slow) ease;
+        --accent-color var(--time-slow) ease,
+        --text-primary var(--time-slow) ease,
+        --text-secondary var(--time-slow) ease,
+        --text-muted var(--time-slow) ease,
+        --bg-primary var(--time-slow) ease,
+        --bg-secondary var(--time-slow) ease,
+        --bg-hover var(--time-slow) ease,
+        --bg-active var(--time-slow) ease,
+        --divider-color var(--time-slow) ease,
+        --icon-bg var(--time-slow) ease,
+        --slider-track var(--time-slow) ease,
+        --surface-menu var(--time-slow) ease;
     /* 毛玻璃可调参数 */
     --blur-amount: 8px;
     --glass-opacity: 1;
@@ -153,7 +225,7 @@
     /* 图标背景：高于全局玻璃底色，确保在浅色壁纸上可见 */
     --icon-bg: rgba(255, 255, 255, 0.85);
     /* 滑块轨道 */
-    --slider-track: var(--bg-secondary);
+    --slider-track: rgba(255, 255, 255, calc(var(--bg-base-alpha) * 0.7));
     /* 浮层表面：菜单 / 下拉等叠在玻璃抽屉上的元素*/
     --surface-menu: rgba(255, 255, 255, 0.68);
     --border-popover: 1px solid rgba(255, 255, 255, 0.4);

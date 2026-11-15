@@ -215,10 +215,18 @@ function getResolvedTheme() {
     return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
 }
 
-/* 主题切换过渡窗口：theme-switching 类定义在 base.css，窗口时长略长于 --time-normal，
-   确保过渡完整走完再移除；首次应用发生在载入阶段，不做过渡，避免整页从默认主题淡入 */
+/* 颜色切换窗口：挂 theme-switching 禁用元素自己的颜色过渡（base.css），
+   颜色平滑全部交给 :root 变量插值（tokens.css，0.8s）——
+   深浅色切换与主题色/基准色/配色预设的单次改色共用 */
 let themeSwitchTimer = null;
 let themeAppliedOnce = false;
+
+function startColorWindow() {
+    const root = document.documentElement;
+    root.classList.add('theme-switching');
+    clearTimeout(themeSwitchTimer);
+    themeSwitchTimer = setTimeout(() => root.classList.remove('theme-switching'), 850);
+}
 
 function applyTheme(theme) {
     const root = document.documentElement;
@@ -228,9 +236,7 @@ function applyTheme(theme) {
     // 主题是否真的发生了切换：载入阶段的首次应用不算切换
     const themeChanged = themeAppliedOnce && root.getAttribute('data-theme') !== resolved;
     if (themeChanged) {
-        root.classList.add('theme-switching');
-        clearTimeout(themeSwitchTimer);
-        themeSwitchTimer = setTimeout(() => root.classList.remove('theme-switching'), 350);
+        startColorWindow();
     }
     themeAppliedOnce = true;
     root.setAttribute('data-theme', resolved);
@@ -339,12 +345,26 @@ function initAccentPicker() {
     }
 
     swatches.forEach(sw => {
-        sw.addEventListener('click', () => setAccent(sw.dataset.color));
+        sw.addEventListener('click', () => {
+            startColorWindow();
+            setAccent(sw.dataset.color);
+        });
     });
 
-    customInput.addEventListener('input', (e) => setAccent(e.target.value));
+    // 拖动拾色器期间挂全局即时模式（wp-instant 覆盖 :root 与壁纸层），颜色跟手；
+    // 面板关闭（change）恢复过渡，最终值已就位不会产生二次动画
+    customInput.addEventListener('input', (e) => {
+        document.documentElement.classList.add('wp-instant');
+        setAccent(e.target.value);
+    });
+    customInput.addEventListener('change', () => {
+        document.documentElement.classList.remove('wp-instant');
+    });
 
-    resetBtn.addEventListener('click', () => setAccent(SettingsManager.defaultSettings.accentColor));
+    resetBtn.addEventListener('click', () => {
+        startColorWindow();
+        setAccent(SettingsManager.defaultSettings.accentColor);
+    });
 
     // 初始化选中态
     syncAccentPickerUI();
@@ -400,12 +420,24 @@ function initDarkBasePicker() {
     }
 
     swatches.forEach(sw => {
-        sw.addEventListener('click', () => setDarkBase(sw.dataset.color));
+        sw.addEventListener('click', () => {
+            startColorWindow();
+            setDarkBase(sw.dataset.color);
+        });
     });
 
-    customInput.addEventListener('input', (e) => setDarkBase(e.target.value));
+    customInput.addEventListener('input', (e) => {
+        document.documentElement.classList.add('wp-instant');
+        setDarkBase(e.target.value);
+    });
+    customInput.addEventListener('change', () => {
+        document.documentElement.classList.remove('wp-instant');
+    });
 
-    resetBtn.addEventListener('click', () => setDarkBase(SettingsManager.defaultSettings.darkBaseColor));
+    resetBtn.addEventListener('click', () => {
+        startColorWindow();
+        setDarkBase(SettingsManager.defaultSettings.darkBaseColor);
+    });
 
     syncDarkBasePickerUI();
 }

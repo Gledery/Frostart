@@ -75,22 +75,16 @@ body {
     font-family: inherit;
 }
 
-/* 主题切换瞬间的全站过渡：applyTheme 切换深浅色时临时挂上 theme-switching，
-   让所有 UI 元素（含伪元素）的颜色类属性统一过渡，替代原先逐个组件声明的清单。
-   只列廉价绘制属性：注册自定义属性绝不能再加进来——它们逐级继承，
-   每个元素各跑一份过渡会逐帧重算整棵子树的 var() 依赖链，样式风暴直接卡死页面；
-   root/body/壁纸层的 --surface-dark-base、--accent-color、--wp-* 由各自的声明负责，
-   这里用 :not 排除，避免被 !important 覆盖。
-   切换窗口结束即移除，按压/悬停反馈仍由各组件自己的 transition 负责 */
+/* 主题切换窗口（JS 挂 theme-switching，850ms）：颜色平滑由 :root 变量插值
+   独家负责（tokens.css），窗口内禁用元素自己的颜色过渡——元素过渡追每帧
+   变化的变量会一直带滞后（起步慢收尾拖）。排除壁纸层/光斑（有自己的插值）
+   和抽屉/遮罩（transform/opacity 动画不能被覆盖杀掉） */
 @media (prefers-reduced-motion: no-preference) {
-    html.theme-switching *:not(body):not(.wallpaper-layer):not(.blob),
-    html.theme-switching *:not(body):not(.wallpaper-layer):not(.blob)::before,
-    html.theme-switching *:not(body):not(.wallpaper-layer):not(.blob)::after,
-    html.theme-switching *:not(body):not(.wallpaper-layer):not(.blob)::placeholder {
-        transition-property: background-color, color, border-color,
-            fill, stroke, outline-color, caret-color !important;
-        transition-duration: var(--time-normal) !important;
-        transition-timing-function: var(--easing-standard) !important;
+    html.theme-switching *:not(body):not(.wallpaper-layer):not(.blob):not(.settings-drawer):not(.drawer-overlay),
+    html.theme-switching *:not(body):not(.wallpaper-layer):not(.blob):not(.settings-drawer):not(.drawer-overlay)::before,
+    html.theme-switching *:not(body):not(.wallpaper-layer):not(.blob):not(.settings-drawer):not(.drawer-overlay)::after {
+        transition-property: transform, opacity !important;
+        transition-duration: var(--time-fast) !important;
     }
 }
 
@@ -246,16 +240,17 @@ body[data-wallpaper="solid"] {
     background-color: var(--wp-solid);
 }
 
-/* 拖动颜色/角度时禁用壁纸过渡（避免迟滞），点击预设/恢复默认时移除该类以启用平滑过渡。
-   作用域仅限壁纸相关元素，不影响 UI 按钮等其它过渡。
-   同时覆盖图片层/遮罩层，消除图片壁纸切换/首屏时的淡入动画（三层防线第 3 层）。 */
-body.wp-instant,
-body.wp-instant .wallpaper-layer,
-body.wp-instant .wallpaper-layer::before,
-body.wp-instant .wallpaper-layer::after,
-body.wp-instant .wallpaper-layer .blob,
-body.wp-instant .wallpaper-image,
-body.wp-instant .wallpaper-mask {
+/* 全局即时模式（类挂 html）：禁用 :root 颜色变量插值与壁纸层全部过渡——
+   取色器拖动期间颜色跟手，首屏应用保存值时防 0.8s 闪动，
+   同时覆盖图片层/遮罩层（三层防线第 3 层） */
+html.wp-instant,
+.wp-instant body,
+.wp-instant .wallpaper-layer,
+.wp-instant .wallpaper-layer::before,
+.wp-instant .wallpaper-layer::after,
+.wp-instant .wallpaper-layer .blob,
+.wp-instant .wallpaper-image,
+.wp-instant .wallpaper-mask {
     transition: none !important;
 }
 

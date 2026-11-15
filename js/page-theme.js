@@ -37,14 +37,14 @@
         }
     }
 
-    /* 系统主题变化时的切换：临时挂 theme-switching（规则见 base.css）让全站颜色统一过渡，
-       窗口时长略长于 --time-normal，确保过渡走完再移除 */
+    let themeSwitchTimer = null;
     function switchTheme(resolved) {
         const root = document.documentElement;
         if (root.getAttribute('data-theme') === resolved) return;
         root.classList.add('theme-switching');
         root.setAttribute('data-theme', resolved);
-        setTimeout(() => root.classList.remove('theme-switching'), 350);
+        clearTimeout(themeSwitchTimer);
+        themeSwitchTimer = setTimeout(() => root.classList.remove('theme-switching'), 850);
     }
 
     // auto 主题跟随系统变化

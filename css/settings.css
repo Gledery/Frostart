@@ -52,13 +52,6 @@
     contain: layout style paint;
 }
 
-/* 抽屉关闭时内容整棵子树跳过渲染：数百个设置条目不再参与离屏光栅化，
-   主题切换的全站过渡也不再为看不见的元素逐帧插值。
-   打开瞬间会有一次子树首绘，落在滑入动画开头，代价可接受 */
-.settings-drawer:not(.open) .drawer-content {
-    content-visibility: hidden;
-}
-
 .settings-drawer.open {
     transform: translateX(0);
 }

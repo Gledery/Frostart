@@ -9,7 +9,7 @@
    enabled=false 时瞬切（拖动颜色/角度时，避免迟滞）。
    通过给 body 加/去 wp-instant 类，CSS 中对该类禁用壁纸相关 transition。 */
 function setWallpaperTransition(enabled) {
-    document.body.classList.toggle('wp-instant', !enabled);
+    document.documentElement.classList.toggle('wp-instant', !enabled);
 }
 
 /* 联动主题色（反应式）：开关开启时把 accentColor 同步为调色盘中的 blob2 色 */
@@ -57,6 +57,7 @@ function selectGradientPreset(id, variantId) {
     const variant = preset[variantId || getResolvedTheme()] || preset.light;
 
     setWallpaperTransition(true);
+    startColorWindow();
     SettingsManager.set('gradientColor1', variant.c1);
     SettingsManager.set('gradientColor2', variant.c2);
     SettingsManager.set('gradientAngle', variant.angle);
@@ -237,6 +238,7 @@ function initWallpaperSettings() {
         accentLinkToggle.addEventListener('change', () => {
             SettingsManager.set('linkAccentToBlob', accentLinkToggle.checked);
             // 打开联动立即采用当前生效 blob2 色
+            startColorWindow();
             relinkAccentFromBlob();
         });
     }
