@@ -23,18 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const cached = SettingsManager.loadSync();
     if (cached) {
         applyTheme(cached.theme);
-        const root = document.documentElement;
-        root.style.setProperty('--blur-amount', `${cached.blur}px`);
-        root.style.setProperty('--saturation-amount', `${cached.saturation}%`);
-        root.style.setProperty('--icon-size', `${cached.iconSize}px`);
-        root.style.setProperty('--border-radius', `${cached.borderRadius}px`);
-        root.style.setProperty('--shortcut-gap', `${cached.shortcutGap}px`);
-        root.style.setProperty('--shortcut-name-size', cached.shortcutNameSize === 0 ? '0px' : `${cached.shortcutNameSize}px`);
-        root.style.setProperty('--clock-size', `${cached.clockSize}px`);
-        root.style.setProperty('--search-width', `${cached.searchWidth}px`);
-        root.style.setProperty('--search-height', `${cached.searchHeight}px`);
-        root.style.setProperty('--content-position', cached.contentPosition);
-        document.body.classList.toggle('hide-shortcut-names', cached.shortcutNameSize === 0);
+        applyLayoutVars(cached);
     }
     // 2. 异步从 chrome.storage 读取权威设置，完整初始化
     await SettingsManager.load();
@@ -94,6 +83,23 @@ function initializeApp() {
 /* =========================================
    应用设置到 DOM
    ========================================= */
+/* 布局类 CSS 变量统一应用：首屏 localStorage 快路径与 applySettings 共用，
+   新增纯 setProperty 的布局设置加在这里，避免两处漂移 */
+function applyLayoutVars(settings) {
+    const root = document.documentElement;
+    root.style.setProperty('--blur-amount', `${settings.blur}px`);
+    root.style.setProperty('--saturation-amount', `${settings.saturation}%`);
+    root.style.setProperty('--icon-size', `${settings.iconSize}px`);
+    root.style.setProperty('--border-radius', `${settings.borderRadius}px`);
+    root.style.setProperty('--shortcut-gap', `${settings.shortcutGap}px`);
+    root.style.setProperty('--shortcut-name-size', settings.shortcutNameSize === 0 ? '0px' : `${settings.shortcutNameSize}px`);
+    root.style.setProperty('--clock-size', `${settings.clockSize}px`);
+    root.style.setProperty('--search-width', `${settings.searchWidth}px`);
+    root.style.setProperty('--search-height', `${settings.searchHeight}px`);
+    root.style.setProperty('--content-position', settings.contentPosition);
+    document.body.classList.toggle('hide-shortcut-names', settings.shortcutNameSize === 0);
+}
+
 function applySettings() {
     const settings = SettingsManager.getAll();
     const root = document.documentElement;
@@ -103,18 +109,8 @@ function applySettings() {
     // 深色基准色（空值=移除覆盖，回归令牌默认基准灰）
     applyDarkBaseColor(settings.darkBaseColor);
 
-    root.style.setProperty('--blur-amount', `${settings.blur}px`);
-    root.style.setProperty('--saturation-amount', `${settings.saturation}%`);
-    root.style.setProperty('--icon-size', `${settings.iconSize}px`);
-    root.style.setProperty('--border-radius', `${settings.borderRadius}px`);
-    root.style.setProperty('--shortcut-gap', `${settings.shortcutGap}px`);
-    root.style.setProperty('--shortcut-name-size', settings.shortcutNameSize === 0 ? '0px' : `${settings.shortcutNameSize}px`);
-    document.body.classList.toggle('hide-shortcut-names', settings.shortcutNameSize === 0);
-    root.style.setProperty('--clock-size', `${settings.clockSize}px`);
-    root.style.setProperty('--search-width', `${settings.searchWidth}px`);
-    root.style.setProperty('--search-height', `${settings.searchHeight}px`);
+    applyLayoutVars(settings);
     applySearchRadiusValue(settings.searchRadius >= 9999 ? SEARCH_RADIUS_MAX : settings.searchRadius);
-    root.style.setProperty('--content-position', settings.contentPosition);
     const maxWidthValue = settings.iconMaxWidthUnit === '%' ? `${settings.iconMaxWidth}%` : `${settings.iconMaxWidth}px`;
     root.style.setProperty('--icon-max-width', maxWidthValue);
     // 同步宽度单位切换按钮 + 滑块范围（导入/重置后单位可能变化）
