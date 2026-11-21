@@ -167,12 +167,9 @@ const SettingsManager = {
         delete settings.engineQuickSwitch;
         // 图标背景透明度已取消最左"默认"档：存量 -1 转为原默认外观（85%）
         if (settings.iconBgOpacity === -1) settings.iconBgOpacity = 85;
-        // 光斑改为显式调色盘值：旧数据中的空值（派生态）按当时的壁纸底色烘焙一次；
-        // 工具函数不可用（如 converter 单文件环境）时回退默认烘焙值
+        // 光斑改为显式调色盘值：旧数据中的空值（派生态）按当时的壁纸底色烘焙一次
         if (!settings.blobColor1 || !settings.blobColor2) {
-            const derive = (hex, shift) => (typeof hexToBlobRgb === 'function' && typeof rgbTripletToHex === 'function')
-                ? rgbTripletToHex(hexToBlobRgb(hex, shift))
-                : (shift === 40 ? '#5f96f2' : '#5a93e2');
+            const derive = (hex, shift) => rgbTripletToHex(hexToBlobRgb(hex, shift));
             const isSolid = settings.wallpaperMode === 'solid';
             const base = isSolid ? (settings.wallpaperColor || '#e6eef7') : (settings.gradientColor1 || '#e8eef7');
             const base2 = isSolid ? (settings.wallpaperColor || '#e6eef7') : (settings.gradientColor2 || '#dde6f5');

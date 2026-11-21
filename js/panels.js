@@ -301,9 +301,7 @@ function selectWallpaperType(type) {
     applyWallpaper(SettingsManager.getAll());
 
     // 切到必应模式：若当日壁纸未缓存则拉取
-    if (type === 'bing' && typeof refreshBingWallpaper === 'function') {
-        refreshBingWallpaper();
-    }
+    if (type === 'bing') refreshBingWallpaper();
 
     updateWallpaperUI(SettingsManager.getAll());
 }

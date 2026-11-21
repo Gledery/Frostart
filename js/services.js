@@ -268,10 +268,10 @@ function applyTheme(theme) {
         }
     }
     // 联动主题色：blob2 值可能已随主题重写变化，重算 accent
-    if (typeof relinkAccentFromBlob === 'function') relinkAccentFromBlob();
+    relinkAccentFromBlob();
     // 同步取色器/角度滑块与预设选中态（定义在 panels.js，运行时已加载）
-    if (typeof syncGradientPresetUI === 'function') syncGradientPresetUI(SettingsManager.getAll());
-    if (typeof syncGradientPresetActive === 'function') syncGradientPresetActive();
+    syncGradientPresetUI(SettingsManager.getAll());
+    syncGradientPresetActive();
     syncAccentPickerUI();
 }
 
@@ -510,7 +510,7 @@ async function refreshBingWallpaper(force) {
         if (SettingsManager.get('wallpaperMode') === 'bing') {
             applyWallpaper(SettingsManager.getAll());
         }
-        if (typeof updateBingWallpaperInfo === 'function') updateBingWallpaperInfo();
+        updateBingWallpaperInfo();
         if (force) showToast(I18N.t('toast.bingUpdated'));
     } catch (e) {
         if (!current.bingWallpaperUrl) {

@@ -186,12 +186,12 @@ function initLanguage() {
 function applyLanguageChange() {
     I18N.setLang(SettingsManager.get('lang') || 'auto');
     applySettings();           // 滑块文字、壁纸面板、引擎网格等
-    if (typeof renderShortcutsList === 'function') renderShortcutsList();
-    if (typeof renderCustomEngines === 'function') renderCustomEngines();
-    if (typeof renderEnginePopup === 'function') renderEnginePopup();
-    if (typeof rebuildSettingsSearchIndex === 'function') rebuildSettingsSearchIndex();
-    if (typeof updateTime === 'function') updateTime();
-    if (typeof updateButtonState === 'function') updateButtonState(SettingsManager.VERSION);
+    renderShortcutsList();
+    renderCustomEngines();
+    renderEnginePopup();
+    rebuildSettingsSearchIndex();
+    updateTime();
+    updateButtonState(SettingsManager.VERSION);
 }
 
 /* =========================================
