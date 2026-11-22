@@ -327,6 +327,9 @@ function initAccentPicker() {
     const customInput = document.getElementById('accent-color-input');
     const resetBtn = document.getElementById('accent-reset-btn');
 
+    // 色块背景由 data-color 生成，色值单一来源
+    swatches.forEach(sw => { sw.style.background = sw.dataset.color; });
+
     // 设置并保存
     function setAccent(color) {
         // 手动取色即接管主题色：联动开启时自动关闭并提醒
@@ -409,6 +412,9 @@ function initDarkBasePicker() {
     const swatches = picker.querySelectorAll('.accent-swatch');
     const customInput = document.getElementById('dark-base-color-input');
     const resetBtn = document.getElementById('dark-base-reset-btn');
+
+    // 色块背景由 data-color 生成，色值单一来源
+    swatches.forEach(sw => { sw.style.background = sw.dataset.color; });
 
     function setDarkBase(color) {
         SettingsManager.set('darkBaseColor', color);
