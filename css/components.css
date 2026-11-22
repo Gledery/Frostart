@@ -346,7 +346,7 @@ body.hide-shortcut-names .shortcut-item {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #e84545;
+    background: var(--danger-dot);
     box-shadow: 0 0 0 2px var(--bg-glass, var(--bg-secondary));
     animation: update-dot-pulse 2s ease-in-out infinite;
     z-index: 1;
@@ -405,14 +405,12 @@ body.hide-shortcut-names .shortcut-item {
 }
 
 .toast-error {
-    color: #ff6b6b;
+    color: var(--danger-fg);
 }
 
-[data-theme="light"] .toast-error { color: #d94545; }
-
 .toast-error::before {
-    background: #d94545;
-    box-shadow: 0 0 0 4px rgba(217, 69, 69, 0.18);
+    background: var(--danger-fg);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--danger-fg) 18%, transparent);
 }
 
 /* =========================================
@@ -550,7 +548,7 @@ body.hide-shortcut-names .shortcut-item {
     transform: translateX(-50%);
     font-size: 11px;
     background-color: rgba(0, 0, 0, 0.35);
-    color: #fff;
+    color: var(--text-on-accent);
     padding: 3px 10px;
     border-radius: var(--radius-pill);
     pointer-events: none;
@@ -638,7 +636,7 @@ body.hide-shortcut-names .shortcut-item {
 
 .confirm-btn {
     background-color: var(--accent-color);
-    color: #fff;
+    color: var(--text-on-accent);
 }
 
 .confirm-btn:hover {
@@ -743,15 +741,11 @@ body.hide-shortcut-names .shortcut-item {
 }
 
 .context-item.danger {
-    color: #d94545;
+    color: var(--danger-fg);
 }
 
 .context-item.danger:hover {
-    background-color: rgba(217, 69, 69, 0.1);
-}
-
-[data-theme="dark"] .context-item.danger {
-    color: #ff6b6b;
+    background-color: color-mix(in srgb, var(--danger-fg) 10%, transparent);
 }
 
 .context-item .ctx-icon {
@@ -865,10 +859,10 @@ body.hide-shortcut-names .shortcut-item {
     line-height: 1;
     padding: 16px 22px;
     border-radius: var(--radius-pill);
-    background: var(--bg-primary);
+    background: var(--kaomoji-bg);
     backdrop-filter: saturate(var(--saturation-amount)) blur(var(--blur-amount));
     -webkit-backdrop-filter: saturate(var(--saturation-amount)) blur(var(--blur-amount));
-    border: var(--border-glass);
+    border: var(--kaomoji-border);
     box-shadow: var(--shadow-sm);
     transition: transform 0.3s ease, background-color 0.25s ease;
     transform: scale(1);
@@ -878,7 +872,7 @@ body.hide-shortcut-names .shortcut-item {
 
 .kaomoji:hover .face {
     transform: scale(1.1);
-    background: var(--bg-secondary);
+    background: var(--kaomoji-bg-hover);
 }
 
 .kaomoji:active .face {
@@ -894,14 +888,14 @@ body.hide-shortcut-names .shortcut-item {
     text-align: left;
     padding: 10px 18px;
     border-radius: var(--radius-sm);
-    background: var(--bg-secondary);
+    background: var(--kaomoji-bg-hover);
     backdrop-filter: saturate(var(--saturation-amount)) blur(var(--blur-amount));
     -webkit-backdrop-filter: saturate(var(--saturation-amount)) blur(var(--blur-amount));
-    border: var(--border-glass);
+    border: var(--kaomoji-border);
     box-shadow: var(--shadow-sm);
     font-size: 14px;
     line-height: 1.5;
-    color: var(--text-primary);
+    color: var(--kaomoji-text);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
@@ -918,13 +912,9 @@ body.hide-shortcut-names .shortcut-item {
     .kaomoji .bubble { font-size: 12px; padding: 8px 14px; }
 }
 
-/* 深色模式不影响 Kaomoji */
+/* 深色模式不影响 Kaomoji：质感由 tokens.css 的 --kaomoji-* 专属令牌固定为浅色 */
 .kaomoji {
-    --bg-primary: rgba(255, 255, 255, var(--bg-base-alpha));
-    --bg-secondary: rgba(255, 255, 255, calc(var(--bg-base-alpha) * 0.85));
-    --border-glass: 2px solid rgba(255, 255, 255, 0.3);
-    --text-primary: #1a1a2a;
-    color: var(--text-primary);
+    color: var(--kaomoji-text);
 }
 
 /* =========================================

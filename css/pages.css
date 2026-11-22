@@ -168,18 +168,18 @@
 
 /* 导入到新标签页：绿色强调（保留原语义色） */
 .converter-actions .btn-import-now {
-    background: linear-gradient(135deg, #22c55e, #16a34a);
-    color: #fff;
+    background: linear-gradient(135deg, var(--success-1), var(--success-2));
+    color: var(--text-on-accent);
 }
 
 .converter-actions .btn-import-now:hover:not(:disabled) {
-    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.35);
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--success-1) 35%, transparent);
 }
 
 /* 主操作按钮：accent 渐变 */
 .converter-actions .btn-primary {
-    background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 70%, #8b5cf6));
-    color: #fff;
+    background: linear-gradient(135deg, var(--accent-color), color-mix(in srgb, var(--accent-color) 70%, var(--accent-purple)));
+    color: var(--text-on-accent);
 }
 
 .converter-actions .btn-primary:hover:not(:disabled) {
@@ -226,7 +226,7 @@
     border-radius: var(--radius-pill);
     font-size: 14px;
     font-weight: 500;
-    color: #fff;
+    color: var(--text-on-accent);
     background: color-mix(in srgb, var(--text-primary) 85%, transparent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -250,6 +250,6 @@
 }
 
 #toast.toast.error {
-    color: #fff;
-    background: rgba(217, 69, 69, 0.92);
+    color: var(--text-on-accent);
+    background: color-mix(in srgb, var(--danger-fg) 92%, transparent);
 }

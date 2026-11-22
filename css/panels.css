@@ -671,14 +671,14 @@ button.about-link-btn {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background: #e84545;
+    background: var(--danger-dot);
     box-shadow: 0 0 0 2px var(--bg-secondary);
     animation: update-dot-pulse 2s ease-in-out infinite;
 }
 
 @keyframes update-dot-pulse {
-    0%, 100% { box-shadow: 0 0 0 2px var(--bg-secondary), 0 0 0 0 rgba(232, 69, 69, 0.5); }
-    50% { box-shadow: 0 0 0 2px var(--bg-secondary), 0 0 0 5px rgba(232, 69, 69, 0); }
+    0%, 100% { box-shadow: 0 0 0 2px var(--bg-secondary), 0 0 0 0 color-mix(in srgb, var(--danger-dot) 50%, transparent); }
+    50% { box-shadow: 0 0 0 2px var(--bg-secondary), 0 0 0 5px transparent; }
 }
 
 /* =========================================
@@ -956,7 +956,7 @@ button.about-link-btn {
     padding: 12px 22px;
     border-radius: var(--radius-sm);
     background: var(--accent-color);
-    color: #fff;
+    color: var(--text-on-accent);
     font-size: 14px;
     font-weight: 600;
     border: none;
@@ -977,7 +977,7 @@ button.about-link-btn {
 
 .pack-download-btn:hover {
     background: color-mix(in srgb, var(--accent-color) 86%, #000);
-    color: #fff;
+    color: var(--text-on-accent);
     box-shadow: 0 8px 22px color-mix(in srgb, var(--accent-color) 45%, transparent);
 }
 

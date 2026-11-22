@@ -163,8 +163,22 @@
     --search-text-color: var(--text-primary);
     --search-placeholder-color: var(--text-muted);
     --settings-icon-color: var(--text-primary);
-    /* 主题色底色上的文字（强调按钮、定位徽标） */
+    /* 主题色等实心表面上的文字（强调按钮、徽标、深色 toast、开关滑块） */
     --text-on-accent: #ffffff;
+    /* 危险色系：错误文本 / 危险按钮 / 更新红点，深浅变体在 [data-theme] 取 */
+    --danger-fg: #d94545;
+    --danger-strong: #c93535;
+    --danger-strong-hover: #b52828;
+    --danger-dot: #e84545;
+    /* 语义色：converter 导入成功按钮渐变与主按钮紫色掺入 */
+    --success-1: #22c55e;
+    --success-2: #16a34a;
+    --accent-purple: #8b5cf6;
+    /* 颜文字角落组件：固定浅色玻璃质感，不随深色模式 */
+    --kaomoji-bg: rgba(255, 255, 255, var(--bg-base-alpha));
+    --kaomoji-bg-hover: rgba(255, 255, 255, calc(var(--bg-base-alpha) * 0.85));
+    --kaomoji-border: 2px solid rgba(255, 255, 255, 0.3);
+    --kaomoji-text: #1a1a2a;
     /* 设置搜索框高度（结果浮层圆角 = 该值 / 2） */
     --settings-search-height: 44px;
 
@@ -253,6 +267,10 @@
     --wallpaper-mask-color: rgba(20, 20, 35, 0.55);
     --divider-color: rgba(255, 255, 255, 0.1);
     --accent-color: #7c8aef;
+    /* 危险色系深色变体 */
+    --danger-fg: #ff6b6b;
+    --danger-strong: #ff8080;
+    --danger-strong-hover: #ff6b6b;
     --icon-bg: color-mix(in srgb, color-mix(in srgb, var(--surface-dark-base) 90%, white) 85%, transparent);
     --slider-track: rgba(255, 255, 255, 0.16);
     /* 浮层表面：backdrop-filter 会把卡片上的文字描边糊成亮雾，填充色无法抵消，
