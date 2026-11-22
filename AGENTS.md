@@ -4,6 +4,19 @@
 
 ---
 
+## 0. 记忆与文档导航
+
+动手前先查这些地方，避免重复踩坑或推翻已有决策：
+
+- **[docs/dev/](./docs/dev/)**：工程决策记录（性能结论、架构取舍、排查定案），本文档没写到的细节先来这里找
+- **[changelog.js](./js/changelog.js)**：版本历史，很多"为什么改成这样"的记录在这里
+- **GitHub Issues**：进行中的讨论与规划项
+- **用户和项目本地记忆**：辅助索引，仓库外不可见——该公开的结论必须沉淀进 docs/dev/ 或本文档，不能只写在记忆里
+
+新做完一轮审计、重构或踩了值得记的坑，在 docs/dev/ 沉淀一份中性口吻的记录（只写结论和依据，不写对话过程）
+
+---
+
 ## 1. 设计原则
 
 - **令牌优先**：颜色、半透明底色、阴影、圆角、间距、动效时长、缓动曲线、壁纸参数，全部从 [tokens.css](./css/tokens.css) 的 `:root` / `[data-theme]` / `@property` 里取变量，禁止硬编码十六进制色值或魔法数字。需要新令牌就加到这里，不要在组件里私自开小灶
@@ -25,11 +38,14 @@
 - **`newtab.html` 的 `<script>` 加载顺序不能动**：依赖链是固定的——
 
   ```
-  wp-cache.js → utils/* → select.js → changelog.js → settings.js → services.js
+  i18n.js（head，defer 首位）→ wp-cache.js（head，唯一同步脚本）
+            → utils/* → select.js → changelog.js → settings.js → services.js
             → kaomoji.js → core.js → sliders.js → panels.js → widgets.js → packager.js
   ```
 
-  core.js 顶部有完整说明。调换顺序会导致 `Frostart.state` / `SettingsManager` / `versions` 等全局未定义就直接被引用。需要新模块时先确认它在链中的位置，再问维护者
+  除 wp-cache.js 外全部 `defer`：文档顺序 = 执行顺序，wp-cache 同步先跑是为了首绘前抢先应用壁纸与外观（防 FOUC），**勿改成 defer**
+
+  core.js 顶部有完整说明。调换顺序会导致 `Frostart.state` / `SettingsManager` / `versions` 等全局未定义就直接被引用。需要新模块时先确认它在链中的位置、保留 `defer`，再问维护者
 - **配置存储走 `chrome.storage.local`**：键名 `frostartSettings`（见 [settings.js](./js/settings.js)）。为了消除首屏 FOUC，会同步从 `localStorage` 读一份缓存抢先应用 CSS 变量（[core.js](./js/core.js) `DOMContentLoaded` 前 30 行）。改存储结构时两层都要兼容，否则用户配置会丢或闪
 - **壁纸颜色变量是 `@property` 注册的类型化属性**：`--wp-c1` / `--wp-c2` / `--wp-angle` / `--wp-solid` / `--blob-*` 都在 [tokens.css](./css/tokens.css) 用 `@property` 声明了 `<color>` / `<angle>` 类型，**这是壁纸切换能平滑过渡的前提**。不要把它们改成普通 `--var`，否则颜色变化会突变
 - **MV3 service worker 不稳定**：不要依赖持久后台任务，时钟已经做了"标签页隐藏时暂停"（`0.1.13`），新增定时器类逻辑要考虑页面随时可能被冻结
