@@ -162,8 +162,10 @@
         opacity var(--time-fast) var(--easing-standard);
 }
 
-.converter-actions button:not(:disabled):hover {
-    transform: translateY(-2px);
+@media (hover: hover) {
+    .converter-actions button:not(:disabled):hover {
+        transform: translateY(-2px);
+    }
 }
 
 /* 导入到新标签页：绿色强调（保留原语义色） */

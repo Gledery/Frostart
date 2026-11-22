@@ -82,9 +82,11 @@
         background-color var(--time-fast) var(--easing-standard);
 }
 
-.close-btn:hover {
-    background-color: var(--bg-hover);
-    transform: scale(1.08);
+@media (hover: hover) {
+    .close-btn:hover {
+        background-color: var(--bg-hover);
+        transform: scale(1.08);
+    }
 }
 
 .close-btn:active {
@@ -469,9 +471,11 @@
 }
 
 /* 柔和浮起：悬停时整体轻微放大 + 浮起投影 */
-.switch:hover .switch-slider {
-    transform: scale(1.05);
-    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.14);
+@media (hover: hover) {
+    .switch:hover .switch-slider {
+        transform: scale(1.05);
+        box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.14);
+    }
 }
 
 /* 按下(:active)：回缩 + 内凹加深，优先级高于悬停 */
@@ -794,8 +798,10 @@
     transition: transform var(--time-fast) var(--easing-elastic);
 }
 
-.engine-chip:hover .engine-chip-icon {
-    transform: scale(1.1);
+@media (hover: hover) {
+    .engine-chip:hover .engine-chip-icon {
+        transform: scale(1.1);
+    }
 }
 
 .engine-chip-name {
@@ -1103,8 +1109,10 @@
     transition: transform var(--time-fast) ease;
 }
 
-.slider::-webkit-slider-thumb:hover {
-    transform: scale(1.08);
+@media (hover: hover) {
+    .slider::-webkit-slider-thumb:hover {
+        transform: scale(1.08);
+    }
 }
 
 .slider::-webkit-slider-thumb:active {
@@ -1200,8 +1208,10 @@
     box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.25);
 }
 
-.accent-swatch:hover {
-    transform: scale(1.12);
+@media (hover: hover) {
+    .accent-swatch:hover {
+        transform: scale(1.12);
+    }
 }
 
 .accent-swatch.active {
@@ -1229,9 +1239,11 @@
         color var(--time-fast) var(--easing-standard);
 }
 
-.accent-custom:hover {
-    transform: scale(1.12);
-    color: var(--text-primary);
+@media (hover: hover) {
+    .accent-custom:hover {
+        transform: scale(1.12);
+        color: var(--text-primary);
+    }
 }
 
 .accent-custom svg {
@@ -1273,9 +1285,11 @@
         color var(--time-fast) var(--easing-standard);
 }
 
-.accent-reset:hover {
-    transform: scale(1.12);
-    color: var(--text-primary);
+@media (hover: hover) {
+    .accent-reset:hover {
+        transform: scale(1.12);
+        color: var(--text-primary);
+    }
 }
 
 .accent-reset.active {

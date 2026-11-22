@@ -1,8 +1,9 @@
 /* =========================================
    组件层：主屏组件（搜索框 / 快捷方式 / 设置按钮 / Toast / 模态框 / 上下文菜单 / 拖拽 / 颜文字）
-         与全局兜底（滚动条 / 无障碍 / 响应式 / 触屏门控）
+         与全局兜底（滚动条 / 无障碍 / 响应式）
    —— 依赖 tokens.css 的变量与 base.css 的 .glass-effect
-   —— 触屏门控与响应式属覆盖型规则，本文件必须最后加载
+   —— 响应式属覆盖型规则，本文件必须最后加载
+   —— 带 transform 的 hover 反馈一律包进 @media (hover: hover)，触屏设备只走 :active
    加载顺序：tokens → base → settings → panels → components
    ========================================= */
 
@@ -42,9 +43,11 @@
     will-change: transform, box-shadow;
 }
 
-.search-box:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
+@media (hover: hover) {
+    .search-box:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+    }
 }
 
 .search-box:active {
@@ -79,9 +82,11 @@
     border-radius: 8px;
 }
 
-.search-engine-indicator:hover {
-    transform: scale(1.08);
-    background-color: var(--bg-hover);
+@media (hover: hover) {
+    .search-engine-indicator:hover {
+        transform: scale(1.08);
+        background-color: var(--bg-hover);
+    }
 }
 
 /* 引擎切换下拉（毛玻璃） */
@@ -131,9 +136,11 @@
         box-shadow var(--time-fast) var(--easing-standard);
 }
 
-.engine-popup-item:hover {
-    transform: scale(1.1);
-    background-color: var(--bg-hover);
+@media (hover: hover) {
+    .engine-popup-item:hover {
+        transform: scale(1.1);
+        background-color: var(--bg-hover);
+    }
 }
 
 .engine-popup-item.active {
@@ -222,8 +229,10 @@ body.hide-shortcut-names .shortcut-item {
     gap: 0;
 }
 
-.shortcut-item:hover {
-    transform: translateY(-6px);
+@media (hover: hover) {
+    .shortcut-item:hover {
+        transform: translateY(-6px);
+    }
 }
 
 .shortcut-item:active {
@@ -251,9 +260,11 @@ body.hide-shortcut-names .shortcut-item {
         background-color var(--time-normal) var(--easing-standard);
 }
 
-.shortcut-item:hover .shortcut-icon {
-    transform: scale(1.08);
-    box-shadow: var(--shadow-md);
+@media (hover: hover) {
+    .shortcut-item:hover .shortcut-icon {
+        transform: scale(1.08);
+        box-shadow: var(--shadow-md);
+    }
 }
 
 .shortcut-icon img {
@@ -325,16 +336,20 @@ body.hide-shortcut-names .shortcut-item {
     transition: transform var(--time-normal) var(--easing-standard);
 }
 
-.settings-btn:hover {
-    transform: scale(1.08);
+@media (hover: hover) {
+    .settings-btn:hover {
+        transform: scale(1.08);
+    }
 }
 
 .settings-btn:active {
     transform: scale(0.85);
 }
 
-.settings-btn:hover svg {
-    transform: rotate(60deg);
+@media (hover: hover) {
+    .settings-btn:hover svg {
+        transform: rotate(60deg);
+    }
 }
 
 /* 有新版本时：设置按钮右上角红点*/
@@ -870,9 +885,11 @@ body.hide-shortcut-names .shortcut-item {
     font-family: "HarmonyOS Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-.kaomoji:hover .face {
-    transform: scale(1.1);
-    background: var(--kaomoji-bg-hover);
+@media (hover: hover) {
+    .kaomoji:hover .face {
+        transform: scale(1.1);
+        background: var(--kaomoji-bg-hover);
+    }
 }
 
 .kaomoji:active .face {
@@ -915,38 +932,4 @@ body.hide-shortcut-names .shortcut-item {
 /* 深色模式不影响 Kaomoji：质感由 tokens.css 的 --kaomoji-* 专属令牌固定为浅色 */
 .kaomoji {
     color: var(--kaomoji-text);
-}
-
-/* =========================================
-   触屏门控：重置所有 transform 型 hover
-   触屏设备 tap 后 :hover 会粘连（直到点别处才消失），必须在这里重置
-   新增带 transform 的 hover 时，记得把选择器加进来
-   ========================================= */
-@media (hover: none) {
-    .search-box:hover,
-    .search-engine-indicator:hover,
-    .engine-popup-item:hover,
-    .shortcut-item:hover,
-    .shortcut-item:hover .shortcut-icon,
-    .settings-btn:hover,
-    .settings-btn:hover svg,
-    .close-btn:hover,
-    .switch:hover .switch-slider,
-    .slider::-webkit-slider-thumb:hover,
-    .gradient-preset:hover,
-    .color-picker:hover,
-    .shortcut-action-btn:hover,
-    .engine-chip:hover .engine-chip-icon,
-    .about-card:hover,
-    .about-card:hover .about-logo,
-    .about-card:hover .about-avatar,
-    .about-card:hover .about-site-logo,
-    .storage-refresh-btn:hover,
-    .accent-swatch:hover,
-    .accent-custom:hover,
-    .accent-reset:hover,
-    .kaomoji:hover .face,
-    .converter-actions button:not(:disabled):hover {
-        transform: none !important;
-    }
 }

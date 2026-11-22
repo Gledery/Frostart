@@ -127,9 +127,11 @@
     opacity: 1;
 }
 
-.gradient-preset:hover {
-    transform: scale(1.1);
-    border-color: var(--preset-edge);
+@media (hover: hover) {
+    .gradient-preset:hover {
+        transform: scale(1.1);
+        border-color: var(--preset-edge);
+    }
 }
 
 .gradient-preset:active {
@@ -210,9 +212,11 @@
         box-shadow var(--time-normal) ease;
 }
 
-.color-picker:hover {
-    transform: scale(1.08);
-    box-shadow: var(--shadow-md);
+@media (hover: hover) {
+    .color-picker:hover {
+        transform: scale(1.08);
+        box-shadow: var(--shadow-md);
+    }
 }
 
 .color-picker:active {
@@ -225,9 +229,11 @@
     opacity: 0.5;
 }
 
-.color-picker:disabled:hover {
-    transform: none;
-    box-shadow: var(--shadow-sm);
+@media (hover: hover) {
+    .color-picker:disabled:hover {
+        transform: none;
+        box-shadow: var(--shadow-sm);
+    }
 }
 
 .color-picker::-webkit-color-swatch-wrapper {
@@ -329,9 +335,11 @@
         background-color var(--time-fast) var(--easing-standard);
 }
 
-.shortcut-action-btn:hover {
-    background-color: var(--bg-active);
-    transform: scale(1.08);
+@media (hover: hover) {
+    .shortcut-action-btn:hover {
+        background-color: var(--bg-active);
+        transform: scale(1.08);
+    }
 }
 
 .shortcut-action-btn:active {
@@ -404,9 +412,11 @@
     transition: transform var(--time-normal) ease, box-shadow var(--time-normal) ease;
 }
 
-.about-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
+@media (hover: hover) {
+    .about-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow-lg);
+    }
 }
 
 .about-card:active {
@@ -459,13 +469,15 @@
     transition: transform var(--time-normal) ease;
 }
 
-.about-card:hover .about-logo {
-    transform: scale(1.08) rotate(2deg);
-}
+@media (hover: hover) {
+    .about-card:hover .about-logo {
+        transform: scale(1.08) rotate(2deg);
+    }
 
-.about-card:hover .about-avatar,
-.about-card:hover .about-site-logo {
-    transform: scale(1.06) rotate(2deg);
+    .about-card:hover .about-avatar,
+    .about-card:hover .about-site-logo {
+        transform: scale(1.06) rotate(2deg);
+    }
 }
 
 /* 右侧信息区 */
@@ -756,10 +768,12 @@ button.about-link-btn {
         color var(--time-fast) var(--easing-standard);
 }
 
-.storage-refresh-btn:hover {
-    background-color: var(--bg-hover);
-    color: var(--text-primary);
-    transform: scale(1.08);
+@media (hover: hover) {
+    .storage-refresh-btn:hover {
+        background-color: var(--bg-hover);
+        color: var(--text-primary);
+        transform: scale(1.08);
+    }
 }
 
 .storage-refresh-btn:active {
