@@ -221,7 +221,8 @@ function startColorWindow() {
     const root = document.documentElement;
     root.classList.add('theme-switching');
     clearTimeout(Frostart.state.themeSwitchTimer);
-    Frostart.state.themeSwitchTimer = setTimeout(() => root.classList.remove('theme-switching'), 850);
+    const windowMs = parseFloat(getComputedStyle(root).getPropertyValue('--theme-switch-window')) || 0;
+    Frostart.state.themeSwitchTimer = setTimeout(() => root.classList.remove('theme-switching'), windowMs);
 }
 
 function applyTheme(theme) {

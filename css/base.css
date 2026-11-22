@@ -75,7 +75,7 @@ body {
     font-family: inherit;
 }
 
-/* 主题切换窗口（JS 挂 theme-switching，850ms）：颜色平滑由 :root 变量插值
+/* 主题切换窗口（JS 挂 theme-switching，时长 = tokens.css 的 --theme-switch-window）：颜色平滑由 :root 变量插值
    独家负责（tokens.css），窗口内禁用元素自己的颜色过渡——元素过渡追每帧
    变化的变量会一直带滞后（起步慢收尾拖）。排除壁纸层/光斑（有自己的插值）
    和抽屉/遮罩（transform/opacity 动画不能被覆盖杀掉） */

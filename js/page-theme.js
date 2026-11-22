@@ -44,7 +44,8 @@
         root.classList.add('theme-switching');
         root.setAttribute('data-theme', resolved);
         clearTimeout(themeSwitchTimer);
-        themeSwitchTimer = setTimeout(() => root.classList.remove('theme-switching'), 850);
+        const windowMs = parseFloat(getComputedStyle(root).getPropertyValue('--theme-switch-window')) || 0;
+        themeSwitchTimer = setTimeout(() => root.classList.remove('theme-switching'), windowMs);
     }
 
     // auto 主题跟随系统变化

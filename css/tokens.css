@@ -134,6 +134,10 @@
         --icon-bg var(--time-slow) ease,
         --slider-track var(--time-slow) ease,
         --surface-menu var(--time-slow) ease;
+    /* 主题切换窗口时长（毫秒，无单位数值，由 JS 读取后 setTimeout）：
+       base.css 的 theme-switching 类在此窗口内禁用元素自己的颜色过渡，
+       时长须略长于上方 0.8s 变量插值过渡，让收尾落在过渡完成之后 */
+    --theme-switch-window: 850;
     /* 毛玻璃可调参数 */
     --blur-amount: 8px;
     --glass-opacity: 1;
