@@ -16,6 +16,16 @@ Frostart.state = {
     pendingIconStyle: null,       // 快捷方式编辑：待提交的裁切/背景
     pendingEngineIcon: '',        // 自定义引擎编辑：待提交的图标源
     pendingEngineIconStyle: null, // 自定义引擎编辑：待提交的裁切/背景
+    // services.js：主题切换与颜色窗口
+    themeSwitchTimer: null,       // 主题切换颜色窗口定时器
+    themeAppliedOnce: false,      // 是否已应用过主题（载入首次不算切换）
+    blobAlphaCache: null,         // 光斑 alpha 缓存（主题切换时清空）
+    // services.js：时钟渲染缓存
+    timeEl: null,                 // #time / #date DOM 引用缓存
+    dateEl: null,
+    lastDateKey: '',              // 日期字符串缓存键
+    cachedDateStr: '',            // 日期字符串缓存值
+    lunarFmt: null,               // 农历 Intl 格式化器
 };
 
 document.addEventListener('DOMContentLoaded', async () => {

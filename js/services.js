@@ -104,16 +104,15 @@ function matchGradientPreset(settings) {
     return null;
 }
 
-// blob alpha 值缓存：仅在主题切换时变化，避免 applyWallpaper 每次都触发 getComputedStyle 强制回流
-let _blobAlphaCache = null;
+// blob alpha 值缓存（Frostart.state.blobAlphaCache）：仅在主题切换时变化，避免 applyWallpaper 每次都触发 getComputedStyle 强制回流
 function getBlobAlphas() {
-    if (_blobAlphaCache) return _blobAlphaCache;
+    if (Frostart.state.blobAlphaCache) return Frostart.state.blobAlphaCache;
     const cs = getComputedStyle(document.documentElement);
-    _blobAlphaCache = {
+    Frostart.state.blobAlphaCache = {
         strong: parseFloat(cs.getPropertyValue('--blob-alpha-strong')) || 0.5,
         soft: parseFloat(cs.getPropertyValue('--blob-alpha-soft')) || 0.38,
     };
-    return _blobAlphaCache;
+    return Frostart.state.blobAlphaCache;
 }
 
 function applyWallpaper(settings) {
@@ -218,14 +217,11 @@ function getResolvedTheme() {
 /* 颜色切换窗口：挂 theme-switching 禁用元素自己的颜色过渡（base.css），
    颜色平滑全部交给 :root 变量插值（tokens.css，0.8s）——
    深浅色切换与主题色/基准色/配色预设的单次改色共用 */
-let themeSwitchTimer = null;
-let themeAppliedOnce = false;
-
 function startColorWindow() {
     const root = document.documentElement;
     root.classList.add('theme-switching');
-    clearTimeout(themeSwitchTimer);
-    themeSwitchTimer = setTimeout(() => root.classList.remove('theme-switching'), 850);
+    clearTimeout(Frostart.state.themeSwitchTimer);
+    Frostart.state.themeSwitchTimer = setTimeout(() => root.classList.remove('theme-switching'), 850);
 }
 
 function applyTheme(theme) {
@@ -234,16 +230,16 @@ function applyTheme(theme) {
         ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
         : theme;
     // 主题是否真的发生了切换：载入阶段的首次应用不算切换
-    const themeChanged = themeAppliedOnce && root.getAttribute('data-theme') !== resolved;
+    const themeChanged = Frostart.state.themeAppliedOnce && root.getAttribute('data-theme') !== resolved;
     if (themeChanged) {
         startColorWindow();
     }
-    themeAppliedOnce = true;
+    Frostart.state.themeAppliedOnce = true;
     root.setAttribute('data-theme', resolved);
     // 深色基准色设置项仅在深色下可见
     updateDarkBaseVisibility();
     // 主题切换后 blob alpha 值变化，清除缓存以重新读取
-    _blobAlphaCache = null;
+    Frostart.state.blobAlphaCache = null;
     // 主题切换后图标背景基色 RGB 变化，需重新应用
     applyIconBgOpacity(SettingsManager.get('iconBgOpacity'));
     // 文本默认色随主题变化，需重新解析（单独覆盖的优先级在函数内保留）
@@ -549,17 +545,11 @@ function applyFont(fontName) {
 /* =========================================
    时间
    ========================================= */
-// 缓存时钟/日期 DOM 引用，避免每秒 getElementById
-let _timeEl = null;
-let _dateEl = null;
-// 日期字符串缓存：日期每天只变一次，避免每秒重复创建 Intl 格式化器
-let _lastDateKey = '';
-let _cachedDateStr = '';
-
 function updateTime() {
     const now = new Date();
-    if (!_timeEl) _timeEl = document.getElementById('time');
-    if (!_dateEl) _dateEl = document.getElementById('date');
+    // DOM 引用缓存在 Frostart.state，避免每秒 getElementById
+    if (!Frostart.state.timeEl) Frostart.state.timeEl = document.getElementById('time');
+    if (!Frostart.state.dateEl) Frostart.state.dateEl = document.getElementById('date');
 
     const format = SettingsManager.get('timeFormat') || 24;
     const showSeconds = SettingsManager.get('showSeconds') || false;
@@ -579,14 +569,15 @@ function updateTime() {
     if (showSeconds) timeStr += `:${seconds}`;
     timeStr += suffix;
 
-    _timeEl.textContent = timeStr;
+    Frostart.state.timeEl.textContent = timeStr;
 
     const showWeek = SettingsManager.get('showWeek') !== false;
     const showLunar = SettingsManager.get('showLunar') || false;
     // 缓存键带上当前语言，切换语言后日期/农历会按新语言重新格式化
     const dateKey = `${now.getFullYear()}-${now.getMonth()}-${now.getDate()}-${showWeek}-${showLunar}-${I18N.lang}`;
-    if (dateKey !== _lastDateKey) {
-        _lastDateKey = dateKey;
+    // 日期字符串缓存：日期每天只变一次，避免每秒重复创建 Intl 格式化器
+    if (dateKey !== Frostart.state.lastDateKey) {
+        Frostart.state.lastDateKey = dateKey;
         let dateStr = showWeek
             ? now.toLocaleDateString(I18N.locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
             : now.toLocaleDateString(I18N.locale, { year: 'numeric', month: 'long', day: 'numeric' });
@@ -594,9 +585,9 @@ function updateTime() {
             const lunar = getLunarDate(now);
             if (lunar) dateStr += ` · ${lunar}`;
         }
-        _cachedDateStr = dateStr;
+        Frostart.state.cachedDateStr = dateStr;
     }
-    _dateEl.textContent = _cachedDateStr;
+    Frostart.state.dateEl.textContent = Frostart.state.cachedDateStr;
 }
 
 function initTime() {
@@ -646,17 +637,16 @@ function ordinalEn(n) {
     }
 }
 
-let _lunarFmt = null;
 function getLunarDate(date) {
     try {
         // 固定用 zh-CN 中国历格式化器提取月/日数字与闰月标记，输出语言再按界面语言组装
-        if (!_lunarFmt) {
-            _lunarFmt = new Intl.DateTimeFormat('zh-CN-u-ca-chinese', {
+        if (!Frostart.state.lunarFmt) {
+            Frostart.state.lunarFmt = new Intl.DateTimeFormat('zh-CN-u-ca-chinese', {
                 month: 'numeric',
                 day: 'numeric'
             });
         }
-        const parts = _lunarFmt.formatToParts(date);
+        const parts = Frostart.state.lunarFmt.formatToParts(date);
         let monthNum = 0, dayNum = 0, isLeap = false;
         for (const p of parts) {
             if (p.type === 'month') {
