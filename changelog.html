@@ -153,6 +153,18 @@
             flex-shrink: 0;
         }
 
+        .sidebar-dot[data-level="major"] {
+            background: var(--level-major);
+        }
+
+        .sidebar-dot[data-level="minor"] {
+            background: var(--level-minor);
+        }
+
+        .sidebar-dot[data-level="patch"] {
+            background: var(--level-patch);
+        }
+
         /* 右侧版本卡片列表 */
         .changelog-versions {
             flex: 1;
@@ -185,15 +197,15 @@
         }
 
         .version-card[data-level="major"] {
-            border-left-color: #27ae60;
+            border-left-color: var(--level-major);
         }
 
         .version-card[data-level="minor"] {
-            border-left-color: #6dbf8b;
+            border-left-color: var(--level-minor);
         }
 
         .version-card[data-level="patch"] {
-            border-left-color: #b8deca;
+            border-left-color: var(--level-patch);
         }
 
         .version-header {

@@ -178,6 +178,10 @@
     --success-1: #22c55e;
     --success-2: #16a34a;
     --accent-purple: #8b5cf6;
+    /* changelog 版本级别指示色（侧栏圆点与卡片左边框）：大 / 次 / 修订，由深到浅 */
+    --level-major: #27ae60;
+    --level-minor: #6dbf8b;
+    --level-patch: #b8deca;
     /* 颜文字角落组件：固定浅色玻璃质感，不随深色模式 */
     --kaomoji-bg: rgba(255, 255, 255, var(--bg-base-alpha));
     --kaomoji-bg-hover: rgba(255, 255, 255, calc(var(--bg-base-alpha) * 0.85));
