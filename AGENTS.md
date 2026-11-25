@@ -65,7 +65,7 @@
 
 ## 4. 版本号与 changelog
 
-- **`manifest.json` 的 `version` 字段决定扩展自报的当前版本号**，。只有维护者在正式发版时改
+- **`manifest.json` 的 `version` 字段决定扩展自报的当前版本号**。只有维护者在正式发版时改
 - **自动更新检测的数据源是 GitHub Releases API**（`/repos/Gledery/Frostart/releases/latest`），不是读 GitHub 上的 `manifest.json`——这条在 [core.js](./js/core.js) 更新检查段和 [changelog.js](./js/changelog.js) `1.1.1` 条目里有记录。只有**正式发布**的 Release 才会被识别，main 分支上的开发中版本不会被推给用户。版本号从 Release 的 `tag_name`（形如 `v1.1.1`）解析，所以**发版时 Release tag 必须和 `manifest.json` 的 version 保持一致**
 - **代码内的当前版本号从 [changelog.js](./js/changelog.js) 派生**：`SettingsManager.VERSION` 直接读 `versions[0].version`，不要在别处再硬编码版本字符串，避免多处不同步
 - **changelog 条目统一格式**：「类别：简述」，类别固定为下面九种（完整说明见 [CONTRIBUTING.md](./CONTRIBUTING.md)）：
@@ -112,4 +112,4 @@
 
 ## 7. 设计语言继承自 PhasWer
 
-frostart 的视觉语言（大圆角、毛玻璃、光斑、缓动曲线、按压手感）继承自我自己维护的 [PhasWer 小站](https://phaswer.pages.dev/)，位于"c:\Users\Gledery\Desktop\工作室\PhaswerWebSource"。两边的设计令牌、hover/active 范式、文风保持一致——改一边的交互范式时要考虑是否该同步到另一边
+frostart 的视觉语言（大圆角、毛玻璃、光斑、缓动曲线、按压手感）继承自我自己维护的 [PhasWer 小站](https://phaswer.pages.dev/)（仓库 [PhasWer-Site](https://github.com/Gledery/PhasWer-Site)，本地检出放在与本仓库同级的文件夹）。两边的设计令牌、hover/active 范式、文风保持一致——改一边的交互范式时要考虑是否该同步到另一边
