@@ -3,8 +3,7 @@
    职责：全局状态变量 / 常量 / 应用初始化 / 设置应用 /
          语言切换 / 搜索 / 宽度单位 /
          存储用量 / 数据管理 / 更新检查 / 颜文字开关
-   加载顺序：i18n.js → wp-cache.js → utils/* → select.js → changelog.js → settings.js
-             → services.js → kaomoji.js → core.js → sliders.js → panels.js → widgets.js → packager.js
+   加载顺序：权威脚本顺序见 AGENTS.md §2（newtab.html 的 <script> 顺序不可调换）
    架构说明：目前各模块共享全局作用域，正在逐步模块化。小型低风险改动可直接提 PR；涉及整体架构的改动请先在 Issue 中讨论。
    详见 CONTRIBUTING.md。
    ========================================= */
@@ -630,4 +629,11 @@ function updateButtonState(currentVersion, latestVersion) {
         if (settingsBtn) settingsBtn.classList.remove('has-update');
     }
 }
+
+/* 显式导出：被其他模块跨文件消费的顶层声明 */
+window.Frostart = Frostart;
+window.applyLayoutVars = applyLayoutVars;
+window.applySettings = applySettings;
+window.UPDATE_API = UPDATE_API;
+window.UPDATE_RELEASES_PAGE = UPDATE_RELEASES_PAGE;
 

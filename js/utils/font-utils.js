@@ -27,3 +27,7 @@ function removeFontLink(linkId) {
     const existing = document.getElementById(linkId);
     if (existing) existing.remove();
 }
+
+/* 显式导出：被其他模块跨文件消费的顶层声明 */
+window.loadGoogleFont = loadGoogleFont;
+window.removeFontLink = removeFontLink;

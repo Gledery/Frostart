@@ -18,3 +18,6 @@ function iconHtml(name, cls = '', stroke) {
     const strokeAttr = stroke ? ` style="stroke-width:${stroke}"` : '';
     return `<svg class="${clsAttr.trim()}"${strokeAttr} aria-hidden="true"><use href="${ICON_SPRITE}#${name}"/></svg>`;
 }
+
+/* 显式导出：被其他模块跨文件消费的顶层声明 */
+window.iconHtml = iconHtml;

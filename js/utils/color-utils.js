@@ -107,3 +107,8 @@ function rgbTripletToHex(triplet) {
         return Math.max(0, Math.min(255, n)).toString(16).padStart(2, '0');
     }).join('');
 }
+
+/* 显式导出：被其他模块跨文件消费的顶层声明 */
+window.hexToBlobRgb = hexToBlobRgb;
+window.hexToRgbTriplet = hexToRgbTriplet;
+window.rgbTripletToHex = rgbTripletToHex;

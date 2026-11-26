@@ -851,3 +851,37 @@ function getEngineConfig(engineKey) {
     }
     return SEARCH_ENGINES.google;
 }
+
+/* 显式导出：被其他模块跨文件消费的顶层声明 */
+window.applyAccentColor = applyAccentColor;
+window.applyDarkBaseColor = applyDarkBaseColor;
+window.applyFont = applyFont;
+window.applyTextColors = applyTextColors;
+window.applyTheme = applyTheme;
+window.applyWallpaper = applyWallpaper;
+window.bindThemeButtons = bindThemeButtons;
+window.getEngineConfig = getEngineConfig;
+window.getEngineLabel = getEngineLabel;
+window.getPinnedEngines = getPinnedEngines;
+window.getResolvedTheme = getResolvedTheme;
+window.initAccentPicker = initAccentPicker;
+window.initDarkBasePicker = initDarkBasePicker;
+window.initEnginePopup = initEnginePopup;
+window.initSettingsDrawer = initSettingsDrawer;
+window.initTime = initTime;
+window.initTimeFormat = initTimeFormat;
+window.matchGradientPreset = matchGradientPreset;
+window.openDrawer = openDrawer;
+window.renderEngineIconHtml = renderEngineIconHtml;
+window.renderEnginePopup = renderEnginePopup;
+window.SEARCH_ENGINES = SEARCH_ENGINES;
+window.showToast = showToast;
+window.startColorWindow = startColorWindow;
+window.syncAccentPickerUI = syncAccentPickerUI;
+window.syncDarkBasePickerUI = syncDarkBasePickerUI;
+window.syncThemeUI = syncThemeUI;
+window.toggleEnginePinned = toggleEnginePinned;
+window.updateSearchEngineIndicator = updateSearchEngineIndicator;
+window.updateTime = updateTime;
+window.updateTimeFormatUI = updateTimeFormatUI;
+window.WALLPAPER_PRESETS = WALLPAPER_PRESETS;

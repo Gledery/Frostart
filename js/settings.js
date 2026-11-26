@@ -1,3 +1,9 @@
+/* =========================================
+   settings.js  —  设置存储与同步
+   职责：SettingsManager 单例——chrome.storage.local 读写 / localStorage 镜像与降级备份 /
+         导入导出 / 快捷方式增删改 / 重置
+   加载顺序：changelog.js 之后、services.js 之前加载（VERSION 取自 changelog.js 的 versions）
+   ========================================= */
 const SettingsManager = {
     // 从 changelog.js 的 versions 数组取最新版本号，避免多处硬编码不同步
     get VERSION() {

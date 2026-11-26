@@ -24,3 +24,6 @@ function encodeUtf8(str) {
     const encoder = new TextEncoder();
     return encoder.encode(str);
 }
+
+/* 显式导出：被其他模块跨文件消费的顶层声明 */
+window.escapeHtml = escapeHtml;

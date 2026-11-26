@@ -269,3 +269,11 @@ function updateSliderValues() {
     });
 }
 
+/* 显式导出：被其他模块跨文件消费的顶层声明 */
+window.applyIconBgOpacity = applyIconBgOpacity;
+window.applySearchRadiusValue = applySearchRadiusValue;
+window.handleIconMaxWidthChange = handleIconMaxWidthChange;
+window.initSliders = initSliders;
+window.SEARCH_RADIUS_MAX = SEARCH_RADIUS_MAX;
+window.updateSliderValues = updateSliderValues;
+

@@ -1212,3 +1212,25 @@ function iconStyleToBg(style) {
     }
     return `background-color: transparent !important;`;
 }
+
+/* 显式导出：被其他模块跨文件消费的顶层声明 */
+window.closeModal = closeModal;
+window.compressImage = compressImage;
+window.iconStyleToBg = iconStyleToBg;
+window.iconStyleToTransform = iconStyleToTransform;
+window.initContextMenu = initContextMenu;
+window.initDragSort = initDragSort;
+window.initFaviconFallback = initFaviconFallback;
+window.initIconEditor = initIconEditor;
+window.initKeyboardShortcuts = initKeyboardShortcuts;
+window.initModal = initModal;
+window.initSettingsSearch = initSettingsSearch;
+window.initShortcuts = initShortcuts;
+window.initSwitches = initSwitches;
+window.initTabs = initTabs;
+window.openIconEditor = openIconEditor;
+window.readIconFile = readIconFile;
+window.rebuildSettingsSearchIndex = rebuildSettingsSearchIndex;
+window.renderShortcuts = renderShortcuts;
+window.renderShortcutsList = renderShortcutsList;
+window.updateSwitchUI = updateSwitchUI;

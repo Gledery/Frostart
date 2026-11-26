@@ -24,3 +24,7 @@ function round(v, digits) {
     const p = Math.pow(10, digits);
     return Math.round(v * p) / p;
 }
+
+/* 显式导出：被其他模块跨文件消费的顶层声明 */
+window.clamp = clamp;
+window.round = round;

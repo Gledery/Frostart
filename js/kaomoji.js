@@ -5,6 +5,7 @@
    2. 移除了原 pageWelcome（PhasWer 子页面欢迎语），Frostart 只有一个页面
    3. 文案适配 Frostart 语境
    4. 幂等：重复调用 initKaomoji 不会创建多个实例
+   加载顺序：services.js 之后、core.js 之前加载
    ========================================= */
 
 const KaomojiWidget = (function () {

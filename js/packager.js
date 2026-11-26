@@ -90,3 +90,6 @@ function initPackager() {
         }
     }
 }
+
+/* 显式导出：被其他模块跨文件消费的顶层声明 */
+window.initPackager = initPackager;

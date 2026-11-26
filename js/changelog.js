@@ -425,3 +425,6 @@ window.addEventListener('load', function () {
     const hero = document.querySelector('.changelog-hero');
     if (hero) hero.classList.add('animate-in');
 });
+
+/* 显式导出：被其他模块跨文件消费的顶层声明 */
+window.versions = versions;

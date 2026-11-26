@@ -762,3 +762,23 @@ function renderCustomEngines() {
     });
 }
 
+/* 显式导出：被其他模块跨文件消费的顶层声明 */
+window.applyClockFont = applyClockFont;
+window.initClockFont = initClockFont;
+window.initCustomEngines = initCustomEngines;
+window.initFontSetting = initFontSetting;
+window.initSearchEngine = initSearchEngine;
+window.initTextColors = initTextColors;
+window.initWallpaperSettings = initWallpaperSettings;
+window.relinkAccentFromBlob = relinkAccentFromBlob;
+window.renderCustomEngines = renderCustomEngines;
+window.renderSearchEngineGrid = renderSearchEngineGrid;
+window.selectWallpaperType = selectWallpaperType;
+window.syncGradientPresetActive = syncGradientPresetActive;
+window.syncGradientPresetUI = syncGradientPresetUI;
+window.updateBingWallpaperInfo = updateBingWallpaperInfo;
+window.updateClockFontPresets = updateClockFontPresets;
+window.updateFontPresets = updateFontPresets;
+window.updateSearchEngineUI = updateSearchEngineUI;
+window.updateWallpaperUI = updateWallpaperUI;
+
