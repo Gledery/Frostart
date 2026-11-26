@@ -118,7 +118,7 @@ Frostart/
 │   ├── kaomoji.js         # 角落颜文字
 │   └── utils/             # 数学 / 字符串 / 色彩 / 字体 / 版本 / 图标工具函数
 ├── icons/                 # 扩展图标、内置引擎图标与 UI 图标精灵表（ui-sprite.svg）
-├── docs/                  # 截图与文档用图片；dev/ 为工程决策记录
+├── docs/                  # 截图与文档用图片
 ├── PRIVACY.md             # 权限与隐私说明
 └── LICENSE                # GPL-3.0
 ```
